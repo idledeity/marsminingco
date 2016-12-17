@@ -112,7 +112,7 @@
           break;
         }
         default: {
-          console.assert(false, "Unexpected BehaviorTreeNodeResult encountered.");
+          MMC.System.assert(false, "Unexpected BehaviorTreeNodeResult encountered.");
           break;
         }
       }
@@ -127,9 +127,8 @@
     setRootNode(newRootNode) {
       if (newRootNode != null) {
         // Ensure the new root node object is of the proper type
-        if (!(newRootNode instanceof Behavior.BehaviorTreeNode)) {
-          console.assert(newRootNode instanceof Behavior.BehaviorTreeNode, 
-            "BehaviorTree root nodes must be derived from Behavior.BehaviorTreeNodeResult");
+        if (!MMC.System.assert((newRootNode instanceof Behavior.BehaviorTreeNode),
+            "BehaviorTree root nodes must be derived from Behavior.BehaviorTreeNodeResult")) {
           return false;
         }
       }

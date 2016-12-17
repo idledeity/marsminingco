@@ -19,11 +19,11 @@
       }
 
       // Ensure the min/max values are numbers
-      console.assert(!delayTimeMinMs.isNaN, "delayTimeMinMs must be a number.");
-      console.assert(!delayTimeMaxMs.isNaN, "delayTimeMaxMs must be a number.");
+      MMC.System.assert(!delayTimeMinMs.isNaN, "delayTimeMinMs must be a number.");
+      MMC.System.assert(!delayTimeMaxMs.isNaN, "delayTimeMaxMs must be a number.");
 
       // Ensure the max value is greater or equal to the min value
-      console.assert(delayTimeMaxMs >= delayTimeMinMs, "delayTimeMaxMs must be greater than delayTimeMinMs.");
+      MMC.System.assert((delayTimeMaxMs >= delayTimeMinMs), "delayTimeMaxMs must be greater than delayTimeMinMs.");
 
       // Store the min and max delay values
       var _delayTimeMinMs = delayTimeMinMs;

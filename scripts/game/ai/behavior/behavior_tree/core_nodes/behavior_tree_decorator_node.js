@@ -20,8 +20,7 @@
     // Appends a new child node to this node's children
     appendChildNode(newChildNode) {
       // Decorator nodes may only have a single child
-      if (this.getChildNodeCount() > 0) {
-        console.assert((this.getChildNodeCount() == 0), "Decorator nodes may only have one child node.");
+      if (MMC.System.assert((this.getChildNodeCount() == 0), "Decorator nodes may only have one child node.")) {
         return;  
       }
       
@@ -32,8 +31,7 @@
     // Inserts a new child node to this node's children at the specified index
     insertChildNode(newChildNode, insertAtIndex) {
       // Decorator nodes may only have a single child
-      if (this.getChildNodeCount() > 0) {
-        console.assert((this.getChildNodeCount() == 0), "Decorator nodes may only have one child node.");
+      if (MMC.System.assert((this.getChildNodeCount() == 0), "Decorator nodes may only have one child node.")){
         return;  
       }
 

@@ -42,7 +42,7 @@
 
       // Process the children until one return "running" or "failure"
       let activeChild = this.getActiveChild();
-      console.assert(activeChild != null, "There should always be an active child during the process step.");
+      MMC.System.assert((activeChild != null), "There should always be an active child during the process step.");
       while(activeChild != null) {
         // Process the active child
         const childProcessResult = activeChild.process(deltaMs);
@@ -62,7 +62,7 @@
           return Behavior.BehaviorTreeNodeResult.FAILURE;
         } else {
           // Unknown type
-          console.assert(false, "Unrecognized BehaviorTreeNodeResult type");
+          MMC.System.assert(false, "Unrecognized BehaviorTreeNodeResult type");
           return Behavior.BehaviorTreeNodeResult.FAILURE;
         }
 

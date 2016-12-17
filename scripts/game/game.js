@@ -32,6 +32,7 @@
 
     // This is the primary entry point for the game, initiating the main game loop
     runGame() {
+      MMC.System.assert(false, "Assert message here.");
       requestAnimationFrame(this.mainLoop.bind(this));
     }
   }

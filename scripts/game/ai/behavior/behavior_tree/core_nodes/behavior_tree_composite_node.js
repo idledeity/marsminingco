@@ -21,7 +21,7 @@
       super.enter();
 
       // Ensure this composite nodes has at least one child
-      console.assert(this.getChildNodeCount() > 0, "BehaviorTreeCompositeNode require at least one child node.");
+      MMC.System.assert((this.getChildNodeCount() > 0), "BehaviorTreeCompositeNode require at least one child node.");
     }
   }
 

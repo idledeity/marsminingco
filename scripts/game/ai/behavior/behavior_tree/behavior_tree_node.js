@@ -49,9 +49,8 @@
       }
 
       // Ensure the new child node object is of the proper type
-      if (!(newChildNode instanceof Behavior.BehaviorTreeNode)) {
-        console.assert(newChildNode instanceof Behavior.BehaviorTreeNode, 
-          "BehaviorTree nodes must be derived from Behavior.BehaviorTreeNodeResult");
+      if (!MMC.System.assert((newChildNode instanceof Behavior.BehaviorTreeNode), 
+          "BehaviorTree nodes must be derived from Behavior.BehaviorTreeNodeResult")) {
         return false;
       }
 
@@ -67,15 +66,13 @@
       }
 
       // Ensure the new child node object is of the proper type
-      if (!(newChildNode instanceof Behavior.BehaviorTreeNode)) {
-        console.assert(newChildNode instanceof Behavior.BehaviorTreeNode, 
-          "BehaviorTree nodes must be derived from Behavior.BehaviorTreeNodeResult");
+      if (!MMC.System.assert((newChildNode instanceof Behavior.BehaviorTreeNode), 
+          "BehaviorTree nodes must be derived from Behavior.BehaviorTreeNodeResult")) {
         return false;
       }
 
       // Ensure the insert index is valid
-      if (!this.childIndexIsValid(insertAtIndex)) {
-        console.assert(this.childIndexIsValid(insertAtIndex), "insertAtIndex outside of array bounds.");
+      if (!MMC.System.assert(this.childIndexIsValid(insertAtIndex), "insertAtIndex outside of array bounds.")) {
         return false
       }
 
@@ -131,7 +128,7 @@
 
     // Enter function called when this node begins running
     enter() {
-      console.assert(this.isRunning() == false, "BehaviorTreeNode enter function called while already running.");
+      MMC.System.assert(!this.isRunning(), "BehaviorTreeNode enter function called while already running.");
       
       // Record that this node is now running
       this.running = true;
@@ -139,7 +136,7 @@
 
     // Exit funcitno called when this node end running
     exit(fromAbort) {
-      console.assert(this.isRunning() == true, "BehaviorTreeNode exit function called on a node that isn't running.");
+      MMC.System.assert(this.isRunning(), "BehaviorTreeNode exit function called on a node that isn't running.");
 
       // If there is an active child running, tell it to exit first (exit from the "bottom up")
       let activeChild = this.getActiveChild();
@@ -160,8 +157,8 @@
     //
     process(deltaMs) {
       // Handle the case of process being called on a node that isn't running
-      if (!this.isRunning()) {
-        console.assert(this.isRunning() == true, "BehaviorTreeNode process fuction called on a node that isn't running.");
+      if (!MMC.System.assert(this.isRunning(), 
+        "BehaviorTreeNode process fuction called on a node that isn't running.")){
         return Behavior.BehaviorTreeNodeResult.FAILURE;
       }
 

@@ -42,7 +42,9 @@
 
       // Get the active child
       let activeChild = this.getActiveChild();
-      console.assert(activeChild != null, "There should always be an active child during the process step.");
+      if (!MMC.System.assert((activeChild != null), "There should always be an active child during the process step.")) {
+        return Behavior.BehaviorTreeNodeResult.FAILURE; 
+      }
 
       // Process the child
       const childProcessResult = activeChild.process(deltaMs);

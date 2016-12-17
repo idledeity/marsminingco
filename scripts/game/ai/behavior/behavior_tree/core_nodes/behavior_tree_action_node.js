@@ -18,13 +18,13 @@
     // Appends a new child node to this node's children
     appendChildNode(newChildNode) {
       // Action nodes may not have chilren
-      console.assert(false, "Action nodes may not have children.");
+      MMC.System.assert(false, "Action nodes may not have children.");
     }
 
     // Inserts a new child node to this node's children at the specified index
     insertChildNode(newChildNode, insertAtIndex) {
       // Action nodes may not have chilren
-      console.assert(false, "Action nodes may not have children.");
+      MMC.System.assert(false, "Action nodes may not have children.");
     }
   }
 
