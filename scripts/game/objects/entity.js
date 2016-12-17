@@ -10,8 +10,11 @@
     //
     Objects.Entity = class Entity {
       constructor() {
-        this.world = null;
-        this.components = [];
+        var _world = null;
+        var _components = [];
+
+        this.world = _world;            // Reference to the world this entity belongs to
+        this.components = _components;  // Array of components managed by this entity
       }
 
       // Per frame update
@@ -62,7 +65,7 @@
           component.setParentEntity(null);
         }
 
-        // Remove the compoinent from the array of components
+        // Remove the component from the array of components
         this.components.splice(index, 1);
       }
     }

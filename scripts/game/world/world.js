@@ -7,19 +7,26 @@
       this.worldTimePrev = 0.0;
       this.worldTime = 0.0;
 
-      this.entities = [];
+      this.entities = []; 
+    }
+
+    getWorldTime() {
+      return this.worldTime;
+    }
+
+    getWorldTimePrev() {
+      return this.worldTimePrev;
     }
 
     // Per frame processing for the game world
     update(deltaMs) {
+      // Update the world time
       this.worldTimePrev = this.worldTime;
       this.worldTime += deltaMs;
 
-      console.log(this.worldTime);
-
       // Update all of entities in the world
       for (let entity in this.entities) {
-        entity.update(deltaMiliseconds);
+        entity.update(deltaMs);
       }
     }
 

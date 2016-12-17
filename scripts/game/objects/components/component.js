@@ -6,6 +6,10 @@
     // Game entity component class is used to build modular entity functionality
     Objects.Component = class Component {
       constructor(parentEntity) {
+        var _parentEntity = null;
+
+        this.parentEntity = _parentEntity;    // Reference to the parent entity object that owns this component
+
         setParentEntity(parentEntity);
       }
 

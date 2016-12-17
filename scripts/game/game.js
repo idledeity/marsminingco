@@ -10,6 +10,10 @@
       this.gameWorld = new MMC.World();
     }
 
+    getWorld() {
+      return this.gameWorld;
+    }
+
     // This is the primary game loop for the game
     mainLoop(timestamp) {
       // Update the game's time with the new timestamp

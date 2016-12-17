@@ -5,9 +5,14 @@
 
     // Actors are the common base entity for "real" objects that exist in the game world. All
     // actors maintain a world position, and most interact with the world in a non-trivial mannor.
+    //
     Objects.Actor = class Actor extends Objects.Entity {
       constructor() {
-        this.worldPos = new MMC.Math.Vector2(0.0, 0.0);
+        super();
+
+        var _worldPos = new MMC.Math.Vector2(0.0, 0.0);
+
+        this.worldPos = _worldPos;  // World position of the actor
       }
 
       // Per frame update
