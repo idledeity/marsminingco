@@ -10,7 +10,7 @@
       constructor() {
         super();
 
-        var _worldPos = new MMC.Math.Vector2(0.0, 0.0);
+        var _worldPos = new MMC.Math.Vector3(0.0, 0.0, 0.0);
 
         this.worldPos = _worldPos;  // World position of the actor
       }
