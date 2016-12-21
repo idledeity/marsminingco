@@ -1,11 +1,10 @@
 (function (MMC, undefined) { /* MMC module namespace */
   "use strict";
-(function(AI, undefined) { /* AI submodule namespace */
-(function(Pathfinding, undefined) { /* Behavior submodule namespace */
+(function(Containers, undefined) { /* Containers submodule namespace */
 
   // Stores the link information from one MeshNetworkNode to another MeshNetworkNode
   //
-  Pathfinding.MeshNetworkLink = class MeshNetworkLink {
+  Containers.MeshNetworkLink = class MeshNetworkLink {
     constructor(linkNode, linkWeight) {
       this.setLinkNode(linkNode);
       this.setLinkWeight(linkWeight);
@@ -18,8 +17,8 @@
 
     // Sets the node this link points to
     setLinkNode(linkNode) {
-      // Ensure the linkNode is either null or a valid Pathfinding.MeshNetworkNode object
-      if (!MMC.System.assert(((linkNode == null) || (linkNode instanceof Pathfinding.MeshNetworkNode)), 
+      // Ensure the linkNode is either null or a valid Containers.MeshNetworkNode object
+      if (!MMC.System.assert(((linkNode == null) || (linkNode instanceof Containers.MeshNetworkNode)), 
         "LinkNode must be an instance of NavNetworkNode")) {
         return;
       }
@@ -40,6 +39,5 @@
   }
 
 
-}(window.MMC.AI.Pathfinding = window.MMC.AI.Pathfinding || {}));
-}(window.MMC.AI = window.MMC.AI || {}));
+}(window.MMC.Containers = window.MMC.Containers || {}));
 }(window.MMC = window.MMC || {}));

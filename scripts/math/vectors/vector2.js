@@ -12,7 +12,7 @@
           if (arguments[0] instanceof Vector2) {
             // Copy the Vector2
             this.equals(arguments[0]);
-          } else if (!isNan(arguments[0])) {
+          } else if (!isNaN(arguments[0])) {
             // If the argument is a number, fill all components with it
             this.setComponents(arguments[0]);
           } else {
@@ -119,6 +119,12 @@
       dot(vector) {
         MMC.System.assert((vector instanceof Math.Vector2), "Expected Vector2 object.");
         return (this.x * vector.x) + (this.y * vector.y);
+      }
+
+      // Returns true if the vector is a normalized unit vector, false if it is not
+      isNormalized() {
+        const lengthSq = this.lengthSq();
+        return MMC.Math.nearlyEqual(lengthSq, 1.0);
       }
 
       // Noramalizes the vector's length to convert it to a unit vector in the same direction

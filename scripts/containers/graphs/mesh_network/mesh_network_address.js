@@ -1,15 +1,14 @@
 (function (MMC, undefined) { /* MMC module namespace */
   "use strict";
-(function(AI, undefined) { /* AI submodule namespace */
-(function(Pathfinding, undefined) { /* Behavior submodule namespace */
+(function(Containers, undefined) { /* Containers submodule namespace */
 
   // Constant for the size of the address to use for mesh network nodes
   const MeshNetworkAddressSize = 4;
-  Pathfinding.MeshNetworkAddressSize = MeshNetworkAddressSize;
+  Containers.MeshNetworkAddressSize = MeshNetworkAddressSize;
 
   // Stores an address of a MeshNetworkNode
   //
-  Pathfinding.MeshNetworkAddress = class MeshNetworkAddress {
+  Containers.MeshNetworkAddress = class MeshNetworkAddress {
 
     // Constructor for MeshNetworkAddress, accepts the following argument lists
     //
@@ -48,13 +47,13 @@
           let subValueStrings = arguments[0].split(".");
           
           // Verify the correct number of sub-values were found
-          if (!MMC.System.assert((subValueStrings.length == Pathfinding.MeshNetworkAddressSize), 
+          if (!MMC.System.assert((subValueStrings.length == Containers.MeshNetworkAddressSize), 
             "Unexpected string format, should be xxx.xxx.xxx.xxx (ex: 192.168.0.1).")) {
             return false;
           }
 
           // Create a new byte array to store the new address
-          let newAddress = new Uint8Array(Pathfinding.MeshNetworkAddressSize);
+          let newAddress = new Uint8Array(Containers.MeshNetworkAddressSize);
 
           // Convert the string values into bytes
           for (let valueIndex = 0; valueIndex < newAddress.length; valueIndex++) {
@@ -73,7 +72,7 @@
         }
       } else if (arguments.length == 4) {
           // Create a new byte array to store the new address
-          let newAddress = new Uint8Array(Pathfinding.MeshNetworkAddressSize);
+          let newAddress = new Uint8Array(Containers.MeshNetworkAddressSize);
 
           // Convert the string values into bytes
           for (let argumentIndex = 0; argumentIndex < newAddress.length; argumentIndex++) {
@@ -105,6 +104,5 @@
   }
 
 
-}(window.MMC.AI.Pathfinding = window.MMC.AI.Pathfinding || {}));
-}(window.MMC.AI = window.MMC.AI || {}));
+}(window.MMC.Containers = window.MMC.Containers || {}));
 }(window.MMC = window.MMC || {}));

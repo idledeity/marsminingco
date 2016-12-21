@@ -1,7 +1,6 @@
 (function (MMC, undefined) { /* MMC module namespace */
   "use strict";
-(function(AI, undefined) { /* AI submodule namespace */
-(function(Pathfinding, undefined) { /* Behavior submodule namespace */
+(function(Containers, undefined) { /* Containers submodule namespace */
 
   // A MeshNetwork is a graph that consists of a collections of 'nodes' and the directed 'links' from node to node.
   //
@@ -9,7 +8,7 @@
   // connections from a source to the same destination are not allowed. Links are all unidirectional, to create a
   // bidirectional link between two nodes A & B, two unidirectional links must be created.
   //
-  Pathfinding.MeshNetwork = class MeshNetwork {
+  Containers.MeshNetwork = class MeshNetwork {
     // Constructor
     constructor() {
       this.networkNodes = [];
@@ -23,7 +22,7 @@
     //
     addNode(node) {
       // Check the node type
-      if (!MMC.System.assert((node instanceof MMC.AI.Pathfinding.MeshNetworkNode), "Invalid node type.")) {
+      if (!MMC.System.assert((node instanceof Containers.MeshNetworkNode), "Invalid node type.")) {
         return Pathfinding.MeshNetworkNodeInvalidId;
       }
 
@@ -54,15 +53,15 @@
     // 
     linkNode(source, dest, weight) {
       // Get the source node, and check that it's valid
-      let sourceNode = ((source instanceof Pathfinding.MeshNetworkNode) ? source : this.getNode(source));
-      if (!MMC.System.assert((sourceNode instanceof Pathfinding.MeshNetworkNode),
+      let sourceNode = ((source instanceof Containers.MeshNetworkNode) ? source : this.getNode(source));
+      if (!MMC.System.assert((sourceNode instanceof Containers.MeshNetworkNode),
         "sourceNode is not valid.")) {
         return false;
       }
 
       // Get the destination node, and check that it's valid
-      let destNode = ((dest instanceof Pathfinding.MeshNetworkNode) ? dest : this.getNode(dest));
-      if (!MMC.System.assert((destNode instanceof Pathfinding.MeshNetworkNode),
+      let destNode = ((dest instanceof Containers.MeshNetworkNode) ? dest : this.getNode(dest));
+      if (!MMC.System.assert((destNode instanceof Containers.MeshNetworkNode),
         "destNode is not valid.")) {
         return false;
       }
@@ -72,7 +71,7 @@
 
       // If there's not an existing link, create a new one and add it to the source node
       if (link == null) {
-        link = new Pathfinding.MeshNetworkLink();
+        link = new Containers.MeshNetworkLink();
         sourceNode.addMeshLink(link);
       }
 
@@ -114,7 +113,5 @@
     }
   }
 
-
-}(window.MMC.AI.Pathfinding = window.MMC.AI.Pathfinding || {}));
-}(window.MMC.AI = window.MMC.AI || {}));
+}(window.MMC.Containers = window.MMC.Containers || {}));
 }(window.MMC = window.MMC || {}));

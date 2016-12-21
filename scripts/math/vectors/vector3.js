@@ -11,8 +11,8 @@
           // Check if the single argument is a Vector3
           if (arguments[0] instanceof Vector3) {
             // Copy the Vector3
-            this.equals(arguments[0].x);
-          } else if (!isNan(arguments[0])) {
+            this.equals(arguments[0]);
+          } else if (!isNaN(arguments[0])) {
             // If the argument is a number, fill all components with it
             this.setComponents(arguments[0]);
           } else {
@@ -21,7 +21,7 @@
           }
         } else if (arguments.length == 3) {
           // If there are 3 arguments, try to assign them to the vector's components
-          this.setComponent(arguments[0], arguments[1], arguments[2]);
+          this.setComponents(arguments[0], arguments[1], arguments[2]);
         } else {
           // Unknown argument configuration, just zero the vector
           this.zero();
@@ -30,10 +30,10 @@
 
       // Set the components for the vector
       setComponents(x, y, z) {
-          MMC.System.assert(!isNan(x), "Expected at least one numeric value");
-          this.x = (!isNan(arguments[0]) ? arguments[0] : 0.0);
-          this.y = (!isNan(arguments[1]) ? arguments[1] : 0.0);
-          this.z = (!isNan(arguments[2]) ? arguments[2] : 0.0);
+          MMC.System.assert(!isNaN(x), "Expected at least one numeric value");
+          this.x = (!isNaN(arguments[0]) ? arguments[0] : 0.0);
+          this.y = (!isNaN(arguments[1]) ? arguments[1] : 0.0);
+          this.z = (!isNaN(arguments[2]) ? arguments[2] : 0.0);
           return this;
       }
 
@@ -60,7 +60,7 @@
 
       // Multiply this vector's components by a scalar value
       scalarMul(value) {
-        MMC.System.assert(!isNan(value), "Expected numeric value.");
+        MMC.System.assert(!isNaN(value), "Expected numeric value.");
         this.x *= value;
         this.y *= value;
         this.z *= value;
@@ -69,7 +69,7 @@
 
       // Divide this vector's components by a scalar value
       scalarDiv(value) {
-        MMC.System.assert(!isNan(value), "Expected numeric value.");
+        MMC.System.assert(!isNaN(value), "Expected numeric value.");
         this.x /= value;
         this.y /= value;
         this.z /= value;
@@ -138,6 +138,12 @@
         return newVector;
       }
 
+      // Returns true if the vector is a normalized unit vector, false if it is not
+      isNormalized() {
+        const lengthSq = this.lengthSq();
+        return MMC.Math.nearlyEqual(lengthSq, 1.0);
+      }
+
       // Noramalizes the vector's length to convert it to a unit vector in the same direction
       normalize() {
         // If the length of the vectors is smaller than epsilon, default to the right facing unit vector
@@ -159,9 +165,9 @@
     }
 
     // Constants
-    Math.vector3Right = new Math.Vector2(1.0, 0.0, 0.0);
-    Math.vector2Up = new Math.Vector2(0.0, 1.0, 0.0);
-    Math.vector2Forward = new Math.Vector2(0.0, 0.0, 1.0);
+    Math.vector3Right = new Math.Vector3(1.0, 0.0, 0.0);
+    Math.vector3Up = new Math.Vector3(0.0, 1.0, 0.0);
+    Math.vector3Forward = new Math.Vector3(0.0, 0.0, 1.0);
 
   }(window.MMC.Math = window.MMC.Math || {}));
 }(window.MMC = window.MMC || {}));

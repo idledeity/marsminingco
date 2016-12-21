@@ -1,11 +1,10 @@
 (function (MMC, undefined) { /* MMC module namespace */
   "use strict";
-(function(AI, undefined) { /* AI submodule namespace */
-(function(Pathfinding, undefined) { /* Behavior submodule namespace */
+(function(Containers, undefined) { /* Containers submodule namespace */
 
   // Constant for an invalid mesh network node id
   const MeshNetworkNodeInvalidId = -1;
-  Pathfinding.MeshNetworkNodeInvalidId = MeshNetworkNodeInvalidId;
+  Containers.MeshNetworkNodeInvalidId = MeshNetworkNodeInvalidId;
 
   // Simple incrementor to generate the next MeshNetworkNode ID
   let MeshNetworkNodeNextId = 0;
@@ -14,7 +13,7 @@
   //
   // Each node in the network can be linked to other nodes in the mesh network to form a directed graph.
   //
-  Pathfinding.MeshNetworkNode = class MeshNetworkNode {
+  Containers.MeshNetworkNode = class MeshNetworkNode {
     constructor() {
       this.nodeId = MeshNetworkNodeNextId++;
       this.meshLinks = [];
@@ -28,7 +27,7 @@
     // Adds a link to this node
     addMeshLink(newMeshLink) {
       // Ensure the connection type is valid
-      if (!MMC.System.assert((newMeshLink instanceof Pathfinding.MeshNetworkLink),
+      if (!MMC.System.assert((newMeshLink instanceof Containers.MeshNetworkLink),
         "Links must be an instance of MeshNetworkLink")) {
         return false;
       }
@@ -68,6 +67,5 @@
   }
 
 
-}(window.MMC.AI.Pathfinding = window.MMC.AI.Pathfinding || {}));
-}(window.MMC.AI = window.MMC.AI || {}));
+}(window.MMC.Containers = window.MMC.Containers || {}));
 }(window.MMC = window.MMC || {}));

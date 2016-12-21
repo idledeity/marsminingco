@@ -14,7 +14,9 @@
         var _components = [];
 
         this.world = _world;            // Reference to the world this entity belongs to
+
         this.components = _components;  // Array of components managed by this entity
+        this.controller = null;
       }
 
       // Per frame update
@@ -67,6 +69,22 @@
 
         // Remove the component from the array of components
         this.components.splice(index, 1);
+      }
+
+      // Returns the controller attached to this entity (if any)
+      getController() {
+        return this.controller;
+      }
+
+      // Set the controller attached to this entity
+      setController(controller) {
+        // Check the controller type
+        if (!MMC.System.assert(((controller == null) || (controller instanceof MMC.Controllers.Controller)), 
+          "Controller must be an instance of MMC.Controllers.Controller.")) {
+          return false;
+        }
+
+        this.controller = controller;
       }
     }
 
