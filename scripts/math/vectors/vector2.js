@@ -107,7 +107,7 @@
 
       // Returns the length of the vector
       length() {
-        return window.Math.sqrt(lengthSq());
+        return window.Math.sqrt(this.lengthSq());
       }
 
       // Returns the squared length of the vector
