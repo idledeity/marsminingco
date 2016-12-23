@@ -59,6 +59,12 @@
       }
     }
 
+    // Returns true if the list is empty, false if there is at least one element in the list
+    //
+    isEmpty() {
+      return (this.head == null);
+    }
+
     // Returns true if the list contains the object
     //
     containsObject(object) {
