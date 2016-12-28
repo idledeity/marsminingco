@@ -1,0 +1,139 @@
+(function (MMC, undefined) { /* MMC module namespace */
+  "use strict";
+
+(function(System, undefined) { /* System submodule namespace */
+(function(Serialization, undefined) { /* Serialization submodule namespace */
+
+  // Function called to serialize a JS object to (write) and from (read) an intermediary serialization JS buffer object.
+  //
+  // This function is used to serialize complex JS objects to (and from) a simplified "serialized" buffer object,
+  // that can be used with with JSON.stringify() and JSON.parse() or for other cases where a 'minimized' representation
+  // of an object's state is required.
+  //
+  Serialization.serialize = function(serializeContext, propertyKey, value) {
+    let returnValue = value;
+
+    // Check if serialization is reading or writing to the buffer object
+    if (serializeContext.isRead) {
+      //
+      // Reading from the buffer object
+      //
+
+      // Look up the property by the passed string
+      let propertyObj = serializeContext.bufferObj[propertyKey];
+      if (!MMC.System.assert((propertyObj != undefined), "Failed to parse property '{0}'.", propertyKey)) {
+        return undefined;
+      }
+
+      // Create a new context so we can move the bufferObj to the child property without affecting our reference
+      let newContext = { isRead: serializeContext.isRead, bufferObj: propertyObj };
+
+      // Check if the property being serialized is an array
+      if (Array.isArray(propertyObj)) {
+        // Set the return value to an empty array
+        returnValue = [];
+
+        // Iterate over all of the array elements and serialize them
+        for (let arrayIndex = 0; arrayIndex < propertyObj.length; arrayIndex++) {
+          // Serialize the element, and push it into the array
+          let element = Serialization.serialize(newContext, arrayIndex, {});
+          returnValue.push(element);
+        }
+
+      } else {
+        // Check if the property being serialized is an object
+        if (typeof propertyObj === "object") {
+          // Check if the property has a serializable type field
+          const propertySerializedType = propertyObj["_SerializedType"];
+          if (propertySerializedType != undefined) {
+            // Attempt to create a new object for the serialized type
+            let newObject = Serialization.serializableTypeMgr.createObjectFromType(propertySerializedType);
+            if (!MMC.System.assert((newObject != null),
+              "Failed to create new object for serialization type '{0}'.", propertySerializedType)) {
+              return undefined;
+            }
+
+            // Let the new object handle the serialization internally
+            newObject.serialize(newContext);
+            returnValue = newObject;
+          } else {
+            // Set the return value to a blank object
+            returnValue = {};
+
+            // Iterate over all of the object's properties, and serialize each one
+            for (let key in propertyObj) {
+              // If the propertyObj doesn't have it's own property for this key, skip it
+              if (!propertyObj.hasOwnProperty(key)) {
+                continue;
+              }
+
+              // Serialize the key
+              returnValue[key] = Serialization.serialize(newContext, key, propertyObj[key]);
+            }
+          }
+        } else {
+          // If there is now serialized type field, this is a plain JS object, and we can just assign it to the value
+          returnValue = propertyObj;
+        }
+      }
+    } else {
+      //
+      // Writing to the buffer object
+      //
+
+      // Check if the value being serialized is an array
+      if (Array.isArray(value)) {
+        // Create an empty array at the specified property key, that we can write to
+        serializeContext.bufferObj[propertyKey] = [];
+
+        // Iterate over all of the array elements and serialize them
+        for (let arrayIndex = 0; arrayIndex < value.length; arrayIndex++) {
+          // Serialize the element into a dummy object
+          let elementContext = { isRead: serializeContext.isRead, bufferObj: {} };
+          Serialization.serialize(elementContext, "_element", value[arrayIndex]);
+
+          // Grab the serialized data from the dummy object and push it into the array
+          serializeContext.bufferObj[propertyKey].push(elementContext.bufferObj["_element"]);
+        }
+      } else {
+        // Create an empty object at the specified property key that we can write to and a new context
+        serializeContext.bufferObj[propertyKey] = {};
+        let newContext = { isRead: serializeContext.isRead, bufferObj: serializeContext.bufferObj[propertyKey] };
+
+        if (typeof value === "object") {
+          // If the object in the value field is serializable, serialize it now
+          if (value instanceof Serialization.Serializable) {
+            // Let the value serialize itself
+            value.serialize(newContext);
+          } else {
+            // Iterate over all of the object's properties, and serialize each one
+            for (let key in value) {
+              // If the value doesn't have it's own property for this key, skip it
+              if (!value.hasOwnProperty(key)) {
+                continue;
+              }
+
+              // Skip function values
+              if (typeof value[key] === "function") {
+                continue;
+              }
+
+              // Serialize the key
+              Serialization.serialize(newContext, key, value[key]);
+            }
+          }
+        } else {
+          // Just write the value to a new buffer object
+          serializeContext.bufferObj[propertyKey] = value;
+        }
+      }
+    }
+
+    // Always return the value
+    return returnValue;
+  }
+
+
+}(window.MMC.System.Serialization = window.MMC.System.Serialization || {}));
+}(window.MMC.System = window.MMC.System || {}));
+}(window.MMC = window.MMC || {}));
