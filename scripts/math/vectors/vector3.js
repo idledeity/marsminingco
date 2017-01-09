@@ -4,8 +4,10 @@
   (function(Math, undefined) { /* Math submodule namespace */
 
     // A simple 3D vector class
-    Math.Vector3 = class Vector3 {
+    Math.Vector3 = class Vector3 extends MMC.System.Serialization.Serializable {
       constructor(x, y, z) {
+        super();
+
         // Check the number of arguments provided
         if (arguments.length == 1) {
           // Check if the single argument is a Vector3
@@ -162,7 +164,26 @@
         let newVector = new Vector3(this);
         return newVector.normalize();
       }
+
+      //
+      // Serializable methods
+      //
+
+      static getSerializationId() {
+        return "Vector3";
+      }
+
+      serialize(serializeContext) {
+        super.serialize(serializeContext);
+
+        this.x = MMC.System.Serialization.serialize(serializeContext, "x", this.x);
+        this.y = MMC.System.Serialization.serialize(serializeContext, "y", this.y);
+        this.z = MMC.System.Serialization.serialize(serializeContext, "z", this.z);
+      }
     }
+
+    // Register this serializable type with the serialization type manager
+    MMC.System.Serialization.serializableTypeMgr.registerType(Math.Vector3);
 
     // Constants
     Math.vector3Right = new Math.Vector3(1.0, 0.0, 0.0);

@@ -4,8 +4,10 @@
   (function(Math, undefined) { /* Math submodule namespace */
 
     // A simple 2D vector class
-    Math.Vector2 = class Vector2 {
+    Math.Vector2 = class Vector2 extends MMC.System.Serialization.Serializable {
       constructor() {
+        super();
+
         // Check the number of arguments provided
         if (arguments.length == 1) {
           // Check if the single argument is a Vector2
@@ -21,7 +23,7 @@
           }
         } else if (arguments.length == 2) {
           // If there are 2 arguments, try to assign them to the vector's components
-          this.setComponents(arguments[0], arguments[1]); 
+          this.setComponents(arguments[0], arguments[1]);
         } else {
           // Unknown argument configuration, just zero the vector
           this.zero();
@@ -145,7 +147,25 @@
         let newVector = new Vector2(this);
         return newVector.normalize();
       }
+
+      //
+      // Serializable methods
+      //
+
+      static getSerializationId() {
+        return "Vector2";
+      }
+
+      serialize(serializeContext) {
+        super.serialize(serializeContext);
+
+        this.x = MMC.System.Serialization.serialize(serializeContext, "x", this.x);
+        this.y = MMC.System.Serialization.serialize(serializeContext, "y", this.y);
+      }
     }
+
+    // Register this serializable type with the serialization type manager
+    MMC.System.Serialization.serializableTypeMgr.registerType(Math.Vector2);
 
     Math.vector2Up = new Math.Vector2(0.0, 1.0);
     Math.vector2Right = new Math.Vector2(1.0, 0.0);
