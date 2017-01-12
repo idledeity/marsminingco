@@ -31,6 +31,12 @@
       Serialization.serialize(serializeContext, "_SerializedType", this.constructor.getSerializationId());
     }
 
+    // Called after the entire object has been serialized during a read for serializables needing further processing
+    //
+    postSerializeRead() {
+      // No default behavior
+    }
+
   }
 
 }(window.MMC.System.Serialization = window.MMC.System.Serialization || {}));

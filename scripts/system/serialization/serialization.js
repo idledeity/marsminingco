@@ -133,6 +133,89 @@
     return returnValue;
   }
 
+  // Recursive function that traverses an object and all it's children calling, the postSerializeRead function on any
+  // serializable children
+  //
+  function postSerializeRead(object) {
+    // Create a set to store visited objects (the object is not a serialized buffer, so circular references are allowed)
+    let visitedObjects = new Set();
+
+    // Internal function to handle the recursive traversal
+    function postSerializeReadInternal(object) {
+      // Handle any child objects or properties first
+      if (Array.isArray(object)) {
+        // Iterate over all of the array elements, calling postSerializeReadInternal on each
+        for (let arrayIndex = 0; arrayIndex < object.length; arrayIndex++) {
+          postSerializeReadInternal(object[arrayIndex]);
+        }
+      } else if (typeof object === "object") {
+        // Ensure the object hasn't already been visited
+        if (visitedObjects.has(object)) {
+          return;
+        }
+
+        // Insert the object into the set of visitied objects
+        if (typeof object === "object") {
+          visitedObjects.add(object);
+        }
+
+        // Iterate over all of the object's properties, and process each one for any serializables
+        for (let key in object) {
+          // If the object doesn't have it's own property for this key, skip it
+          if (!object.hasOwnProperty(key)) {
+            continue;
+          }
+
+          // Skip function values
+          if (typeof object[key] === "function") {
+            continue;
+          }
+
+          // Process the object property for any serializables that need to have postSerializeRead() called on them
+          postSerializeReadInternal(object[key]);
+        }
+      }
+
+      // Check if the object has a "postSerializeRead" method and run it
+      if (object instanceof Serialization.Serializable) {
+        object.postSerializeRead();
+      }
+    }
+
+    // Call the internal function to recursively handle calling post serialization read on all the object's children
+    postSerializeReadInternal(object);
+  }
+
+  // Writes the passed object into a serialized buffer that is returned
+  //
+  Serialization.writeObject = function(objectName, object) {
+    // Setup the serialization context
+    let serializationContext = {};
+    serializationContext.isRead = false;
+    serializationContext.bufferObj = {};
+
+    // Write the object using the unified serialize function
+    MMC.System.Serialization.serialize(serializationContext, "navNode", object);
+    return serializationContext.bufferObj;
+  }
+
+  // Reads a serialization buffer to generate an object that is returned
+  //
+  Serialization.readObject = function(objectName, buffer) {
+    // Setup the serialization context
+    let serializationContext = {};
+    serializationContext.isRead = true;
+    serializationContext.bufferObj = buffer;
+
+    // Read the object using the unified serialize function
+    let serializedObject = MMC.System.Serialization.serialize(serializationContext, "navNode", {});
+
+    // Call post serialize read on the new object so it can "fix-up" any serializable fields after the read is complete
+    postSerializeRead(serializedObject);
+
+    // Return the serialized object
+    return serializedObject;
+  }
 
 }(window.MMC.System.Serialization = window.MMC.System.Serialization || {}));
 }(window.MMC.System = window.MMC.System || {}));
