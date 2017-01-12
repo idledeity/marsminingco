@@ -18,9 +18,9 @@
 
     // Adds a node to the MeshNetwork
     //
-    // node:    Must be an instance of MMC.AI.Pathfinding.MeshNetworkNode,
+    // node:    Must be an instance of MMC.AI.Pathfinding.NavNetworkNode,
     //
-    // returns: The node ID of teh inserted node, or Pathfinding.MeshNetworkNodeInvalidId if the insertion failed
+    // returns: The node ID of teh inserted node, or Containers.MeshNetworkNodeInvalidId if the insertion failed
     //
     addNode(node) {
       // Check the node type
@@ -39,14 +39,14 @@
     //
     linkNode(sourceId, destId, weight) {
       // Get the source node, and check that it's valid
-      let sourceNode = this.getNode(sourceId);
+      let sourceNode = this.getNodeById(sourceId);
       if (!MMC.System.assert((sourceNode instanceof Pathfinding.NavNetworkNode),
         "sourceNode is not valid.")) {
         return false;
       }
 
       // Get the destination node, and check that it's valid
-      let destNode = this.getNode(destId);
+      let destNode = this.getNodeById(destId);
       if (!MMC.System.assert((destNode instanceof Pathfinding.NavNetworkNode),
         "destNode is not valid.")) {
         return false;
@@ -71,14 +71,14 @@
     //
     linkNodes(sourceId, destId, biDirectional, weight, reverseWeight) {
       // Get the source node, and check that it's valid
-      let sourceNode = this.getNode(sourceId);
+      let sourceNode = this.getNodeById(sourceId);
       if (!MMC.System.assert((sourceNode instanceof Pathfinding.NavNetworkNode),
         "sourceNode is not valid.")) {
         return false;
       }
 
       // Get the destination node, and check that it's valid
-      let destNode = this.getNode(destId);
+      let destNode = this.getNodeById(destId);
       if (!MMC.System.assert((destNode instanceof Pathfinding.NavNetworkNode),
         "destNode is not valid.")) {
         return false;
@@ -121,7 +121,22 @@
 
       return super.findPath(sourceId, destId, heuristic);
     }
+
+    //
+    // Serializable methods
+    //
+
+    static getSerializationId() {
+      return "NavNetwork";
+    }
+
+    serialize(serializeContext) {
+      super.serialize(serializeContext);
+    }
   }
+
+  // Register this serializable type with the serialization type manager
+  MMC.System.Serialization.serializableTypeMgr.registerType(Pathfinding.NavNetwork);
 
 
 }(window.MMC.AI.Pathfinding = window.MMC.AI.Pathfinding || {}));

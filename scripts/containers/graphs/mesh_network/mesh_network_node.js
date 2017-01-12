@@ -13,10 +13,12 @@
   //
   // Each node in the network can be linked to other nodes in the mesh network to form a directed graph.
   //
-  Containers.MeshNetworkNode = class MeshNetworkNode {
+  Containers.MeshNetworkNode = class MeshNetworkNode extends MMC.System.Serialization.Serializable {
     constructor() {
+      super();
+
       this.nodeId = MeshNetworkNodeNextId++;
-      this.meshLinks = [];
+      this.parentMeshNetwork = null;
     }
 
     // Returns the ID of this node
@@ -24,47 +26,31 @@
       return this.nodeId;
     }
 
-    // Adds a link to this node
-    addMeshLink(newMeshLink) {
-      // Ensure the connection type is valid
-      if (!MMC.System.assert((newMeshLink instanceof Containers.MeshNetworkLink),
-        "Links must be an instance of MeshNetworkLink")) {
-        return false;
-      }
-
-      // Add it to the array of connections
-      this.meshLinks.push(newMeshLink);
-      return true;
+    // Gets the parent mesh network that "owns" this node
+    getParentMeshNetwork() {
+      return this.parentMeshNetwork;
     }
 
-    // Returns the number of outgoing links this node has
-    getMeshLinkCount() {
-      return this.meshLinks.length;
+    // Set the parent mesh network that "owns" this node
+    setParentMeshNetwork(meshNetwork) {
+      this.parentMeshNetwork = meshNetwork;
     }
 
-    // Returns the link at the specified index
-    getMeshLink(index) {
-      // Ensure the index is valid
-      if (!MMC.System.assert(((index >= 0) && (index < this.meshLinks.length)), "Index outside of bounds.")) {
-        return;
-      }
+    //
+    // Serializable methods
+    //
 
-      return this.meshLinks[index];
+    static getSerializationId() {
+      return "MeshNetworkNode";
     }
 
-    // Returns the MeshNetworkLink from this node to the specified nodeId if one exists, otherwise returns null 
-    getLinkToNode(nodeId) {
-      // Search all of the mesh links
-      for (let linkIndex = 0; linkIndex < this.meshLinks.length; ++linkIndex) {
-        let currentLink = this.getMeshLink(linkIndex);
-        if (currentLink.getLinkNode().getId() == nodeId) {
-          return currentLink;
-        }
-      }
-
-      return null;
+    serialize(serializeContext) {
+      super.serialize(serializeContext);
     }
   }
+
+  // Register this serializable type with the serialization type manager
+  MMC.System.Serialization.serializableTypeMgr.registerType(Containers.MeshNetworkNode);
 
 
 }(window.MMC.Containers = window.MMC.Containers || {}));

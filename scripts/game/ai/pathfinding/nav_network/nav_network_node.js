@@ -9,7 +9,7 @@
     constructor(worldPos) {
       // Call the super
       super();
-      
+
       // Store a copy of the world position
       this.worldPos = new MMC.Math.Vector3(worldPos);   // Position of the navigation node in world space
     }
@@ -23,7 +23,24 @@
     setWorldPos(worldPos) {
       this.worldPos = worldPos;
     }
+
+    //
+    // Serializable methods
+    //
+
+    static getSerializationId() {
+      return "NavNetworkNode";
+    }
+
+    serialize(serializeContext) {
+      super.serialize(serializeContext);
+
+      this.worldPos = MMC.System.Serialization.serialize(serializeContext, "worldPos", this.worldPos);
+    }
   }
+
+  // Register this serializable type with the serialization type manager
+  MMC.System.Serialization.serializableTypeMgr.registerType(Pathfinding.NavNetworkNode);
 
 
 }(window.MMC.AI.Pathfinding = window.MMC.AI.Pathfinding || {}));
