@@ -22,7 +22,7 @@ The game is set in the "somewhat distant future", where humanity has started its
 
 Driven by an unrelenting quest for ever increasing growth and profits, Mars Mining Co. is largely responsible for the extensive developments that now cover the Martian landscape (which is reflected in their stock price). However, the days of vast untapped ore and mineral deposits spanning the Martian surface are coming to end, forcing mining operations ever deeper into the subterranien, dragging profit margins down along with them. Looking past the Martian horizon and the core of the industry that built MMC into the mega-corp it is today, the board is once again raising their eyes to the skies. With a new found calling (and a whole bunch of government subsidies), the board has their sights set on transforming the vast Asteriod Belt sitting between Mars and Jupiter into their latest profit stream, for Q3 and beyond.
 
-And now, having worked you way into the graces of the board over countless late nights, you have been selected to lead MMC's brand new Orbital Excavation division.
+And now, having worked you way into the graces of the board over countless late nights, you have been selected to lead MMC's brand new Orbital Excavation division. This is your big shot, don't screw it up!
 
 ## Project Info
 The game is still in the extremly early stages of development, and there is not any playable content yet. The current focus is coding the simulation that will be the primary driving mechanism behind the gameplay, before adding the user interface that will serve as the player's portal into the simulation.
