@@ -1,0 +1,541 @@
+{
+  "_SerializedType": "NavNetwork",
+  "networkNodes": [
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 0,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 2,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 3,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 7,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 9,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 13,
+        "y": 0,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 9,
+        "y": -1.5,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 9,
+        "y": -2.5,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 13,
+        "y": 2.5,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 7,
+        "y": -2.5,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 7,
+        "y": 2,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 5,
+        "y": 1,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 5,
+        "y": 3,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 3,
+        "y": 3,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 1,
+        "y": 3,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 1,
+        "y": 1,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 3,
+        "y": 1,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 2,
+        "y": -1,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 2,
+        "y": -2,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 2,
+        "y": -3,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 2,
+        "y": -4,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 3,
+        "y": -1,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 3,
+        "y": -2,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 3,
+        "y": -3,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 3,
+        "y": -4,
+        "z": 0
+      }
+    },
+    {
+      "_SerializedType": "NavNetworkNode",
+      "worldPos": {
+        "_SerializedType": "Vector3",
+        "x": 5,
+        "y": 0,
+        "z": 0
+      }
+    }
+  ],
+  "networkLinks": [
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 0,
+      "destNodeIndex": 1,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 1,
+      "destNodeIndex": 0,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 1,
+      "destNodeIndex": 17,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 17,
+      "destNodeIndex": 1,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 17,
+      "destNodeIndex": 18,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 18,
+      "destNodeIndex": 17,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 18,
+      "destNodeIndex": 19,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 19,
+      "destNodeIndex": 18,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 19,
+      "destNodeIndex": 20,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 20,
+      "destNodeIndex": 19,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 1,
+      "destNodeIndex": 2,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 2,
+      "destNodeIndex": 1,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 2,
+      "destNodeIndex": 21,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 21,
+      "destNodeIndex": 2,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 21,
+      "destNodeIndex": 22,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 22,
+      "destNodeIndex": 21,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 22,
+      "destNodeIndex": 23,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 23,
+      "destNodeIndex": 22,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 23,
+      "destNodeIndex": 24,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 24,
+      "destNodeIndex": 23,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 2,
+      "destNodeIndex": 25,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 25,
+      "destNodeIndex": 2,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 25,
+      "destNodeIndex": 11,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 11,
+      "destNodeIndex": 25,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 11,
+      "destNodeIndex": 12,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 12,
+      "destNodeIndex": 11,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 12,
+      "destNodeIndex": 13,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 13,
+      "destNodeIndex": 12,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 13,
+      "destNodeIndex": 14,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 14,
+      "destNodeIndex": 13,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 14,
+      "destNodeIndex": 15,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 15,
+      "destNodeIndex": 14,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 15,
+      "destNodeIndex": 16,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 16,
+      "destNodeIndex": 15,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 25,
+      "destNodeIndex": 3,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 3,
+      "destNodeIndex": 25,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 3,
+      "destNodeIndex": 10,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 10,
+      "destNodeIndex": 3,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 3,
+      "destNodeIndex": 4,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 4,
+      "destNodeIndex": 3,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 4,
+      "destNodeIndex": 6,
+      "weight": 1.5
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 6,
+      "destNodeIndex": 4,
+      "weight": 1.5
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 6,
+      "destNodeIndex": 7,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 7,
+      "destNodeIndex": 6,
+      "weight": 1
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 7,
+      "destNodeIndex": 9,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 9,
+      "destNodeIndex": 7,
+      "weight": 2
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 4,
+      "destNodeIndex": 5,
+      "weight": 4
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 5,
+      "destNodeIndex": 4,
+      "weight": 4
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 5,
+      "destNodeIndex": 8,
+      "weight": 2.5
+    },
+    {
+      "_SerializedType": "MeshNetworkLink",
+      "sourceNodeIndex": 8,
+      "destNodeIndex": 5,
+      "weight": 2.5
+    }
+  ]
+}
