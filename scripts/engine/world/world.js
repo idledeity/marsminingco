@@ -1,8 +1,9 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
+(function (BE, undefined) { /* BE (Brood Engine) namespace */
 
-  // The MMC world object manages the game's world and all the entities contained within it.
-  MMC.World = class World {
+  // The JJ world object manages the game's world and all the entities contained within it.
+  JJ.BE.World = class World {
     constructor() {
       this.worldTimePrev = 0.0;   // Previous world time (MS)
       this.worldTime = 0.0;       // Current world time (MS)
@@ -51,7 +52,7 @@
     // Adds an entity to the world
     addEntity(entity) {
       // Check the entity type
-      if (!MMC.System.assert((entity instanceof MMC.Objects.Entity), "Entity must be instance of MMC.Objects.Entity.")) {
+      if (!JJ.System.assert((entity instanceof JJ.BE.Objects.Entity), "Entity must be instance of JJ.BE.Objects.Entity.")) {
         return false;
       }
 
@@ -72,7 +73,7 @@
     // Adds a controller to the world
     addController(controller) {
       // Check the controller type
-      if (!MMC.System.assert((controller instanceof MMC.Controllers.Controller), "Controller must be instance of MMC.Controllers.Controller.")) {
+      if (!JJ.System.assert((controller instanceof JJ.BE.Controllers.Controller), "Controller must be instance of JJ.BE.Controllers.Controller.")) {
         return false;
       }
 
@@ -91,4 +92,5 @@
     }
   }
 
-}(window.MMC = window.MMC || {}));
+}(window.JJ.BE = window.JJ.BE || {}));
+}(window.JJ = window.JJ || {}));

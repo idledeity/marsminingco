@@ -1,4 +1,4 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
 
   (function(Math, undefined) { /* Math submodule namespace */
@@ -9,6 +9,6 @@
       // For now just return default Math.random
       return window.Math.random();
     }
-    
-  }(window.MMC.Math = window.MMC.Math || {}));
-}(window.MMC = window.MMC || {}));
+
+  }(window.JJ.Math = window.JJ.Math || {}));
+}(window.JJ = window.JJ || {}));

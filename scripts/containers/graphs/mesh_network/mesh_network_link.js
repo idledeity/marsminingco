@@ -1,10 +1,10 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
 (function(Containers, undefined) { /* Containers submodule namespace */
 
   // Stores the link information from one MeshNetworkNode to another MeshNetworkNode
   //
-  Containers.MeshNetworkLink = class MeshNetworkLink extends MMC.System.Serialization.Serializable {
+  Containers.MeshNetworkLink = class MeshNetworkLink extends JJ.System.Serialization.Serializable {
     constructor() {
       super();
 
@@ -69,10 +69,10 @@
       if (serializeContext.isRead) {
         // Just store the index in the ID for now since we don't have a reference to the network.
         // We will do the conversion during the post serialize read step
-        this.sourceNodeId = MMC.System.Serialization.serialize(serializeContext, this.sourceNodeId, "sourceNodeIndex");
-        this.destNodeId = MMC.System.Serialization.serialize(serializeContext, this.destNodeId, "destNodeIndex");
+        this.sourceNodeId = JJ.System.Serialization.serialize(serializeContext, this.sourceNodeId, "sourceNodeIndex");
+        this.destNodeId = JJ.System.Serialization.serialize(serializeContext, this.destNodeId, "destNodeIndex");
       } else {
-        MMC.System.assert((this.parentMeshNetwork != null),
+        JJ.System.assert((this.parentMeshNetwork != null),
           "Serializing out a Mesh Network Link with no parent mesh network.");
 
         // Convert the node IDs into indexes before writting to the serialization buffer
@@ -82,35 +82,35 @@
           this.parentMeshNetwork.getNodeIndexFromId(this.destNodeId) : this.destNodeId);
 
         // Serialize out the node indexes
-        MMC.System.Serialization.serialize(serializeContext, sourceNodeIndex, "sourceNodeIndex");
-        MMC.System.Serialization.serialize(serializeContext, destNodeIndex, "destNodeIndex");
+        JJ.System.Serialization.serialize(serializeContext, sourceNodeIndex, "sourceNodeIndex");
+        JJ.System.Serialization.serialize(serializeContext, destNodeIndex, "destNodeIndex");
       }
 
       // Serialize the rest of the link data
-      this.linkWeight = MMC.System.Serialization.serialize(serializeContext, this.linkWeight, "weight");
+      this.linkWeight = JJ.System.Serialization.serialize(serializeContext, this.linkWeight, "weight");
     }
 
     postSerializeRead() {
-      if (!MMC.System.assert((this.parentMeshNetwork != null),
+      if (!JJ.System.assert((this.parentMeshNetwork != null),
           "Serializing in a Mesh Network Link with no parent mesh network.")) {
         return;
       }
 
       // Update the source and destination node ID's now that the parent mesh network is valid
       let sourceNode = this.parentMeshNetwork.getNodeByIndex(this.sourceNodeId);
-      if (MMC.System.assert((sourceNode != null), "Failed to locate mesh network link source node.")) {
+      if (JJ.System.assert((sourceNode != null), "Failed to locate mesh network link source node.")) {
         this.setSourceNodeId(sourceNode.getId());
       }
       let destNode = this.parentMeshNetwork.getNodeByIndex(this.destNodeId);
-      if (MMC.System.assert((destNode != null), "Failed to locate mesh network link source node.")) {
+      if (JJ.System.assert((destNode != null), "Failed to locate mesh network link source node.")) {
         this.setDestNodeId(destNode.getId());
       }
     }
   }
 
   // Register this serializable type with the serialization type manager
-  MMC.System.Serialization.serializableTypeMgr.registerType(Containers.MeshNetworkLink);
+  JJ.System.Serialization.serializableTypeMgr.registerType(Containers.MeshNetworkLink);
 
 
-}(window.MMC.Containers = window.MMC.Containers || {}));
-}(window.MMC = window.MMC || {}));
+}(window.JJ.Containers = window.JJ.Containers || {}));
+}(window.JJ = window.JJ || {}));

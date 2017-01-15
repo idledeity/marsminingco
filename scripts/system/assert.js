@@ -1,4 +1,4 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
 
   (function(System, undefined) { /* System submodule namespace */
@@ -18,7 +18,7 @@
           if (arguments.length >= 3) {
             // Generate a formated message
             messageArgs = Array.prototype.slice.call(arguments, 1);
-            formatedMessage = MMC.Utility.String.format.apply(MMC.Utility.String.format, messageArgs);
+            formatedMessage = JJ.Utility.String.format.apply(JJ.Utility.String.format, messageArgs);
           }
 
           // Generate an error to obtain the callstack
@@ -49,5 +49,5 @@
       return condition;
     }
 
-  }(window.MMC.System = window.MMC.System || {}));
-}(window.MMC = window.MMC || {}));
+  }(window.JJ.System = window.JJ.System || {}));
+}(window.JJ = window.JJ || {}));

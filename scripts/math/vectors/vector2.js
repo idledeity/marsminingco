@@ -1,10 +1,10 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
 
   (function(Math, undefined) { /* Math submodule namespace */
 
     // A simple 2D vector class
-    Math.Vector2 = class Vector2 extends MMC.System.Serialization.Serializable {
+    Math.Vector2 = class Vector2 extends JJ.System.Serialization.Serializable {
       constructor() {
         super();
 
@@ -32,7 +32,7 @@
 
       // Set the components for the vector
       setComponents(x, y) {
-          MMC.System.assert(!isNaN(x), "Expected at least one numeric value");
+          JJ.System.assert(!isNaN(x), "Expected at least one numeric value");
           this.x = (!isNaN(arguments[0]) ? arguments[0] : 0.0);
           this.y = (!isNaN(arguments[1]) ? arguments[1] : 0.0);
           return this;
@@ -40,7 +40,7 @@
 
       // Set this vector to equal the passed vector
       set(vector) {
-        MMC.System.assert((vector instanceof Math.Vector2), "Expected Vector2 object.");
+        JJ.System.assert((vector instanceof Math.Vector2), "Expected Vector2 object.");
         return this.setComponents(vector.x, vector.y);
       }
 
@@ -61,7 +61,7 @@
 
       // Multiply this vector's components by a scalar value
       scalarMul(value) {
-        MMC.System.assert(!isNaN(value), "Expected numeric value.");
+        JJ.System.assert(!isNaN(value), "Expected numeric value.");
         this.x *= value;
         this.y *= value;
         return this;
@@ -69,7 +69,7 @@
 
       // Divide this vector's components by a scalar value
       scalarDiv(value) {
-        MMC.System.assert(!isNaN(value), "Expected numeric value.");
+        JJ.System.assert(!isNaN(value), "Expected numeric value.");
         this.x /= value;
         this.y /= value;
         return this;
@@ -77,7 +77,7 @@
 
       // Add another vector's components to this vector's components
       add(vector) {
-        MMC.System.assert((vector instanceof Math.Vector2), "Expected Vector2 object.");
+        JJ.System.assert((vector instanceof Math.Vector2), "Expected Vector2 object.");
         this.x += vector.x;
         this.y += vector.y;
         return this;
@@ -85,7 +85,7 @@
 
       // Subtract another vector's components to this vector's components
       sub(vector) {
-        MMC.System.assert((vector instanceof Math.Vector2), "Expected Vector2 object.");
+        JJ.System.assert((vector instanceof Math.Vector2), "Expected Vector2 object.");
         this.x -= vector.x;
         this.y -= vector.y;
         return this;
@@ -93,7 +93,7 @@
 
       // Multiply another vector's components to this vector's components
       mul(vector) {
-        MMC.System.assert((vector instanceof Math.Vector2), "Expected Vector2 object.");
+        JJ.System.assert((vector instanceof Math.Vector2), "Expected Vector2 object.");
         this.x *= vector.x;
         this.y *= vector.y;
         return this;
@@ -101,7 +101,7 @@
 
       // Divide another vector's components to this vector's components
       div(vector) {
-        MMC.System.assert((vector instanceof Math.Vector2), "Expected Vector2 object.");
+        JJ.System.assert((vector instanceof Math.Vector2), "Expected Vector2 object.");
         this.x /= vector.x;
         this.y /= vector.y;
         return this;
@@ -119,14 +119,14 @@
 
       // Returns the result of the dot product of this vector with the passed vector
       dot(vector) {
-        MMC.System.assert((vector instanceof Math.Vector2), "Expected Vector2 object.");
+        JJ.System.assert((vector instanceof Math.Vector2), "Expected Vector2 object.");
         return (this.x * vector.x) + (this.y * vector.y);
       }
 
       // Returns true if the vector is a normalized unit vector, false if it is not
       isNormalized() {
         const lengthSq = this.lengthSq();
-        return MMC.Math.nearlyEqual(lengthSq, 1.0);
+        return JJ.Math.nearlyEqual(lengthSq, 1.0);
       }
 
       // Noramalizes the vector's length to convert it to a unit vector in the same direction
@@ -159,16 +159,16 @@
       serialize(serializeContext) {
         super.serialize(serializeContext);
 
-        this.x = MMC.System.Serialization.serialize(serializeContext, this.x, "x");
-        this.y = MMC.System.Serialization.serialize(serializeContext, this.y, "y");
+        this.x = JJ.System.Serialization.serialize(serializeContext, this.x, "x");
+        this.y = JJ.System.Serialization.serialize(serializeContext, this.y, "y");
       }
     }
 
     // Register this serializable type with the serialization type manager
-    MMC.System.Serialization.serializableTypeMgr.registerType(Math.Vector2);
+    JJ.System.Serialization.serializableTypeMgr.registerType(Math.Vector2);
 
     Math.vector2Up = new Math.Vector2(0.0, 1.0);
     Math.vector2Right = new Math.Vector2(1.0, 0.0);
 
-  }(window.MMC.Math = window.MMC.Math || {}));
-}(window.MMC = window.MMC || {}));
+  }(window.JJ.Math = window.JJ.Math || {}));
+}(window.JJ = window.JJ || {}));

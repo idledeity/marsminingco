@@ -1,13 +1,14 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
+(function (BE, undefined) { /* BE (Brood Engine) namespace */
 (function(AI, undefined) { /* AI submodule namespace */
 (function(Behavior, undefined) { /* Behavior submodule namespace */
 
-  // The BehaviorTreeSequenceNode iterates through each of it's children, processing them in sequence. 
+  // The BehaviorTreeSequenceNode iterates through each of it's children, processing them in sequence.
   //
   // Starting with the first child node, the node is processed until it returns success or failure. If a child returns
-  // success, the next child in the sequence is processed. However, if a child returns failure, the sequence will 
-  // immediately stop processing, returning failure to it's parent. If all child nodes in the sequence process 
+  // success, the next child in the sequence is processed. However, if a child returns failure, the sequence will
+  // immediately stop processing, returning failure to it's parent. If all child nodes in the sequence process
   // successfuly, this sequence node will return success to it's parent.
   //
   Behavior.BehaviorTreeSequenceNode = class BehaviorTreeSequenceNode extends Behavior.BehaviorTreeCompositeNode {
@@ -32,7 +33,7 @@
       super.exit(fromAbort);
     }
 
-    // Per-frame update function called on this node while it is running. 
+    // Per-frame update function called on this node while it is running.
     process(deltaMs) {
       // Call process on the super class
       const baseResult = super.process(deltaMs);
@@ -42,7 +43,7 @@
 
       // Process the children until one return "running" or "failure"
       let activeChild = this.getActiveChild();
-      MMC.System.assert((activeChild != null), "There should always be an active child during the process step.");
+      JJ.System.assert((activeChild != null), "There should always be an active child during the process step.");
       while(activeChild != null) {
         // Process the active child
         const childProcessResult = activeChild.process(deltaMs);
@@ -62,7 +63,7 @@
           return Behavior.BehaviorTreeNodeResult.FAILURE;
         } else {
           // Unknown type
-          MMC.System.assert(false, "Unrecognized BehaviorTreeNodeResult type");
+          JJ.System.assert(false, "Unrecognized BehaviorTreeNodeResult type");
           return Behavior.BehaviorTreeNodeResult.FAILURE;
         }
 
@@ -74,6 +75,7 @@
 
   }
 
-}(window.MMC.AI.Behavior = window.MMC.AI.Behavior || {}));
-}(window.MMC.AI = window.MMC.AI || {}));
-}(window.MMC = window.MMC || {}));
+}(window.JJ.BE.AI.Behavior = window.JJ.BE.AI.Behavior || {}));
+}(window.JJ.BE.AI = window.JJ.BE.AI || {}));
+}(window.JJ.BE = window.JJ.BE || {}));
+}(window.JJ = window.JJ || {}));

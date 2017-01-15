@@ -1,4 +1,4 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
 
 (function(System, undefined) { /* System submodule namespace */
@@ -12,8 +12,8 @@
   //
   IO.requestFileAsync = function(filePath, callbackFunction, mimeType) {
     // Ensure the callback function provided is valid
-    if (!MMC.System.assert((typeof callbackFunction === "function"),
-      "MMC.System.IO.requestFileAsyn() requires a valid callbackFunction.")) {
+    if (!JJ.System.assert((typeof callbackFunction === "function"),
+      "JJ.System.IO.requestFileAsyn() requires a valid callbackFunction.")) {
       return;
     }
 
@@ -65,6 +65,6 @@
     return request.responseText;
   }
 
-}(window.MMC.System.IO = window.MMC.System.IO || {}));
-}(window.MMC.System = window.MMC.System || {}));
-}(window.MMC = window.MMC || {}));
+}(window.JJ.System.IO = window.JJ.System.IO || {}));
+}(window.JJ.System = window.JJ.System || {}));
+}(window.JJ = window.JJ || {}));

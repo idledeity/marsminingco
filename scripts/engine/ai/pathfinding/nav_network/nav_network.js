@@ -1,5 +1,6 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
+(function (BE, undefined) { /* BE (Brood Engine) namespace */
 (function(AI, undefined) { /* AI submodule namespace */
 (function(Pathfinding, undefined) { /* Behavior submodule namespace */
 
@@ -9,7 +10,7 @@
   // Each accessible locations contains a list of links to other nodes in the network, which can be used to navigate
   // through the entirety of the network.
   //
-  Pathfinding.NavNetwork = class NavNetwork extends MMC.Containers.MeshNetwork {
+  Pathfinding.NavNetwork = class NavNetwork extends JJ.Containers.MeshNetwork {
     // Constructor
     constructor() {
       // Call the super
@@ -18,13 +19,13 @@
 
     // Adds a node to the MeshNetwork
     //
-    // node:    Must be an instance of MMC.AI.Pathfinding.NavNetworkNode,
+    // node:    Must be an instance of JJ.BE.AI.Pathfinding.NavNetworkNode,
     //
     // returns: The node ID of teh inserted node, or Containers.MeshNetworkNodeInvalidId if the insertion failed
     //
     addNode(node) {
       // Check the node type
-      if (!MMC.System.assert((node instanceof Pathfinding.NavNetworkNode), "Invalid node type.")) {
+      if (!JJ.System.assert((node instanceof Pathfinding.NavNetworkNode), "Invalid node type.")) {
         return Pathfinding.MeshNetworkNodeInvalidId;
       }
 
@@ -40,14 +41,14 @@
     linkNode(sourceId, destId, weight) {
       // Get the source node, and check that it's valid
       let sourceNode = this.getNodeById(sourceId);
-      if (!MMC.System.assert((sourceNode instanceof Pathfinding.NavNetworkNode),
+      if (!JJ.System.assert((sourceNode instanceof Pathfinding.NavNetworkNode),
         "sourceNode is not valid.")) {
         return false;
       }
 
       // Get the destination node, and check that it's valid
       let destNode = this.getNodeById(destId);
-      if (!MMC.System.assert((destNode instanceof Pathfinding.NavNetworkNode),
+      if (!JJ.System.assert((destNode instanceof Pathfinding.NavNetworkNode),
         "destNode is not valid.")) {
         return false;
       }
@@ -72,14 +73,14 @@
     linkNodes(sourceId, destId, biDirectional, weight, reverseWeight) {
       // Get the source node, and check that it's valid
       let sourceNode = this.getNodeById(sourceId);
-      if (!MMC.System.assert((sourceNode instanceof Pathfinding.NavNetworkNode),
+      if (!JJ.System.assert((sourceNode instanceof Pathfinding.NavNetworkNode),
         "sourceNode is not valid.")) {
         return false;
       }
 
       // Get the destination node, and check that it's valid
       let destNode = this.getNodeById(destId);
-      if (!MMC.System.assert((destNode instanceof Pathfinding.NavNetworkNode),
+      if (!JJ.System.assert((destNode instanceof Pathfinding.NavNetworkNode),
         "destNode is not valid.")) {
         return false;
       }
@@ -106,11 +107,11 @@
     findPath(sourceId, destId) {
       let heuristic = function(sourceNode, destNode) {
         // Verify the node types
-        if (!MMC.System.assert((sourceNode instanceof Pathfinding.NavNetworkNode),
+        if (!JJ.System.assert((sourceNode instanceof Pathfinding.NavNetworkNode),
           "sourceNode is not valid.")) {
           return Number.MAX_VALUE;
         }
-        if (!MMC.System.assert((destNode instanceof Pathfinding.NavNetworkNode),
+        if (!JJ.System.assert((destNode instanceof Pathfinding.NavNetworkNode),
           "destNode is not valid.")) {
           return Number.MAX_VALUE;
         }
@@ -136,9 +137,10 @@
   }
 
   // Register this serializable type with the serialization type manager
-  MMC.System.Serialization.serializableTypeMgr.registerType(Pathfinding.NavNetwork);
+  JJ.System.Serialization.serializableTypeMgr.registerType(Pathfinding.NavNetwork);
 
 
-}(window.MMC.AI.Pathfinding = window.MMC.AI.Pathfinding || {}));
-}(window.MMC.AI = window.MMC.AI || {}));
-}(window.MMC = window.MMC || {}));
+}(window.JJ.BE.AI.Pathfinding = window.JJ.BE.AI.Pathfinding || {}));
+}(window.JJ.BE.AI = window.JJ.BE.AI || {}));
+}(window.JJ.BE = window.JJ.BE || {}));
+}(window.JJ = window.JJ || {}));

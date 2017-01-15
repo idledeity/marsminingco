@@ -1,5 +1,6 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
+(function (MMC, undefined) { /* MMC (Mars Minig CO.) namespace */
 
   // The game object encompasses the entire game logic and state
   MMC.Game = class Game {
@@ -7,7 +8,7 @@
       this.gameTimePrevMs = 0.0;
       this.gameTimeMs = 0.0;
 
-      this.gameWorld = new MMC.World();
+      this.gameWorld = new JJ.BE.World();
     }
 
     getWorld() {
@@ -36,4 +37,5 @@
     }
   }
 
-}(window.MMC = window.MMC || {}));
+}(window.JJ.MMC = window.JJ.MMC || {}));
+}(window.JJ = window.JJ || {}));

@@ -1,18 +1,19 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
+(function (BE, undefined) { /* BE (Brood Engine) namespace */
+(function(AI, undefined) { /* AI submodule namespace */
 
-  (function(AI, undefined) { /* AI submodule namespace */
-
-    AI.AICharacterController = class AICharacterController extends MMC.Controllers.CharacterController {
-      constructor() {
-        super();
-      }
-
-      // Per frame update
-      update(deltaMs) {
-        super.update(deltaMs);
-      }
+  AI.AICharacterController = class AICharacterController extends JJ.BE.Controllers.CharacterController {
+    constructor() {
+      super();
     }
 
-  }(window.MMC.AI = window.MMC.AI || {}));
-}(window.MMC = window.MMC || {}));
+    // Per frame update
+    update(deltaMs) {
+      super.update(deltaMs);
+    }
+  }
+
+}(window.JJ.BE.AI = window.JJ.BE.AI || {}));
+}(window.JJ.BE = window.JJ.BE || {}));
+}(window.JJ = window.JJ || {}));

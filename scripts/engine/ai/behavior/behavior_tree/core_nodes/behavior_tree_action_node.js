@@ -1,5 +1,6 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
+(function (BE, undefined) { /* BE (Brood Engine) namespace */
 (function(AI, undefined) { /* AI submodule namespace */
 (function(Behavior, undefined) { /* Behavior submodule namespace */
 
@@ -18,16 +19,17 @@
     // Appends a new child node to this node's children
     appendChildNode(newChildNode) {
       // Action nodes may not have chilren
-      MMC.System.assert(false, "Action nodes may not have children.");
+      JJ.System.assert(false, "Action nodes may not have children.");
     }
 
     // Inserts a new child node to this node's children at the specified index
     insertChildNode(newChildNode, insertAtIndex) {
       // Action nodes may not have chilren
-      MMC.System.assert(false, "Action nodes may not have children.");
+      JJ.System.assert(false, "Action nodes may not have children.");
     }
   }
 
-}(window.MMC.AI.Behavior = window.MMC.AI.Behavior || {}));
-}(window.MMC.AI = window.MMC.AI || {}));
-}(window.MMC = window.MMC || {}));
+}(window.JJ.BE.AI.Behavior = window.JJ.BE.AI.Behavior || {}));
+}(window.JJ.BE.AI = window.JJ.BE.AI || {}));
+}(window.JJ.BE = window.JJ.BE || {}));
+}(window.JJ = window.JJ || {}));

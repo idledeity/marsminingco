@@ -1,4 +1,4 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
 (function(Math, undefined) { /* Math submodule namespace */
 
@@ -14,6 +14,6 @@
     const delta = value2 - value1;
     return (delta < epsilon);
   }
-    
-}(window.MMC.Math = window.MMC.Math || {}));
-}(window.MMC = window.MMC || {}));
+
+}(window.JJ.Math = window.JJ.Math || {}));
+}(window.JJ = window.JJ || {}));

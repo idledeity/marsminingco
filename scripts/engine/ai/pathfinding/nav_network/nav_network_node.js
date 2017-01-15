@@ -1,17 +1,18 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
+(function (BE, undefined) { /* BE (Brood Engine) namespace */
 (function(AI, undefined) { /* AI submodule namespace */
 (function(Pathfinding, undefined) { /* Behavior submodule namespace */
 
   // The NavNetworkNode class represents a node in the NavMeshNetwork.
   //
-  Pathfinding.NavNetworkNode = class NavNetworkNode extends MMC.Containers.MeshNetworkNode {
+  Pathfinding.NavNetworkNode = class NavNetworkNode extends JJ.Containers.MeshNetworkNode {
     constructor(worldPos) {
       // Call the super
       super();
 
       // Store a copy of the world position
-      this.worldPos = new MMC.Math.Vector3(worldPos);   // Position of the navigation node in world space
+      this.worldPos = new JJ.Math.Vector3(worldPos);   // Position of the navigation node in world space
     }
 
     // Returns the world position of the navigation node
@@ -35,14 +36,15 @@
     serialize(serializeContext) {
       super.serialize(serializeContext);
 
-      this.worldPos = MMC.System.Serialization.serialize(serializeContext, this.worldPos, "worldPos");
+      this.worldPos = JJ.System.Serialization.serialize(serializeContext, this.worldPos, "worldPos");
     }
   }
 
   // Register this serializable type with the serialization type manager
-  MMC.System.Serialization.serializableTypeMgr.registerType(Pathfinding.NavNetworkNode);
+  JJ.System.Serialization.serializableTypeMgr.registerType(Pathfinding.NavNetworkNode);
 
 
-}(window.MMC.AI.Pathfinding = window.MMC.AI.Pathfinding || {}));
-}(window.MMC.AI = window.MMC.AI || {}));
-}(window.MMC = window.MMC || {}));
+}(window.JJ.BE.AI.Pathfinding = window.JJ.BE.AI.Pathfinding || {}));
+}(window.JJ.BE.AI = window.JJ.BE.AI || {}));
+}(window.JJ.BE = window.JJ.BE || {}));
+}(window.JJ = window.JJ || {}));

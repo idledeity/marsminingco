@@ -1,5 +1,6 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
+(function (BE, undefined) { /* BE (Brood Engine) namespace */
 (function(AI, undefined) { /* AI submodule namespace */
 (function(Behavior, undefined) { /* Behavior submodule namespace */
 
@@ -19,11 +20,11 @@
       }
 
       // Ensure the min/max values are numbers
-      MMC.System.assert(!delayTimeMinMs.isNaN, "delayTimeMinMs must be a number.");
-      MMC.System.assert(!delayTimeMaxMs.isNaN, "delayTimeMaxMs must be a number.");
+      JJ.System.assert(!delayTimeMinMs.isNaN, "delayTimeMinMs must be a number.");
+      JJ.System.assert(!delayTimeMaxMs.isNaN, "delayTimeMaxMs must be a number.");
 
       // Ensure the max value is greater or equal to the min value
-      MMC.System.assert((delayTimeMaxMs >= delayTimeMinMs), "delayTimeMaxMs must be greater than delayTimeMinMs.");
+      JJ.System.assert((delayTimeMaxMs >= delayTimeMinMs), "delayTimeMaxMs must be greater than delayTimeMinMs.");
 
       // Store the min and max delay values
       var _delayTimeMinMs = delayTimeMinMs;
@@ -34,13 +35,13 @@
       this.delayTimeMinMs = _delayTimeMinMs;      // Minimum delay time (MS)
       this.delayTimeMaxMs = _delayTimeMaxMs;      // Maximum delay time (MS)
       this.delayTimeMs = _delayTimeMinMs;         // Current random delay time between [min, max) (MS)
-      this.elapsedTimeMS = _elapsedTimeMS;  // Elapsed time since the node started processing (MS)  
+      this.elapsedTimeMS = _elapsedTimeMS;  // Elapsed time since the node started processing (MS)
     }
 
     // Returns a random delay time based on the min and max values
     getRandomDelayTimeMs() {
       const delta = this.delayTimeMaxMs - this.delayTimeMinMs;
-      return this.delayTimeMinMs + (MMC.Math.random() * delta); 
+      return this.delayTimeMinMs + (JJ.Math.random() * delta);
     }
 
     // Enter function called when this node begins running
@@ -59,7 +60,7 @@
       super.exit(fromAbort);
     }
 
-    // Per-frame update function called on this node while it is running. 
+    // Per-frame update function called on this node while it is running.
     process(deltaMs) {
       // Call process on the super class
       const baseResult = super.process(deltaMs);
@@ -67,7 +68,7 @@
         return Behavior.BehaviorTreeNodeResult.FAILURE;
       }
 
-      // If the active duration is greater or equal to the delay time, return success      
+      // If the active duration is greater or equal to the delay time, return success
       if (this.elapsedTimeMS >= this.delayTimeMs) {
         return Behavior.BehaviorTreeNodeResult.SUCCESS;
       }
@@ -78,6 +79,7 @@
     }
   }
 
-}(window.MMC.AI.Behavior = window.MMC.AI.Behavior || {}));
-}(window.MMC.AI = window.MMC.AI || {}));
-}(window.MMC = window.MMC || {}));
+}(window.JJ.BE.AI.Behavior = window.JJ.BE.AI.Behavior || {}));
+}(window.JJ.BE.AI = window.JJ.BE.AI || {}));
+}(window.JJ.BE = window.JJ.BE || {}));
+}(window.JJ = window.JJ || {}));

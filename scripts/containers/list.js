@@ -1,4 +1,4 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
 (function(Containers, undefined) { /* Containers submodule namespace */
 
@@ -111,5 +111,5 @@
   }
 
 
-}(window.MMC.Containers = window.MMC.Containers || {}));
-}(window.MMC = window.MMC || {}));
+}(window.JJ.Containers = window.JJ.Containers || {}));
+}(window.JJ = window.JJ || {}));

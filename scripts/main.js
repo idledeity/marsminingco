@@ -1,8 +1,8 @@
-(function (MMC, undefined) {
+(function (JJ, undefined) {
   "use strict";
 
   // Create the game and start it!
-  MMC.theGame = new MMC.Game();
-  MMC.theGame.runGame();
+  JJ.theGame = new JJ.MMC.Game();
+  JJ.theGame.runGame();
 
-}(window.MMC = window.MMC || {}));
+}(window.JJ = window.JJ || {}));

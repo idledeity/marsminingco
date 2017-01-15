@@ -1,4 +1,4 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
 
 (function(System, undefined) { /* System submodule namespace */
@@ -10,16 +10,16 @@
   Serialization.Serializable = class Serializable {
     constructor() {
       // Do a quick check to ensure that the type has been registered
-      MMC.System.assert((MMC.System.Serialization.serializableTypeMgr.getType(this.constructor.getSerializationId()) != null),
+      JJ.System.assert((JJ.System.Serialization.serializableTypeMgr.getType(this.constructor.getSerializationId()) != null),
         "Serializable object instantiated without its serialization type ({0}) registered with serialization manager.\n\
-        Call 'MMC.System.Serialization.serializableTypeMgr.registerType()'' to register a serializable type on init.",
+        Call 'JJ.System.Serialization.serializableTypeMgr.registerType()'' to register a serializable type on init.",
         this.constructor.getSerializationId());
     }
 
     // Returns the serializaiton ID (string) for the object type, which must be unique
     //
     static getSerializationId() {
-      MMC.System.assert(false, "Serializable objects must implement their own getSerializationId override, type: {0}!",
+      JJ.System.assert(false, "Serializable objects must implement their own getSerializationId override, type: {0}!",
         this.name);
       return "<Unknown>";
     }
@@ -39,6 +39,6 @@
 
   }
 
-}(window.MMC.System.Serialization = window.MMC.System.Serialization || {}));
-}(window.MMC.System = window.MMC.System || {}));
-}(window.MMC = window.MMC || {}));
+}(window.JJ.System.Serialization = window.JJ.System.Serialization || {}));
+}(window.JJ.System = window.JJ.System || {}));
+}(window.JJ = window.JJ || {}));

@@ -1,5 +1,6 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
+(function (BE, undefined) { /* BE (Brood Engine) namespace */
 (function(AI, undefined) { /* AI submodule namespace */
 (function(Behavior, undefined) { /* Behavior submodule namespace */
 
@@ -32,7 +33,7 @@
       super.exit(fromAbort);
     }
 
-    // Per-frame update function called on this node while it is running. 
+    // Per-frame update function called on this node while it is running.
     process(deltaMs) {
       // Call process on the super class
       const baseResult = super.process(deltaMs);
@@ -42,8 +43,8 @@
 
       // Get the active child
       let activeChild = this.getActiveChild();
-      if (!MMC.System.assert((activeChild != null), "There should always be an active child during the process step.")) {
-        return Behavior.BehaviorTreeNodeResult.FAILURE; 
+      if (!JJ.System.assert((activeChild != null), "There should always be an active child during the process step.")) {
+        return Behavior.BehaviorTreeNodeResult.FAILURE;
       }
 
       // Process the child
@@ -51,7 +52,7 @@
       let returnResult = Behavior.BehaviorTreeNodeResult.RUNNING;
 
       // If the child node completed, check if it should be repeated
-      if ((childProcessResult == Behavior.BehaviorTreeNodeResult.SUCCESS) || 
+      if ((childProcessResult == Behavior.BehaviorTreeNodeResult.SUCCESS) ||
           (childProcessResult == Behavior.BehaviorTreeNodeResult.FAILURE)) {
         // Check if it should repeat
         if (this.shouldRepeat(childProcessResult)) {
@@ -70,6 +71,7 @@
 
   }
 
-}(window.MMC.AI.Behavior = window.MMC.AI.Behavior || {}));
-}(window.MMC.AI = window.MMC.AI || {}));
-}(window.MMC = window.MMC || {}));
+}(window.JJ.BE.AI.Behavior = window.JJ.BE.AI.Behavior || {}));
+}(window.JJ.BE.AI = window.JJ.BE.AI || {}));
+}(window.JJ.BE = window.JJ.BE || {}));
+}(window.JJ = window.JJ || {}));

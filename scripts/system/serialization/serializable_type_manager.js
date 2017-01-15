@@ -1,4 +1,4 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
 
 (function(System, undefined) { /* System submodule namespace */
@@ -19,7 +19,7 @@
     registerType(newType) {
       // Get the type ID, and ensure the type ID hasn't already been registered
       const typeId = newType.getSerializationId();
-      if (!MMC.System.assert((this.getType(typeId) == undefined),
+      if (!JJ.System.assert((this.getType(typeId) == undefined),
         "Serialization type ID collision with '{0}'.", typeId)) {
         return false;
       }
@@ -42,7 +42,7 @@
     createObjectFromType(typeId) {
       // Look up the type info
       const type = this.getType(typeId);
-      if (!MMC.System.assert((type != undefined),
+      if (!JJ.System.assert((type != undefined),
         "Cannot create object for serializable type '{0}', because no matching type was found.", typeId)) {
         return null;
       }
@@ -57,6 +57,6 @@
   Serialization.serializableTypeMgr = new SerializableTypeManager();
 
 
-}(window.MMC.System.Serialization = window.MMC.System.Serialization || {}));
-}(window.MMC.System = window.MMC.System || {}));
-}(window.MMC = window.MMC || {}));
+}(window.JJ.System.Serialization = window.JJ.System.Serialization || {}));
+}(window.JJ.System = window.JJ.System || {}));
+}(window.JJ = window.JJ || {}));

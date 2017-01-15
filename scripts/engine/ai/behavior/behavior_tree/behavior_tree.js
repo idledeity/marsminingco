@@ -1,5 +1,6 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
+(function (BE, undefined) { /* BE (Brood Engine) namespace */
 (function(AI, undefined) { /* AI submodule namespace */
 (function(Behavior, undefined) { /* Behavior submodule namespace */
 
@@ -13,12 +14,12 @@
 
   // The BehaviorTree class represents various "behaviors" in a hierarchical form.
   //
-  // Processing the tree begins each frame with the root node in the tree, which evaluates which child node (if any) 
-  // should be processed. Processing continues "down" the tree, with each node processing and then returning to its 
-  // parent wether it "succeeded", "failed", or "is not yet complete". Each parent node can handle the returned values 
-  // as necessary for it's defined behavior, and in turn returns a result to it's parent, until the root node is 
+  // Processing the tree begins each frame with the root node in the tree, which evaluates which child node (if any)
+  // should be processed. Processing continues "down" the tree, with each node processing and then returning to its
+  // parent wether it "succeeded", "failed", or "is not yet complete". Each parent node can handle the returned values
+  // as necessary for it's defined behavior, and in turn returns a result to it's parent, until the root node is
   // reached again.
-  // 
+  //
   Behavior.BehaviorTree = class BehaviorTree {
     // Constructor
     constructor() {
@@ -112,7 +113,7 @@
           break;
         }
         default: {
-          MMC.System.assert(false, "Unexpected BehaviorTreeNodeResult encountered.");
+          JJ.System.assert(false, "Unexpected BehaviorTreeNodeResult encountered.");
           break;
         }
       }
@@ -127,7 +128,7 @@
     setRootNode(newRootNode) {
       if (newRootNode != null) {
         // Ensure the new root node object is of the proper type
-        if (!MMC.System.assert((newRootNode instanceof Behavior.BehaviorTreeNode),
+        if (!JJ.System.assert((newRootNode instanceof Behavior.BehaviorTreeNode),
             "BehaviorTree root nodes must be derived from Behavior.BehaviorTreeNodeResult")) {
           return false;
         }
@@ -145,6 +146,7 @@
 
   }
 
-}(window.MMC.AI.Behavior = window.MMC.AI.Behavior || {}));
-}(window.MMC.AI = window.MMC.AI || {}));
-}(window.MMC = window.MMC || {}));
+}(window.JJ.BE.AI.Behavior = window.JJ.BE.AI.Behavior || {}));
+}(window.JJ.BE.AI = window.JJ.BE.AI || {}));
+}(window.JJ.BE = window.JJ.BE || {}));
+}(window.JJ = window.JJ || {}));

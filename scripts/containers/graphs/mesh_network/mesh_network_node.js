@@ -1,4 +1,4 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
 (function(Containers, undefined) { /* Containers submodule namespace */
 
@@ -13,7 +13,7 @@
   //
   // Each node in the network can be linked to other nodes in the mesh network to form a directed graph.
   //
-  Containers.MeshNetworkNode = class MeshNetworkNode extends MMC.System.Serialization.Serializable {
+  Containers.MeshNetworkNode = class MeshNetworkNode extends JJ.System.Serialization.Serializable {
     constructor() {
       super();
 
@@ -50,8 +50,8 @@
   }
 
   // Register this serializable type with the serialization type manager
-  MMC.System.Serialization.serializableTypeMgr.registerType(Containers.MeshNetworkNode);
+  JJ.System.Serialization.serializableTypeMgr.registerType(Containers.MeshNetworkNode);
 
 
-}(window.MMC.Containers = window.MMC.Containers || {}));
-}(window.MMC = window.MMC || {}));
+}(window.JJ.Containers = window.JJ.Containers || {}));
+}(window.JJ = window.JJ || {}));

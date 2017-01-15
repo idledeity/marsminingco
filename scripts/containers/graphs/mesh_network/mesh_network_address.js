@@ -1,4 +1,4 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
 (function(Containers, undefined) { /* Containers submodule namespace */
 
@@ -14,7 +14,7 @@
     //
     // MeshNetworkAddress(addressString):
     // MeshNetworkAddress(meshNetworkAddress);
-    // 
+    //
     constructor() {
       this.setAddress.apply(this, arguments);
     }
@@ -30,8 +30,8 @@
     // Accepts the following argument patterns:
     //  MeshNetworkAddress(addressString);      // string
     //  MeshNetworkAddress(meshNetworkAddress); // MeshNetworkAddress reference
-    //  MeshNetworkAddress(byteValue, ...);     // Argument list of byte values 
-    // 
+    //  MeshNetworkAddress(byteValue, ...);     // Argument list of byte values
+    //
     setAddress() {
       if (arguments.length == 1) {
         // If the argument is another MeshNetworkAddress, copy it's address data
@@ -45,9 +45,9 @@
 
           // Split the string argument into strings for each address sub-value
           let subValueStrings = arguments[0].split(".");
-          
+
           // Verify the correct number of sub-values were found
-          if (!MMC.System.assert((subValueStrings.length == Containers.MeshNetworkAddressSize), 
+          if (!JJ.System.assert((subValueStrings.length == Containers.MeshNetworkAddressSize),
             "Unexpected string format, should be xxx.xxx.xxx.xxx (ex: 192.168.0.1).")) {
             return false;
           }
@@ -59,7 +59,7 @@
           for (let valueIndex = 0; valueIndex < newAddress.length; valueIndex++) {
             // Convert the value string into a number
             let valueNumber = parseInt(subValueStrings[valueIndex]);
-            if (!MMC.System.assert(((valueNumber >= 0) && (valueNumber < 256)),
+            if (!JJ.System.assert(((valueNumber >= 0) && (valueNumber < 256)),
               "Address value range must be between [0-255]")) {
               return false;
             }
@@ -78,7 +78,7 @@
           for (let argumentIndex = 0; argumentIndex < newAddress.length; argumentIndex++) {
             // Convert the value string into a number
             let valueNumber = arguments[argumentIndex];
-            if (!MMC.System.assert(((valueNumber >= 0) && (valueNumber < 256)),
+            if (!JJ.System.assert(((valueNumber >= 0) && (valueNumber < 256)),
               "Address value range must be between [0-255]")) {
               return false;
             }
@@ -87,22 +87,22 @@
           }
 
           // Store the new address
-          this.address = newAddress;        
+          this.address = newAddress;
       }
 
       return true;
     }
 
-    // Returns a single sub value of the address as the index specified 
+    // Returns a single sub value of the address as the index specified
     //
     // index: Sub-value index
     //
     getAddressSubValue(index) {
-      MMC.System.assert(((index >= 0) && (index < this.address.length)), "Index out of bounds.");
+      JJ.System.assert(((index >= 0) && (index < this.address.length)), "Index out of bounds.");
       return this.address[index];
     }
   }
 
 
-}(window.MMC.Containers = window.MMC.Containers || {}));
-}(window.MMC = window.MMC || {}));
+}(window.JJ.Containers = window.JJ.Containers || {}));
+}(window.JJ = window.JJ || {}));

@@ -1,4 +1,4 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
 
 (function(Utility, undefined) { /* Utility submodule namespace */
@@ -25,6 +25,6 @@
     return formatedString;
   }
 
-}(window.MMC.Utility.String = window.MMC.Utility.String || {}));
-}(window.MMC.Utility = window.MMC.Utility || {}));
-}(window.MMC = window.MMC || {}));
+}(window.JJ.Utility.String = window.JJ.Utility.String || {}));
+}(window.JJ.Utility = window.JJ.Utility || {}));
+}(window.JJ = window.JJ || {}));

@@ -1,4 +1,4 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
 
 (function(System, undefined) { /* System submodule namespace */
@@ -22,7 +22,7 @@
       // Look up the property by the passed string
       const propertyObj = ((propertyKey !== undefined) ?
         serializeContext.bufferObj[propertyKey] : serializeContext.bufferObj);
-      if (!MMC.System.assert((propertyObj != undefined), "Failed to parse property '{0}'.", propertyKey)) {
+      if (!JJ.System.assert((propertyObj != undefined), "Failed to parse property '{0}'.", propertyKey)) {
         return undefined;
       }
 
@@ -49,7 +49,7 @@
           if (propertySerializedType != undefined) {
             // Attempt to create a new object for the serialized type
             let newObject = Serialization.serializableTypeMgr.createObjectFromType(propertySerializedType);
-            if (!MMC.System.assert((newObject != null),
+            if (!JJ.System.assert((newObject != null),
               "Failed to create new object for serialization type '{0}'.", propertySerializedType)) {
               return undefined;
             }
@@ -205,7 +205,7 @@
     serializationContext.bufferObj = {};
 
     // Write the object using the unified serialize function
-    MMC.System.Serialization.serialize(serializationContext, object);
+    JJ.System.Serialization.serialize(serializationContext, object);
     return serializationContext.bufferObj;
   }
 
@@ -218,7 +218,7 @@
     serializationContext.bufferObj = buffer;
 
     // Read the object using the unified serialize function
-    let serializedObject = MMC.System.Serialization.serialize(serializationContext, {});
+    let serializedObject = JJ.System.Serialization.serialize(serializationContext, {});
 
     // Call post serialize read on the new object so it can "fix-up" any serializable fields after the read is complete
     postSerializeRead(serializedObject);
@@ -227,6 +227,6 @@
     return serializedObject;
   }
 
-}(window.MMC.System.Serialization = window.MMC.System.Serialization || {}));
-}(window.MMC.System = window.MMC.System || {}));
-}(window.MMC = window.MMC || {}));
+}(window.JJ.System.Serialization = window.JJ.System.Serialization || {}));
+}(window.JJ.System = window.JJ.System || {}));
+}(window.JJ = window.JJ || {}));

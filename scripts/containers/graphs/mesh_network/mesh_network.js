@@ -1,4 +1,4 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
 (function(Containers, undefined) { /* Containers submodule namespace */
 
@@ -20,7 +20,7 @@
 
     addNodeLink(newLink) {
       // Ensure the connection type is valid
-      if (!MMC.System.assert((newLink instanceof Containers.MeshNetworkLink),
+      if (!JJ.System.assert((newLink instanceof Containers.MeshNetworkLink),
         "Links must be an instance of MeshNetworkLink")) {
         return false;
       }
@@ -35,7 +35,7 @@
   // connections from a source to the same destination are not allowed. Links are all unidirectional, to create a
   // bidirectional link between two nodes A & B, two unidirectional links must be created.
   //
-  Containers.MeshNetwork = class MeshNetwork extends MMC.System.Serialization.Serializable {
+  Containers.MeshNetwork = class MeshNetwork extends JJ.System.Serialization.Serializable {
     // Constructor
     constructor() {
       super();
@@ -62,7 +62,7 @@
     //
     getNodeByIndex(index) {
       // Make sure the index is valid
-      if (!MMC.System.assert(((index >= 0) && (index < this.networkNodes.length)),
+      if (!JJ.System.assert(((index >= 0) && (index < this.networkNodes.length)),
         "The node index is out of bounds.")) {
         return null;
       }
@@ -131,23 +131,23 @@
 
     // Adds a node to the MeshNetwork
     //
-    // node:    Must be an instance of MMC.Containers.MeshNetworkNode,
+    // node:    Must be an instance of JJ.Containers.MeshNetworkNode,
     //
     // returns: The node ID of the inserted node, or Containers.MeshNetworkNodeInvalidId if the insertion failed
     //
     addNode(node) {
       // Check the node type
-      if (!MMC.System.assert((node instanceof Containers.MeshNetworkNode), "Invalid node type.")) {
+      if (!JJ.System.assert((node instanceof Containers.MeshNetworkNode), "Invalid node type.")) {
         return Containers.MeshNetworkNodeInvalidId;
       }
 
       // Ensure the node doesn't already exist in this network
-      if (!MMC.System.assert((this.getNodeById(node.getId()) == null), "Cannot add node, already exists in network.")) {
+      if (!JJ.System.assert((this.getNodeById(node.getId()) == null), "Cannot add node, already exists in network.")) {
         return Containers.MeshNetworkNodeInvalidId;
       }
 
       // Ensure the node doesn't already have a parent mesh network
-      if (!MMC.System.assert((node.getParentMeshNetwork() == null),
+      if (!JJ.System.assert((node.getParentMeshNetwork() == null),
         "Cannot add node, it already has a parent mesh network.")) {
         return Containers.MeshNetworkNodeInvalidId;
       }
@@ -168,33 +168,33 @@
 
     // Adds a link to the MeshNetwork
     //
-    // link:      The link to be added to the MeshNetwork (must be an instance of MMC.Containers.MeshNetworkLink)
+    // link:      The link to be added to the MeshNetwork (must be an instance of JJ.Containers.MeshNetworkLink)
     //
     // returns:   True if the link was successfully added to the network, false otherwise
     //
     addLink(link) {
       // Ensure the link is a valid type
-      if (!MMC.System.assert((link instanceof Containers.MeshNetworkLink),
+      if (!JJ.System.assert((link instanceof Containers.MeshNetworkLink),
         "Cannot add new link to mesh network because it is not a valid type.")) {
         return false;
       }
 
       // Ensure the link's source nodes exists in this mesh network
       let sourceNodeInfo = this.getNodeInfo(link.getSourceNodeId());
-      if (!MMC.System.assert((sourceNodeInfo != null),
+      if (!JJ.System.assert((sourceNodeInfo != null),
         "Cannot add new link because its source node does not exist in the mesh network.")){
         return false;
       }
 
       // Ensure the link's destination nodes exists in this mesh network
       let destNodeInfo = this.getNodeInfo(link.getDestNodeId());
-      if (!MMC.System.assert((destNodeInfo != null),
+      if (!JJ.System.assert((destNodeInfo != null),
         "Cannot add new link because its destination node does not exist in the mesh network.")){
         return false;
       }
 
       // Ensure the link doesn't already exist for the network
-      if (!MMC.System.assert((this.networkLinks.indexOf(link) === -1),
+      if (!JJ.System.assert((this.networkLinks.indexOf(link) === -1),
         "Cannot add new link because it already exists in the mesh network.")) {
         return false;
       }
@@ -268,14 +268,14 @@
     findPath(sourceId, destId, heuristic) {
       // Get the source node, and check that it's valid
       let sourceNode = this.getNodeById(sourceId);
-      if (!MMC.System.assert((sourceNode instanceof Containers.MeshNetworkNode),
+      if (!JJ.System.assert((sourceNode instanceof Containers.MeshNetworkNode),
         "sourceNode is not valid.")) {
         return false;
       }
 
       // Get the destination node, and check that it's valid
       let destNode = this.getNodeById(destId);
-      if (!MMC.System.assert((destNode instanceof Containers.MeshNetworkNode),
+      if (!JJ.System.assert((destNode instanceof Containers.MeshNetworkNode),
         "destNode is not valid.")) {
         return false;
       }
@@ -287,7 +287,7 @@
         const currentNode = this.getNodeByIndex(nodeIndex);
 
         // Sanity check the node is valid
-        if (!MMC.System.assert((currentNode != null), "Encountered invalid node in the MeshNetwork.")) {
+        if (!JJ.System.assert((currentNode != null), "Encountered invalid node in the MeshNetwork.")) {
           continue;
         }
 
@@ -307,11 +307,11 @@
       }
 
       // Create a list of "open" nodes which are being evaluated
-      let openNodes = new MMC.Containers.List(); // A list of oepn nodes still being evaluated
+      let openNodes = new JJ.Containers.List(); // A list of oepn nodes still being evaluated
 
       // Initialize the start node
       let firstNodeSolverInfo = nodeSolverInfo[sourceId];
-      if (!MMC.System.assert((firstNodeSolverInfo != undefined), "Node solver info lookup failed unexpectently.")) {
+      if (!JJ.System.assert((firstNodeSolverInfo != undefined), "Node solver info lookup failed unexpectently.")) {
         return false;
       }
       firstNodeSolverInfo.partialCost = 0; // no cost to get to this node
@@ -335,13 +335,13 @@
             nodeToEvalCost = currentNodeSolverInfo.expectedCost;
           }
         });
-        if (!MMC.System.assert((nodeToEvalSolverInfo != null), "Failed to find a suitable node from the open node set.")) {
+        if (!JJ.System.assert((nodeToEvalSolverInfo != null), "Failed to find a suitable node from the open node set.")) {
           return false;
         }
 
         // Get the node to evaluate from the solver info object
         let nodeToEval = nodeToEvalSolverInfo.node;
-        if (!MMC.System.assert((nodeToEval != null), "Node solver info has null node.")) {
+        if (!JJ.System.assert((nodeToEval != null), "Node solver info has null node.")) {
           return false;
         }
 
@@ -354,7 +354,7 @@
           let pathNode = nodeToEvalSolverInfo.node;
           for (let pathIndex = nodeToEvalSolverInfo.pathNodeCount - 1; pathIndex >= 0; pathIndex--) {
             // Verify the path node is valid
-            if (!MMC.System.assert((pathNode != null), "Encountered invalid path node reconstructing path solution.")) {
+            if (!JJ.System.assert((pathNode != null), "Encountered invalid path node reconstructing path solution.")) {
               return false;
             }
 
@@ -363,7 +363,7 @@
 
             // Get the solver info for the current node on the path
             const pathNodeSolverInfo = nodeSolverInfo[pathNode.getId()];
-            if (!MMC.System.assert((pathNodeSolverInfo != undefined), "Node solver info lookup failed unexpectently.")) {
+            if (!JJ.System.assert((pathNodeSolverInfo != undefined), "Node solver info lookup failed unexpectently.")) {
               return false;
             }
 
@@ -372,7 +372,7 @@
           }
 
           // If the complete path was written to the solution array, the pathNode should point to the source node
-          if (!MMC.System.assert((pathNode == null), "Mismatch in solution path size and nodes added to array.")) {
+          if (!JJ.System.assert((pathNode == null), "Mismatch in solution path size and nodes added to array.")) {
             return false;
           }
 
@@ -390,19 +390,19 @@
         for (let linkIndex = 0; linkIndex < nodeLinks.length; linkIndex++) {
           // Get the link to the connected node
           const meshLink = nodeLinks[linkIndex];
-          if (!MMC.System.assert((meshLink != null), "Mesh network has invalid mesh link.")) {
+          if (!JJ.System.assert((meshLink != null), "Mesh network has invalid mesh link.")) {
             continue;
           }
 
           // Get the solver info for the linked node
           let linkedNodeSolverInfo = nodeSolverInfo[meshLink.getDestNodeId()];
-          if (!MMC.System.assert((linkedNodeSolverInfo != undefined), "Failed to look up linked node solver info.")) {
+          if (!JJ.System.assert((linkedNodeSolverInfo != undefined), "Failed to look up linked node solver info.")) {
             continue;
           }
 
           // Get the linked node from the solver info
           const linkedNode = linkedNodeSolverInfo.node;
-          if (!MMC.System.assert((linkedNode != null), "Failed to get valid node from mesh link.")) {
+          if (!JJ.System.assert((linkedNode != null), "Failed to get valid node from mesh link.")) {
             continue;
           }
 
@@ -447,8 +447,8 @@
     serialize(serializeContext) {
       super.serialize(serializeContext);
 
-      this.networkNodes = MMC.System.Serialization.serialize(serializeContext, this.networkNodes, "networkNodes");
-      this.networkLinks = MMC.System.Serialization.serialize(serializeContext, this.networkLinks, "networkLinks");
+      this.networkNodes = JJ.System.Serialization.serialize(serializeContext, this.networkNodes, "networkNodes");
+      this.networkLinks = JJ.System.Serialization.serialize(serializeContext, this.networkLinks, "networkLinks");
 
       for (let linkIndex = 0; linkIndex < this.networkLinks.length; linkIndex++) {
         this.networkLinks[linkIndex].setParentMeshNetwork(this);
@@ -465,20 +465,20 @@
       // Loop over each serialized node, and insert it into this network
       for (let nodeIndex = 0; nodeIndex < serializedNodes.length; nodeIndex++) {
         const newNodeId = this.addNode(serializedNodes[nodeIndex]);
-        MMC.System.assert((newNodeId !== Containers.MeshNetworkNodeInvalidId),
+        JJ.System.assert((newNodeId !== Containers.MeshNetworkNodeInvalidId),
           "Failed to insert mesh network node during serialization.");
       }
 
       // Next, loop over each serialized link, and insert it into this network
       for (let linkIndex = 0; linkIndex < serializedLinks.length; linkIndex++) {
         const success = this.addLink(serializedLinks[linkIndex]);
-        MMC.System.assert(success, "Failed to insert mesh network link during serialization");
+        JJ.System.assert(success, "Failed to insert mesh network link during serialization");
       }
     }
   }
 
   // Register this serializable type with the serialization type manager
-  MMC.System.Serialization.serializableTypeMgr.registerType(Containers.MeshNetwork);
+  JJ.System.Serialization.serializableTypeMgr.registerType(Containers.MeshNetwork);
 
-}(window.MMC.Containers = window.MMC.Containers || {}));
-}(window.MMC = window.MMC || {}));
+}(window.JJ.Containers = window.JJ.Containers || {}));
+}(window.JJ = window.JJ || {}));

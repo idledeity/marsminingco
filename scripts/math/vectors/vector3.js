@@ -1,10 +1,10 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
 
   (function(Math, undefined) { /* Math submodule namespace */
 
     // A simple 3D vector class
-    Math.Vector3 = class Vector3 extends MMC.System.Serialization.Serializable {
+    Math.Vector3 = class Vector3 extends JJ.System.Serialization.Serializable {
       constructor(x, y, z) {
         super();
 
@@ -32,7 +32,7 @@
 
       // Set the components for the vector
       setComponents(x, y, z) {
-          MMC.System.assert(!isNaN(x), "Expected at least one numeric value");
+          JJ.System.assert(!isNaN(x), "Expected at least one numeric value");
           this.x = (!isNaN(arguments[0]) ? arguments[0] : 0.0);
           this.y = (!isNaN(arguments[1]) ? arguments[1] : 0.0);
           this.z = (!isNaN(arguments[2]) ? arguments[2] : 0.0);
@@ -41,7 +41,7 @@
 
       // Set this vector to equal the passed vector
       set(vector) {
-        MMC.System.assert((vector instanceof Math.Vector3), "Expected Vector3 object.");
+        JJ.System.assert((vector instanceof Math.Vector3), "Expected Vector3 object.");
         return this.setComponents(vector.x, vector.y, vector.z);
       }
 
@@ -62,7 +62,7 @@
 
       // Multiply this vector's components by a scalar value
       scalarMul(value) {
-        MMC.System.assert(!isNaN(value), "Expected numeric value.");
+        JJ.System.assert(!isNaN(value), "Expected numeric value.");
         this.x *= value;
         this.y *= value;
         this.z *= value;
@@ -71,7 +71,7 @@
 
       // Divide this vector's components by a scalar value
       scalarDiv(value) {
-        MMC.System.assert(!isNaN(value), "Expected numeric value.");
+        JJ.System.assert(!isNaN(value), "Expected numeric value.");
         this.x /= value;
         this.y /= value;
         this.z /= value;
@@ -80,7 +80,7 @@
 
       // Add another vector's components to this vector's components
       add(vector) {
-        MMC.System.assert((vector instanceof Math.Vector3), "Expected Vector3 object.");
+        JJ.System.assert((vector instanceof Math.Vector3), "Expected Vector3 object.");
         this.x += vector.x;
         this.y += vector.y;
         this.z += vector.z;
@@ -89,7 +89,7 @@
 
       // Subtract another vector's components to this vector's components
       sub(vector) {
-        MMC.System.assert((vector instanceof Math.Vector3), "Expected Vector3 object.");
+        JJ.System.assert((vector instanceof Math.Vector3), "Expected Vector3 object.");
         this.x -= vector.x;
         this.y -= vector.y;
         this.z -= vector.z;
@@ -98,7 +98,7 @@
 
       // Multiply another vector's components to this vector's components
       mul(vector) {
-        MMC.System.assert((vector instanceof Math.Vector3), "Expected Vector3 object.");
+        JJ.System.assert((vector instanceof Math.Vector3), "Expected Vector3 object.");
         this.x *= vector.x;
         this.y *= vector.y;
         this.z *= vector.z;
@@ -107,7 +107,7 @@
 
       // Divide another vector's components to this vector's components
       div(vector) {
-        MMC.System.assert((vector instanceof Math.Vector3), "Expected Vector3 object.");
+        JJ.System.assert((vector instanceof Math.Vector3), "Expected Vector3 object.");
         this.x /= vector.x;
         this.y /= vector.y;
         this.z /= vector.z;
@@ -126,13 +126,13 @@
 
       // Returns the result of the dot product of this vector with the passed vector
       dot(vector) {
-        MMC.System.assert((vector instanceof Math.Vector3), "Expected Vector3 object.");
+        JJ.System.assert((vector instanceof Math.Vector3), "Expected Vector3 object.");
         return (this.x * vector.x) + (this.y * vector.y) + (this.z * vector.z);
       }
 
       // Returns the cross product of this vector and the passed vector
       cross(vector) {
-        MMC.System.assert((vector instanceof Math.Vector3), "Expected Vector3 object.");
+        JJ.System.assert((vector instanceof Math.Vector3), "Expected Vector3 object.");
         let newVector = new Vector3();
         newVector.x = (this.y * vector.z) - (this.z * vector.y);
         newVector.y = (this.z * vector.x) - (this.x * vector.z);
@@ -143,7 +143,7 @@
       // Returns true if the vector is a normalized unit vector, false if it is not
       isNormalized() {
         const lengthSq = this.lengthSq();
-        return MMC.Math.nearlyEqual(lengthSq, 1.0);
+        return JJ.Math.nearlyEqual(lengthSq, 1.0);
       }
 
       // Noramalizes the vector's length to convert it to a unit vector in the same direction
@@ -176,19 +176,19 @@
       serialize(serializeContext) {
         super.serialize(serializeContext);
 
-        this.x = MMC.System.Serialization.serialize(serializeContext, this.x, "x");
-        this.y = MMC.System.Serialization.serialize(serializeContext, this.y, "y");
-        this.z = MMC.System.Serialization.serialize(serializeContext, this.z, "z");
+        this.x = JJ.System.Serialization.serialize(serializeContext, this.x, "x");
+        this.y = JJ.System.Serialization.serialize(serializeContext, this.y, "y");
+        this.z = JJ.System.Serialization.serialize(serializeContext, this.z, "z");
       }
     }
 
     // Register this serializable type with the serialization type manager
-    MMC.System.Serialization.serializableTypeMgr.registerType(Math.Vector3);
+    JJ.System.Serialization.serializableTypeMgr.registerType(Math.Vector3);
 
     // Constants
     Math.vector3Right = new Math.Vector3(1.0, 0.0, 0.0);
     Math.vector3Up = new Math.Vector3(0.0, 1.0, 0.0);
     Math.vector3Forward = new Math.Vector3(0.0, 0.0, 1.0);
 
-  }(window.MMC.Math = window.MMC.Math || {}));
-}(window.MMC = window.MMC || {}));
+  }(window.JJ.Math = window.JJ.Math || {}));
+}(window.JJ = window.JJ || {}));

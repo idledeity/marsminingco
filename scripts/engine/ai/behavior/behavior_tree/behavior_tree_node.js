@@ -1,5 +1,6 @@
-(function (MMC, undefined) { /* MMC module namespace */
+(function (JJ, undefined) { /* JJ module namespace */
   "use strict";
+(function (BE, undefined) { /* BE (Brood Engine) namespace */
 (function(AI, undefined) { /* AI submodule namespace */
 (function(Behavior, undefined) { /* Behavior submodule namespace */
 
@@ -12,7 +13,7 @@
   Behavior.BehaviorTreeNodeResult = BehaviorTreeNodeResult;
 
   // Base class representing an individual node in the Behavior Tree model
-  // 
+  //
   Behavior.BehaviorTreeNode = class BehaviorTreeNode {
     // Constructor for the base BehaviorTreeNode
     constructor() {
@@ -49,7 +50,7 @@
       }
 
       // Ensure the new child node object is of the proper type
-      if (!MMC.System.assert((newChildNode instanceof Behavior.BehaviorTreeNode), 
+      if (!JJ.System.assert((newChildNode instanceof Behavior.BehaviorTreeNode),
           "BehaviorTree nodes must be derived from Behavior.BehaviorTreeNodeResult")) {
         return false;
       }
@@ -66,13 +67,13 @@
       }
 
       // Ensure the new child node object is of the proper type
-      if (!MMC.System.assert((newChildNode instanceof Behavior.BehaviorTreeNode), 
+      if (!JJ.System.assert((newChildNode instanceof Behavior.BehaviorTreeNode),
           "BehaviorTree nodes must be derived from Behavior.BehaviorTreeNodeResult")) {
         return false;
       }
 
       // Ensure the insert index is valid
-      if (!MMC.System.assert(this.childIndexIsValid(insertAtIndex), "insertAtIndex outside of array bounds.")) {
+      if (!JJ.System.assert(this.childIndexIsValid(insertAtIndex), "insertAtIndex outside of array bounds.")) {
         return false
       }
 
@@ -128,27 +129,27 @@
 
     // Enter function called when this node begins running
     enter() {
-      MMC.System.assert(!this.isRunning(), "BehaviorTreeNode enter function called while already running.");
-      
+      JJ.System.assert(!this.isRunning(), "BehaviorTreeNode enter function called while already running.");
+
       // Record that this node is now running
       this.running = true;
     }
 
     // Exit funcitno called when this node end running
     exit(fromAbort) {
-      MMC.System.assert(this.isRunning(), "BehaviorTreeNode exit function called on a node that isn't running.");
+      JJ.System.assert(this.isRunning(), "BehaviorTreeNode exit function called on a node that isn't running.");
 
       // If there is an active child running, tell it to exit first (exit from the "bottom up")
       let activeChild = this.getActiveChild();
       if (activeChild != null && activeChild.isRunning()) {
         activeChild.exit(fromAbort);
       }
-      
+
       // Record that this node is no longer running
       this.running = false;
     }
 
-    // Per-frame update function called on this node while it is running. 
+    // Per-frame update function called on this node while it is running.
     //
     // This function can return 1 of values:
     //   BehaviorTreeNodeResult.RUNNING - The node is not complete, and should continue processing next frame
@@ -157,15 +158,16 @@
     //
     process(deltaMs) {
       // Handle the case of process being called on a node that isn't running
-      if (!MMC.System.assert(this.isRunning(), 
+      if (!JJ.System.assert(this.isRunning(),
         "BehaviorTreeNode process fuction called on a node that isn't running.")){
         return Behavior.BehaviorTreeNodeResult.FAILURE;
       }
 
-      return Behavior.BehaviorTreeNodeResult.SUCCESS; 
+      return Behavior.BehaviorTreeNodeResult.SUCCESS;
     }
   }
 
-}(window.MMC.AI.Behavior = window.MMC.AI.Behavior || {}));
-}(window.MMC.AI = window.MMC.AI || {}));
-}(window.MMC = window.MMC || {}));
+}(window.JJ.BE.AI.Behavior = window.JJ.BE.AI.Behavior || {}));
+}(window.JJ.BE.AI = window.JJ.BE.AI || {}));
+}(window.JJ.BE = window.JJ.BE || {}));
+}(window.JJ = window.JJ || {}));
