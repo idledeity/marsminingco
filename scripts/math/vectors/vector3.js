@@ -176,9 +176,9 @@
       serialize(serializeContext) {
         super.serialize(serializeContext);
 
-        this.x = MMC.System.Serialization.serialize(serializeContext, "x", this.x);
-        this.y = MMC.System.Serialization.serialize(serializeContext, "y", this.y);
-        this.z = MMC.System.Serialization.serialize(serializeContext, "z", this.z);
+        this.x = MMC.System.Serialization.serialize(serializeContext, this.x, "x");
+        this.y = MMC.System.Serialization.serialize(serializeContext, this.y, "y");
+        this.z = MMC.System.Serialization.serialize(serializeContext, this.z, "z");
       }
     }
 

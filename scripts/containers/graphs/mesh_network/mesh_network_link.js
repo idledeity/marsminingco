@@ -69,8 +69,8 @@
       if (serializeContext.isRead) {
         // Just store the index in the ID for now since we don't have a reference to the network.
         // We will do the conversion during the post serialize read step
-        this.sourceNodeId = MMC.System.Serialization.serialize(serializeContext, "sourceNodeIndex", this.sourceNodeId);
-        this.destNodeId = MMC.System.Serialization.serialize(serializeContext, "destNodeIndex", this.destNodeId);
+        this.sourceNodeId = MMC.System.Serialization.serialize(serializeContext, this.sourceNodeId, "sourceNodeIndex");
+        this.destNodeId = MMC.System.Serialization.serialize(serializeContext, this.destNodeId, "destNodeIndex");
       } else {
         MMC.System.assert((this.parentMeshNetwork != null),
           "Serializing out a Mesh Network Link with no parent mesh network.");
@@ -82,12 +82,12 @@
           this.parentMeshNetwork.getNodeIndexFromId(this.destNodeId) : this.destNodeId);
 
         // Serialize out the node indexes
-        MMC.System.Serialization.serialize(serializeContext, "sourceNodeIndex", sourceNodeIndex);
-        MMC.System.Serialization.serialize(serializeContext, "destNodeIndex", destNodeIndex);
+        MMC.System.Serialization.serialize(serializeContext, sourceNodeIndex, "sourceNodeIndex");
+        MMC.System.Serialization.serialize(serializeContext, destNodeIndex, "destNodeIndex");
       }
 
       // Serialize the rest of the link data
-      this.linkWeight = MMC.System.Serialization.serialize(serializeContext, "weight", this.linkWeight);
+      this.linkWeight = MMC.System.Serialization.serialize(serializeContext, this.linkWeight, "weight");
     }
 
     postSerializeRead() {

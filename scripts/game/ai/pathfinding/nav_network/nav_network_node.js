@@ -35,7 +35,7 @@
     serialize(serializeContext) {
       super.serialize(serializeContext);
 
-      this.worldPos = MMC.System.Serialization.serialize(serializeContext, "worldPos", this.worldPos);
+      this.worldPos = MMC.System.Serialization.serialize(serializeContext, this.worldPos, "worldPos");
     }
   }
 

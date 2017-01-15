@@ -10,7 +10,7 @@
   // that can be used with with JSON.stringify() and JSON.parse() or for other cases where a 'minimized' representation
   // of an object's state is required.
   //
-  Serialization.serialize = function(serializeContext, propertyKey, value) {
+  Serialization.serialize = function(serializeContext, value, propertyKey) {
     let returnValue = value;
 
     // Check if serialization is reading or writing to the buffer object
@@ -20,7 +20,8 @@
       //
 
       // Look up the property by the passed string
-      let propertyObj = serializeContext.bufferObj[propertyKey];
+      const propertyObj = ((propertyKey !== undefined) ?
+        serializeContext.bufferObj[propertyKey] : serializeContext.bufferObj);
       if (!MMC.System.assert((propertyObj != undefined), "Failed to parse property '{0}'.", propertyKey)) {
         return undefined;
       }
@@ -36,7 +37,7 @@
         // Iterate over all of the array elements and serialize them
         for (let arrayIndex = 0; arrayIndex < propertyObj.length; arrayIndex++) {
           // Serialize the element, and push it into the array
-          let element = Serialization.serialize(newContext, arrayIndex, {});
+          let element = Serialization.serialize(newContext, {}, arrayIndex);
           returnValue.push(element);
         }
 
@@ -68,7 +69,7 @@
               }
 
               // Serialize the key
-              returnValue[key] = Serialization.serialize(newContext, key, propertyObj[key]);
+              returnValue[key] = Serialization.serialize(newContext, propertyObj[key], key);
             }
           }
         } else {
@@ -81,24 +82,27 @@
       // Writing to the buffer object
       //
 
+      // Start wth an empty object to hold the serialized data
+      let serializedObject = {}
+
       // Check if the value being serialized is an array
       if (Array.isArray(value)) {
         // Create an empty array at the specified property key, that we can write to
-        serializeContext.bufferObj[propertyKey] = [];
+        serializedObject = [];
 
         // Iterate over all of the array elements and serialize them
         for (let arrayIndex = 0; arrayIndex < value.length; arrayIndex++) {
           // Serialize the element into a dummy object
           let elementContext = { isRead: serializeContext.isRead, bufferObj: {} };
-          Serialization.serialize(elementContext, "_element", value[arrayIndex]);
+          Serialization.serialize(elementContext, value[arrayIndex], "_element");
 
           // Grab the serialized data from the dummy object and push it into the array
-          serializeContext.bufferObj[propertyKey].push(elementContext.bufferObj["_element"]);
+          serializedObject.push(elementContext.bufferObj["_element"]);
         }
       } else {
         // Create an empty object at the specified property key that we can write to and a new context
-        serializeContext.bufferObj[propertyKey] = {};
-        let newContext = { isRead: serializeContext.isRead, bufferObj: serializeContext.bufferObj[propertyKey] };
+        serializedObject = {};
+        let newContext = { isRead: serializeContext.isRead, bufferObj: serializedObject };
 
         if (typeof value === "object") {
           // If the object in the value field is serializable, serialize it now
@@ -119,13 +123,19 @@
               }
 
               // Serialize the key
-              Serialization.serialize(newContext, key, value[key]);
+              Serialization.serialize(newContext, value[key], key);
             }
           }
         } else {
           // Just write the value to a new buffer object
-          serializeContext.bufferObj[propertyKey] = value;
+          serializedObject = value;
         }
+      }
+
+      if (propertyKey !== undefined) {
+        serializeContext.bufferObj[propertyKey] = serializedObject;
+      } else {
+        serializeContext.bufferObj = serializedObject;
       }
     }
 
@@ -188,27 +198,27 @@
 
   // Writes the passed object into a serialized buffer that is returned
   //
-  Serialization.writeObject = function(objectName, object) {
+  Serialization.writeObject = function(object) {
     // Setup the serialization context
     let serializationContext = {};
     serializationContext.isRead = false;
     serializationContext.bufferObj = {};
 
     // Write the object using the unified serialize function
-    MMC.System.Serialization.serialize(serializationContext, "navNode", object);
+    MMC.System.Serialization.serialize(serializationContext, object);
     return serializationContext.bufferObj;
   }
 
   // Reads a serialization buffer to generate an object that is returned
   //
-  Serialization.readObject = function(objectName, buffer) {
+  Serialization.readObject = function(buffer) {
     // Setup the serialization context
     let serializationContext = {};
     serializationContext.isRead = true;
     serializationContext.bufferObj = buffer;
 
     // Read the object using the unified serialize function
-    let serializedObject = MMC.System.Serialization.serialize(serializationContext, "navNode", {});
+    let serializedObject = MMC.System.Serialization.serialize(serializationContext, {});
 
     // Call post serialize read on the new object so it can "fix-up" any serializable fields after the read is complete
     postSerializeRead(serializedObject);

@@ -28,7 +28,7 @@
     //
     serialize(serializeContext) {
       // Serialize the type ID so we know which object to create when reading
-      Serialization.serialize(serializeContext, "_SerializedType", this.constructor.getSerializationId());
+      Serialization.serialize(serializeContext, this.constructor.getSerializationId(), "_SerializedType");
     }
 
     // Called after the entire object has been serialized during a read for serializables needing further processing

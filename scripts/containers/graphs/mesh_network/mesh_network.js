@@ -447,8 +447,8 @@
     serialize(serializeContext) {
       super.serialize(serializeContext);
 
-      this.networkNodes = MMC.System.Serialization.serialize(serializeContext, "networkNodes", this.networkNodes);
-      this.networkLinks = MMC.System.Serialization.serialize(serializeContext, "networkLinks", this.networkLinks);
+      this.networkNodes = MMC.System.Serialization.serialize(serializeContext, this.networkNodes, "networkNodes");
+      this.networkLinks = MMC.System.Serialization.serialize(serializeContext, this.networkLinks, "networkLinks");
 
       for (let linkIndex = 0; linkIndex < this.networkLinks.length; linkIndex++) {
         this.networkLinks[linkIndex].setParentMeshNetwork(this);
