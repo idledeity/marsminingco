@@ -181,14 +181,29 @@
   let readNavMesh = JJ.System.Serialization.readObject(navNetworkBuffer);
   console.log(readNavMesh);
 
+// Resource Manager
+/*
+  console.log("----------------------------------");
+  const handle = JJ.BE.Resources.resourceMgr.requestResource("data/nav_network/test_office_building_01.json", "text/json");
+  const data = JJ.BE.Resources.resourceMgr.getData(handle);
+  const myNavNetwork = JJ.System.Serialization.readObject(JSON.parse(data));
 
+  const handle2 = JJ.BE.Resources.resourceMgr.requestResource("data/nav_network/test_office_building_01.json", "text/json");
+  JJ.BE.Resources.resourceMgr.releaseResource(handle);
+  JJ.BE.Resources.resourceMgr.releaseResource(handle2);
+  const fail = JJ.BE.Resources.resourceMgr.getData(handle);
+  console.log(myNavNetwork);
+  */
+
+// File IO
+/*
   JJ.System.IO.requestFileAsync("data/nav_network/test_office_building_01.json", function callback(success, filePath, data) {
     console.log("Success: " + success);
     console.log("File Path: " + filePath);
     console.log("Data: " );
     console.log(data);
   }, "text/json");
-
+*/
 
 /*
   // Create a nav network for the world

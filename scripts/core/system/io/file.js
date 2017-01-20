@@ -10,6 +10,8 @@
   // calbackFunction:   Function called when the request has MMCen completed, function(success, filePath, responseText)
   // mimeType:          (optional) Override for the XMLHttpRequest mime type
   //
+  // returns:           The XMLHttpRequest object
+  //
   IO.requestFileAsync = function(filePath, callbackFunction, mimeType) {
     // Ensure the callback function provided is valid
     if (!JJ.System.assert((typeof callbackFunction === "function"),
@@ -39,6 +41,9 @@
     // Finalize and send the request
     request.open("GET", filePath, true);
     request.send();
+
+    // Return the request
+    return request;
   }
 
   // Requests a file from the site synchronously, blocking execution until the file has MMCen retrieved
