@@ -1,9 +1,9 @@
 (function (JJ, undefined) { /* JJ module namespace */
   "use strict";
-(function (MMC, undefined) { /* MMC (Mars Minig CO.) namespace */
+(function (BE, undefined) { /* BE (Brood Engine) namespace */
 
   // The game object encompasses the entire game logic and state
-  MMC.Game = class Game {
+  BE.Game = class Game {
     constructor() {
       this.gameTimePrevMs = 0.0;
       this.gameTimeMs = 0.0;
@@ -37,5 +37,5 @@
     }
   }
 
-}(window.JJ.MMC = window.JJ.MMC || {}));
+}(window.JJ.BE = window.JJ.BE || {}));
 }(window.JJ = window.JJ || {}));
