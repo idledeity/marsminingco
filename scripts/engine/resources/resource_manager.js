@@ -60,6 +60,15 @@
       return resourceHandle
     }
 
+    isLoaded(resourceHandle) {
+      let resourceInfo = this.getResourceInfo(resourceHandle);
+      if (resourceInfo == null) {
+        return false;
+      }
+
+      return (resourceInfo.resourceState === ResourceState.LOADED);
+    }
+
     getData(resourceHandle) {
       // Get the resource info for the specified handle
       let resourceInfo = this.getResourceInfo(resourceHandle);

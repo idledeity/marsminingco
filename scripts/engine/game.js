@@ -8,11 +8,16 @@
       this.gameTimePrevMs = 0.0;
       this.gameTimeMs = 0.0;
 
-      this.gameWorld = new JJ.BE.World();
+      this.gameWorld = new BE.World();
+      this.interfaceMgr = new BE.Interface.InterfaceManager();
     }
 
     getWorld() {
       return this.gameWorld;
+    }
+
+    getInterfaceMgr() {
+      return this.interfaceMgr;
     }
 
     // This is the primary game loop for the game
@@ -25,6 +30,11 @@
       // Update the game world
       if (this.gameWorld != null) {
         this.gameWorld.update(deltaTime);
+      }
+
+      // Update the interface manager
+      if (this.interfaceMgr != null) {
+        this.interfaceMgr.update(deltaTime);
       }
 
       // Request the main loop to be called again after the browser has rendered the window
