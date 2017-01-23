@@ -1,12 +1,12 @@
 (function (JJ, undefined) { /* JJ module namespace */
   "use strict";
 (function (BE, undefined) { /* BE (Brood Engine) namespace */
-(function(Interface, undefined) { /* Controllers submodule namespace */
+(function(Interface, undefined) { /* Interface submodule namespace */
 
   // UIPane is the base class for UI modules built from html & css files.
   //
   Interface.UIPane = class UIPane {
-    constructor(htmlPath, cssPath, parentElement) {
+    constructor(parentElement, htmlPath, cssPath) {
       // File path and handles for resources
       this.htmlPath = htmlPath;
       this.htmlHandle = BE.Resources.InvalidResourceHandle;
@@ -18,9 +18,10 @@
       this.rootElement = null;
 
       // Flags
-      this.visible = false;
+      this.visible = true;
       this.resourcesRequested = false;
       this.paneCreated = false;
+      this.createHidden = false;
 
       // Request the panes resources
       this.requestResources();
@@ -54,8 +55,18 @@
       }
 
       // Make the root element invisible
-      this.consoleElement.style.display = "none";
+      this.rootElement.style.display = "none";
       this.visible = false;
+    }
+
+    // Toggles the visibliity of this pane
+    //
+    toggleVisiblity() {
+      if (this.isVisible()) {
+        this.hide();
+      } else {
+        this.show();
+      }
     }
 
     // Main update for per frame processing
@@ -172,6 +183,11 @@
             this.rootElement.appendChild(newElement.childNodes[childIndex]);
           }
         }
+      }
+
+      // If the pane should be created hidden, then hide it now
+      if (this.createHidden) {
+        this.hide();
       }
 
       // Add this pane's root element to it's parent element

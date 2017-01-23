@@ -1,12 +1,9 @@
 (function (JJ, undefined) { /* JJ module namespace */
   "use strict";
 (function (BE, undefined) { /* BE (Brood Engine) namespace */
-(function(Interface, undefined) { /* Controllers submodule namespace */
+(function(Interface, undefined) { /* Interface submodule namespace */
 
-  // The SerializedTypeManager class is a simple class that maintains a map of registered Serialized Types.
-  //
-  // The Serialize Type map is used to store type info necessary to restore serialized data into full fledged objects,
-  // which cannot be deduced by normal means
+  // The InterfaceManager class is responsible for managing all interface panes and processes user input
   //
   Interface.InterfaceManager = class InterfaceManager {
     constructor() {

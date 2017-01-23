@@ -8,16 +8,27 @@
       this.gameTimePrevMs = 0.0;
       this.gameTimeMs = 0.0;
 
-      this.gameWorld = new BE.World();
+      this.inputMgr = new BE.Input.InputManager();
       this.interfaceMgr = new BE.Interface.InterfaceManager();
+      this.debugMgr = new BE.Debug.DebugManager(this);
+      this.gameWorld = new BE.World();
+
     }
 
-    getWorld() {
-      return this.gameWorld;
+    getInputMgr() {
+      return this.inputMgr;
     }
 
     getInterfaceMgr() {
       return this.interfaceMgr;
+    }
+
+    getDebugMgr() {
+      return this.debugMgr;
+    }
+
+    getWorld() {
+      return this.gameWorld;
     }
 
     // This is the primary game loop for the game
@@ -26,6 +37,16 @@
       this.gameTimePrevMs = this.gameTimeMs;
       this.gameTimeMs = timestamp;
       const deltaTime = this.gameTimeMs - this.gameTimePrevMs;
+
+      // Update the input manager
+      if (this.inputMgr != null) {
+        this.inputMgr.update();
+      }
+
+      // Update the debug manager
+      if (this.debugMgr != null) {
+        this.debugMgr.update(deltaTime);
+      }
 
       // Update the game world
       if (this.gameWorld != null) {
