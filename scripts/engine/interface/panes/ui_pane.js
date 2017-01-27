@@ -42,7 +42,9 @@
       }
 
       // Make the root element visible
-      this.rootElement.style.display = "block";
+      if (this.rootElement != null) {
+        this.rootElement.style.display = "block";
+      }
       this.visible = true;
     }
 
@@ -55,7 +57,9 @@
       }
 
       // Make the root element invisible
-      this.rootElement.style.display = "none";
+      if (this.rootElement != null) {
+        this.rootElement.style.display = "none";
+      }
       this.visible = false;
     }
 

@@ -20,7 +20,8 @@
       // Reigster for keybaord events
       document.addEventListener('keydown', function(event) {
         this.eventBuffer.push(event);
-      }.bind(this));      document.addEventListener('keyup', function(event) {
+      }.bind(this));
+      document.addEventListener('keyup', function(event) {
         this.eventBuffer.push(event);
       }.bind(this));
     }

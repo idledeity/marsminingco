@@ -15,7 +15,7 @@
     KEY_CONTROL: 17,
     KEY_ALT: 18,
     KEY_CAPS_LOCK: 20,
-    KEY_ESC: 27,
+    KEY_ESCAPE: 27,
     KEY_SPACE: 32,
     KEY_PAGE_UP: 33,
     KEY_PAGE_DOWN: 34,
