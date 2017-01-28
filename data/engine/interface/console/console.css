@@ -46,6 +46,14 @@
   color: red;
 }
 
+#dev_console .output_text_match {
+  color: blue;
+}
+
+#dev_console .output_text_comment {
+  color: green;
+}
+
 #dev_console .input_wrapper {
   position: relative;
   display: table;

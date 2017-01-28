@@ -3,6 +3,8 @@
 (function (BE, undefined) { /* BE (Brood Engine) namespace */
 (function(Debug, undefined) { /* Debug submodule namespace */
 
+  // The CommandManager handles storing and accessing the game's debug developer commands
+  //
   class CommandManager {
     constructor() {
       this.commandMap = {};
@@ -33,6 +35,57 @@
       }
 
       return commandInfo;
+    }
+
+    // Find commands by substring
+    //
+    findCommands(searchString, searchDescription, caseSensitive) {
+      // Initialize the array of found commands that match the searc regExp
+      let foundCommands = [];
+
+      // Ensure the search string is indeed a string
+      if (!JJ.System.assert(typeof searchString === "string")) {
+        return foundCommands;
+      }
+
+      // Convert to a RegExp and perform the search
+      const regExp = new RegExp(searchString, (caseSensitive ? undefined : "i"));
+      return this.searchCommands(regExp, searchDescription);
+    }
+
+    // Find commands by Regular Expression
+    //
+    searchCommands(regExp, searchDescription) {
+      // Initialize the array of found commands that match the searc regExp
+      let foundCommands = [];
+
+      // Ensure the regExp is a proper RegExp object
+      if (!(regExp instanceof RegExp)) {
+        regExp = new RegExp(regExp);
+      }
+
+      // Loop over all of the command infos in the command map
+      for (let property in this.commandMap) {
+        // Ensure this is a prototype property
+        if (!this.commandMap.hasOwnProperty(property)) {
+          continue;
+        }
+
+        // Get the command info
+        const commandInfo = this.commandMap[property];
+
+        // Perform the search
+        if (regExp.test(commandInfo.name)) {
+          // The command name matches the regExp
+          foundCommands.push(commandInfo);
+        } else if (searchDescription && regExp.test(commandInfo.description)) {
+          // The command description matches the regExp
+          foundCommands.push(commandInfo);
+        }
+      }
+
+      // Return the array of found commands
+      return foundCommands;
     }
 
     // Execute a command string
@@ -116,6 +169,69 @@
 
   // The debug command manager
   Debug.commandMgr = new CommandManager();
+
+  // Developer command to search for developer commands
+  Debug.commandMgr.registerCommand("find", "search command names and descriptions", function(searchString) {
+    if (searchString == undefined) {
+      Debug.commandMgr.logWarning("Missing searchString argument.");
+      Debug.commandMgr.logInfo("Expected usage: \"find &lt;searchString&gt;\"");
+      return;
+    }
+
+    // Find commands that contain the specified substring
+    let commandInfos = Debug.commandMgr.findCommands(searchString, true);
+
+    // Sort the commands alphabeticaly by name
+    commandInfos.sort(function(a, b) {
+      return a.name.localeCompare(b.name);
+    });
+
+    // Generate a RegExp from the searchstring so we can find all occurances for highlighting
+    const regExp = new RegExp(searchString, "gi"); // (g)lobal, case (i)nsensitive
+
+    // Print the number of results found
+    Debug.commandMgr.logInfo("&emsp;{0} results found for: <span class='output_text_match'>{1}</span>",
+      commandInfos.length, searchString);
+
+    // Display the found results
+    for (let commandIndex = 0; commandIndex < commandInfos.length; commandIndex++) {
+      // Get the current command info
+      const commandInfo = commandInfos[commandIndex];
+
+      // Generate a "colorized" string for the command name to highlight matching text
+      let colorizedName = "";
+      let substrStartIndex = 0;
+      let match = null;
+      while ((match = regExp.exec(commandInfo.name)) != null) {
+        // Add the substring before the match
+        colorizedName += commandInfo.name.substr(substrStartIndex, (match.index - substrStartIndex));
+        colorizedName += "<span class='output_text_match'>";
+        colorizedName += match[0];
+        colorizedName += "</span>";
+        substrStartIndex = match.index + match[0].length;
+      }
+      colorizedName += commandInfo.name.substr(substrStartIndex, (commandInfo.name.length - substrStartIndex));
+
+      // Generate a "colorized" string for the command description to highlight matching text
+      let colorizedDescription = "";
+      substrStartIndex = 0;
+      while ((match = regExp.exec(commandInfo.description)) != null) {
+        // Add the substring before the match
+        colorizedDescription += commandInfo.description.substr(substrStartIndex, (match.index - substrStartIndex));
+        colorizedDescription += "<span class='output_text_match'>";
+        colorizedDescription += match[0];
+        colorizedDescription += "</span>";
+        substrStartIndex = match.index + match[0].length;
+      }
+      colorizedDescription += commandInfo.description.substr(substrStartIndex,
+        (commandInfo.description.length - substrStartIndex));
+
+      // Log the colorized name and description
+      Debug.commandMgr.logInfo("{0}&emsp;&emsp;<span class='output_text_comment'>// {1}</span>",
+        colorizedName, colorizedDescription);
+    }
+  });
+
 
 }(window.JJ.BE.Debug = window.JJ.BE.Debug || {}));
 }(window.JJ.BE = window.JJ.BE || {}));

@@ -61,7 +61,8 @@
       }
 
       // Check if the scroll bar is currently at the bottom
-      let scrollAtBottom = (this.outputTextElement.scrollTop == (this.outputTextElement.scrollHeight - this.outputTextElement.offsetHeight));
+      const scrollDelta = this.outputTextElement.scrollHeight - this.outputTextElement.offsetHeight;
+      const scrollAtBottom = (this.outputTextElement.scrollTop == scrollDelta);
 
       // Update the output element with the current debug command log
       this.outputTextElement.innerHTML = BE.Debug.commandMgr.getLog();
@@ -115,9 +116,61 @@
 
       if (validSelection) {
         const displayIndex = history.length - this.historyIndex - 1;
-        if (JJ.System.assert(((displayIndex >= 0) && (displayIndex < history.length)), "Invalid history display index.")) {
+        if (JJ.System.assert(((displayIndex >= 0) && (displayIndex < history.length)),
+          "Invalid history display index.")) {
           this.inputTextElement.value = history[displayIndex];
         }
+      }
+    }
+
+    // Attempt to auto-complete the input text
+    autoComplete() {
+      // Generate a regular expression to find command that are prefixed with the input text value
+      const regExpString = JJ.Utility.String.format("^{0}", this.inputTextElement.value);
+      const searchRegExp = RegExp(regExpString, "i");
+
+      // Get the list of commands that start with the current string storred in the input text element
+      const potentialCommands = BE.Debug.commandMgr.searchCommands(searchRegExp);
+
+      // No matching commands, just return
+      if (potentialCommands.length == 0) {
+        return;
+      }
+
+      // If only one potential command, use it for the auto-completes
+      if (potentialCommands.length == 1) {
+        this.inputTextElement.value = potentialCommands[0].name;
+        return;
+      }
+
+      // Sort the commands alphabeticaly by name
+      potentialCommands.sort(function(a, b) {
+        return a.name.localeCompare(b.name);
+      });
+
+      // Compare the first and last command names for the longest matching substring
+      let first = potentialCommands[0].name;
+      let last = potentialCommands[potentialCommands.length - 1].name;
+      let maxLength = first.length;
+      let charIndex = 0;
+      while((charIndex < maxLength) &&
+        (first.charAt(charIndex).toLowerCase() == last.charAt(charIndex).toLowerCase())) {
+        charIndex++;
+      }
+
+      // Check if the common substring matches the entire input text string
+      if (charIndex == this.inputTextElement.value.length) {
+        // If there no more letters to fill in, then display the available commands for the user
+        BE.Debug.commandMgr.logInfo("partial matches: {0}", this.inputTextElement.value)
+        for (let commandIndex = 0; commandIndex < potentialCommands.length; commandIndex++) {
+          BE.Debug.commandMgr.logInfo(potentialCommands[commandIndex].name);
+        }
+
+        // Refresh the output text
+        this.refreshOutput()
+      } else {
+        // Use the longest matching substring for the auto-completion
+        this.inputTextElement.value = first.substr(0, charIndex);
       }
     }
 
@@ -136,6 +189,14 @@
           if (this.inputTextElement.value != "") {
             this.processCommand(this.inputTextElement.value);
           }
+        } break;
+
+        // Process tab auto-completion
+        case JJ.System.IO.Keyboard.KeyCodesEnum.KEY_TAB: {
+          this.autoComplete();
+
+          // Prevent default action which will tab focus away from the text input element
+          event.preventDefault();
         } break;
 
         // Cycle "up" through the console history
