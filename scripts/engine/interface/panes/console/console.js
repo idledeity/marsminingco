@@ -64,7 +64,7 @@
       let scrollAtBottom = (this.outputTextElement.scrollTop == (this.outputTextElement.scrollHeight - this.outputTextElement.offsetHeight));
 
       // Update the output element with the current debug command log
-      this.outputTextElement.innerHTML = BE.Debug.Command.getLog();
+      this.outputTextElement.innerHTML = BE.Debug.commandMgr.getLog();
 
       // If the scroll bar *was* at the bottom, make sure it's still at the bottom after the text update
       if (scrollAtBottom) {
@@ -76,7 +76,7 @@
     //
     processCommand(command) {
       // Try and execute the command
-      BE.Debug.Command.execute(command);
+      BE.Debug.commandMgr.executeCommand(command);
 
       // Refresh the output text
       this.refreshOutput()
@@ -89,7 +89,7 @@
     // Handles moving selection "up" in the console history
     //
     moveHistorySelection(up) {
-      const history = BE.Debug.Command.getHistory();
+      const history = BE.Debug.commandMgr.getHistory();
 
       // Update the history index
       let validSelection = false;
