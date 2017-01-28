@@ -21,8 +21,22 @@
         return;
       }
 
+      // Parse the functions arguments
+      let STRIP_COMMENTS = /((\/\/.*$)|(\/\*[\s\S]*?\*\/))/mg;
+      let ARGUMENT_NAMES = /([^\s,]+)/g;
+      let fnStr = func.toString().replace(STRIP_COMMENTS, '');
+      let funcArguments = fnStr.slice(fnStr.indexOf('(')+1, fnStr.indexOf(')')).match(ARGUMENT_NAMES);
+      if(funcArguments === null)
+         funcArguments = [];
+
+      // Turn the function arguments into a string representing the function's signature
+      let funcSignature = JJ.Utility.String.format("{0}", commandName);
+      for (let argumentIndex = 0; argumentIndex < funcArguments.length; argumentIndex++) {
+        funcSignature += JJ.Utility.String.format(" &lt;{0}&gt;", funcArguments[argumentIndex]);
+      }
+
       // Add the command info to the array of commands
-      let commandInfo = { name: commandName, description: description, func: func };
+      let commandInfo = { name: commandName, description: description, func: func, signature: funcSignature };
       this.commandMap[commandName] = commandInfo;
     }
 
@@ -113,13 +127,13 @@
       // Look-up the command
       const commandInfo = this.getCommandByName(subStrings[0]);
       if (commandInfo == null) {
-        this.printf("<span class='output_text_warning'>command not recognized: {0}</span>", subStrings[0]);
+        this.printf("<span class='output_text_warning'>Command not recognized: {0}</span>", subStrings[0]);
         return;
       }
 
       // Execute the command
       let commandArgs = subStrings.slice(1);
-      commandInfo.func.apply(this, commandArgs);
+      commandInfo.func.apply(commandInfo, commandArgs);
     }
 
     // Prints a formated message to the command log
@@ -143,14 +157,14 @@
     // Writes a formated "warning" string to the log
     //
     logWarning(message, messageArgs) {
-      arguments[0] = JJ.Utility.String.format("<span class='output_text_warning'>warning: {0}</span>", message);
+      arguments[0] = JJ.Utility.String.format("<span class='output_text_warning'>Warning: {0}</span>", message);
       this.printf.apply(this, arguments);
     }
 
     // Writes a formated "error" string to the log
     //
     logError(message, messageArgs) {
-      arguments[0] = JJ.Utility.String.format("<span class='output_text_error'>error: {0}</span>", message);
+      arguments[0] = JJ.Utility.String.format("<span class='output_text_error'>Error: {0}</span>", message);
       this.printf.apply(this, arguments);
     }
 
@@ -171,10 +185,12 @@
   Debug.commandMgr = new CommandManager();
 
   // Developer command to search for developer commands
-  Debug.commandMgr.registerCommand("find", "search command names and descriptions", function(searchString) {
-    if (searchString == undefined) {
-      Debug.commandMgr.logWarning("Missing searchString argument.");
-      Debug.commandMgr.logInfo("Expected usage: \"find &lt;searchString&gt;\"");
+  Debug.commandMgr.registerCommand("find", "Search command names and descriptions to find commands",
+    function(searchString) {
+
+    // Check that the search string argument is valid
+    if ((searchString == undefined) || (searchString == "")) {
+      Debug.commandMgr.logWarning("Missing searchString argument. Expected usage: {0}", this.signature);
       return;
     }
 
@@ -198,33 +214,27 @@
       // Get the current command info
       const commandInfo = commandInfos[commandIndex];
 
-      // Generate a "colorized" string for the command name to highlight matching text
-      let colorizedName = "";
-      let substrStartIndex = 0;
-      let match = null;
-      while ((match = regExp.exec(commandInfo.name)) != null) {
-        // Add the substring before the match
-        colorizedName += commandInfo.name.substr(substrStartIndex, (match.index - substrStartIndex));
-        colorizedName += "<span class='output_text_match'>";
-        colorizedName += match[0];
-        colorizedName += "</span>";
-        substrStartIndex = match.index + match[0].length;
-      }
-      colorizedName += commandInfo.name.substr(substrStartIndex, (commandInfo.name.length - substrStartIndex));
+      // Fuction to wrap substring in colored span tags
+      const colorizeSubStringFunc = function(string) {
+        let colorizedString = "";
+        let substrStartIndex = 0;
+        let match = null;
+        while ((match = regExp.exec(string)) != null) {
+          // Add the substring before the match
+          colorizedString += string.substr(substrStartIndex, (match.index - substrStartIndex));
+          colorizedString += "<span class='output_text_match'>";
+          colorizedString += match[0];
+          colorizedString += "</span>";
+          substrStartIndex = match.index + match[0].length;
+        }
+        colorizedString += string.substr(substrStartIndex, (string.length - substrStartIndex));
 
-      // Generate a "colorized" string for the command description to highlight matching text
-      let colorizedDescription = "";
-      substrStartIndex = 0;
-      while ((match = regExp.exec(commandInfo.description)) != null) {
-        // Add the substring before the match
-        colorizedDescription += commandInfo.description.substr(substrStartIndex, (match.index - substrStartIndex));
-        colorizedDescription += "<span class='output_text_match'>";
-        colorizedDescription += match[0];
-        colorizedDescription += "</span>";
-        substrStartIndex = match.index + match[0].length;
+        return colorizedString;
       }
-      colorizedDescription += commandInfo.description.substr(substrStartIndex,
-        (commandInfo.description.length - substrStartIndex));
+
+      // Generate a "colorized" string for the command name and description to highlight matching text
+      const colorizedName = colorizeSubStringFunc(commandInfo.name);
+      let colorizedDescription = colorizeSubStringFunc(commandInfo.description);
 
       // Log the colorized name and description
       Debug.commandMgr.logInfo("{0}&emsp;&emsp;<span class='output_text_comment'>// {1}</span>",
@@ -232,6 +242,26 @@
     }
   });
 
+  // Developer command that prints a function's signature
+  Debug.commandMgr.registerCommand("help", "Show a command's function signature for proper usage.",
+    function(commandName) {
+
+    // Check that the commandName argument is valid
+    if ((commandName == undefined) || (commandName == "")) {
+      Debug.commandMgr.logWarning("Missing commandName argument. Expected usage: {0}", this.signature);
+      return;
+    }
+
+    // Get the command info
+    let commandInfo = Debug.commandMgr.getCommandByName(commandName);
+    if (commandInfo == null) {
+      Debug.commandMgr.logWarning("Command \"{0}\" not found. Expected usage: {0}", commandName, this.signature);
+      return;
+    }
+
+    // Print the function's signature to the log info
+    Debug.commandMgr.logInfo("Usage: {0}", commandInfo.signature);
+  });
 
 }(window.JJ.BE.Debug = window.JJ.BE.Debug || {}));
 }(window.JJ.BE = window.JJ.BE || {}));
