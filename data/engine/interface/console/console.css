@@ -4,7 +4,7 @@
   height: 35%;
   min-height: 80px;
   max-height: 250px;
-  color: #FFFFFF;
+  color: lawngreen;
   background-color: #070707;
   font-family: "Courier New";
   font-size: 14px;
@@ -37,8 +37,12 @@
   overflow-y: auto;
 }
 
+#dev_console .output_text_info {
+  color: dodgerblue;
+}
+
 #dev_console .output_text_warning {
-  color: yellow;
+  color: gold;
 }
 
 #dev_console .output_text_error {
@@ -59,7 +63,7 @@
   bottom: 0;
   overflow: hidden;
   width: 100%;
-  color: #FEFEFE;
+  color: lawngreen;
   background-color: #141414;
 }
 
@@ -82,7 +86,7 @@
   border: 0px;
   outline-width: 0;
   width: 100%;
-  color: #FEFEFE;
+  color: lawngreen;
   background-color: #141414;
   font-family: "Courier New";
   font-size: 14px;
