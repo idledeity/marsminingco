@@ -3,9 +3,13 @@
 (function (BE, undefined) { /* BE (Brood Engine) namespace */
 (function(Debug, undefined) { /* Debug submodule namespace */
 
-  // The DebugManager manages all debug functionality and rendering
-  //
-  Debug.DebugManager = class DebugManager {
+  /**
+   * The DebugManager manages all debug functionality and rendering
+   */
+  JJ.BE.Debug.DebugManager = class DebugManager {
+    /**
+     * Constructor
+     */
     constructor(game) {
       this.game = game;
 
@@ -14,9 +18,11 @@
       this.game.getInterfaceMgr().addPane(this.consolePane);
     }
 
-    // Main update
-    //
-    update(deltaTime) {
+    /**
+     * Main update
+     * @param {Number} deltaMs - The elapsed time since the last time update was called, in milliseconds
+     */
+    update(deltaMs) {
       // If the tilda key was pressed, toggle the console visibility
       let inputMgr = this.game.getInputMgr();
       if (inputMgr.getKeyDown(JJ.System.IO.Keyboard.KeyCodesEnum.KEY_TILDA)) {

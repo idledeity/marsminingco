@@ -3,7 +3,7 @@
 (function(Interface, undefined) { /* Interface submodule namespace */
 
   // WIP for a viwer that creates HTML DOM objects from an object's properties
-  Interface.PropertyViewerWidget = class PropertyViewerWidget {
+  JJ.BE.Interface.PropertyViewerWidget = class PropertyViewerWidget {
     displayProperties(obj) {
       // Look for an existing list element
       let list = document.getElementById("property_list");

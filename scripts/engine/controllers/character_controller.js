@@ -3,9 +3,14 @@
 (function (BE, undefined) { /* BE (Brood Engine) namespace */
 (function(Controllers, undefined) { /* Controllers submodule namespace */
 
-  // Character controller manages the interactions of a character entity in the world
-  //
-  Controllers.CharacterController = class CharacterController extends Controllers.Controller {
+  /**
+   * Character controller manages the interactions of a character entity in the world
+   * @extends JJ.BE.Controllers.Controller
+   */
+  JJ.BE.Controllers.CharacterController = class CharacterController extends Controllers.Controller {
+    /**
+     * Constructor
+     */
     constructor() {
       super();
 
@@ -13,28 +18,46 @@
       this.moveSpeed = 0.0;                                         // Character movement speed
     }
 
-    // Returns the character's movement direction
+    /**
+     * Returns the character's movement direction
+     * @return {JJ.Math.Vector3} The current movement direction of the character
+     */
     getMoveDir() {
       return this.moveDir;
     }
 
-    // Set the character's movement direction
+    /**
+     * Set the character's movement direction
+     * @param {JJ.Math.Vector3} vector - The new character movement direction
+     */
     setMoveDir(vector) {
+      if (!JJ.System.assert(this.moveDir.isNormalized(), "Character movement direction must be a unit vector.")) {
+        return;
+      }
+
       this.moveDir.equals(vector);
-      JJ.System.assert(this.moveDir.isNormalized(), "Character movement direction must be a unit vector.");
     }
 
-    // Returns the character's movement speed
+    /**
+     * Returns the character's movement speed
+     * @return {Number} The current movement speed of the character
+     */
     getMoveSpeed() {
       return this.moveSpeed;
     }
 
-    // Set the character's movement speed
+    /**
+     * Set the character's movement speed
+     * @param {Number} speed - The new movevment speed to set on the character
+     */
     setMoveSpeed(speed) {
       this.moveSpeed = speed;
     }
 
-    // Per frame update
+    /**
+     * Per frame update function
+     * @param {Number} deltaMs - The elapsed simulation time since the last time update was called, in milliseconds
+     */
     update(deltaMs) {
       super.update(deltaMs);
 

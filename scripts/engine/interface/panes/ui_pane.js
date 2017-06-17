@@ -3,9 +3,16 @@
 (function (BE, undefined) { /* BE (Brood Engine) namespace */
 (function(Interface, undefined) { /* Interface submodule namespace */
 
-  // UIPane is the base class for UI modules built from html & css files.
-  //
-  Interface.UIPane = class UIPane {
+  /**
+   * UIPane is the base class for UI modules built from html & css files.
+   */
+  JJ.BE.Interface.UIPane = class UIPane {
+    /**
+     * Constructor
+     * @param {Element} parentElement - The parent DOM element this pane is a child of
+     * @param {String} htmlPath - Path to the HTML document for this pane
+     * @param {String} cssPath - Path to the CSS document for this pane
+     */
     constructor(parentElement, htmlPath, cssPath) {
       // File path and handles for resources
       this.htmlPath = htmlPath;
@@ -27,14 +34,17 @@
       this.requestResources();
     }
 
-    // Returns whether the pane is visible
-    //
+    /**
+     * Returns whether the pane is visible
+     * @return {Boolean} True if the pane is currently visible, False if it is not
+     */
     isVisible() {
       return this.visible;
     }
 
-    // Show the pane, making it's elements visible
-    //
+    /**
+     * Show the pane, making it's elements visible
+     */
     show() {
       // Nothing to do if it's already visible
       if (this.isVisible()) {
@@ -48,8 +58,9 @@
       this.visible = true;
     }
 
-    // Hide the pane, making it's elements invisible
-    //
+    /**
+     * Hide the pane, making it's elements invisible
+     */
     hide() {
       // Nothing to do if it's already hidden
       if (!this.isVisible()) {
@@ -63,8 +74,9 @@
       this.visible = false;
     }
 
-    // Toggles the visibliity of this pane
-    //
+    /**
+     * Toggle the visibliity of the pane
+     */
     toggleVisiblity() {
       if (this.isVisible()) {
         this.hide();
@@ -73,9 +85,11 @@
       }
     }
 
-    // Main update for per frame processing
-    //
-    update(deltaTime) {
+    /**
+     * Main update for per frame processing
+     * @param {Number} deltaMs - Elapsed time since the last time update was called, in milliseconds
+     */
+    update(deltaMs) {
       // Check if the pane hasn't been created
       if (!this.paneCreated) {
         // Check if the resources have been requested
@@ -89,8 +103,9 @@
       }
     }
 
-    // Requests all of the resources needed by the pane
-    //
+    /**
+     * Requests all of the resources needed by the pane
+     */
     requestResources() {
       // Check if the resoures have already been requested
       if (this.resourcesRequested) {
@@ -111,8 +126,9 @@
       this.resourcesRequested = true;
     }
 
-    // Releases all of the resources requested by the pane
-    //
+    /**
+     * Releases all of the resources requested by the pane
+     */
     releaseResources() {
       if (!this.resourcesRequested) {
         return;
@@ -134,8 +150,9 @@
       this.resourcesRequested = false;
     }
 
-    // Checks if the resources required by the pane are loaded, returning true if they are
-    //
+    /**
+     * Checks if the resources required by the pane are loaded, returning true if they are
+     */
     checkResourcesLoaded() {
       // Assume resources are loaded
       let resourcesLoaded = true;
@@ -154,8 +171,9 @@
       return resourcesLoaded;
     }
 
-    // Creates the pane
-    //
+    /**
+     * Creates the pane
+     */
     createPane() {
       // Check if the pane has already been created
       if (this.paneCreated) {
@@ -203,8 +221,9 @@
       this.paneCreated = true;
     }
 
-    // Destroys the pane
-    //
+    /**
+     * Destroys the pane
+     */
     destroyPane() {
       // Nothing to do if the pane hasn't been created
       if (!this.paneCreated) {

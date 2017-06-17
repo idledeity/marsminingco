@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: core_libs/system/assert.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: core_libs/system/assert.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>(function (JJ, undefined) { /* JJ module namespace */
+  "use strict";
+(function(System, undefined) { /* System submodule namespace */
+
+  let assertsEnabled = true;
+  let assertsOpenDialog = true;
+
+  /**
+   * Checks the passed condition and raises an assertion if the condition evaluates as false
+   * @param {Boolean} condition - The condition to be evaluated
+   * @param {String} message - A debug message to be displayed in the case the assert is raised
+   * @param {Object[]} messageArgs - Array of arguments for the formatted message string
+   * @return {Boolean} The passed condition is returned so that you can wrap an assert inside a conditional to handle
+   *                    the failed condition
+   */
+  JJ.System.assert = function(condition, message, messageArgs) {
+    // Check if asserts are enabled
+    if (assertsEnabled) {
+      // Check the condition provided
+      if (!condition) {
+        // Format the message if necessary
+        let formatedMessage = message;
+        if (arguments.length >= 3) {
+          // Generate a formated message
+          messageArgs = Array.prototype.slice.call(arguments, 1);
+          formatedMessage = JJ.Utility.String.format.apply(JJ.Utility.String.format, messageArgs);
+        }
+
+        // Generate an error to obtain the callstack
+        const error = new Error();
+
+        // Convert the callstack from the error into an array of function calls, and then remove the first entry
+        let stackFunctionArray = error.stack.toString().split("\n");
+        stackFunctionArray.shift();
+
+        // Print to the console log
+        console.log("Assertion failed! @ " + stackFunctionArray[0]);
+        console.log(formatedMessage);
+        console.log("");
+        console.log("Call Stack:");
+        stackFunctionArray.forEach(function(stackFunction) {
+          console.log(stackFunction);
+        });
+
+        // Maybe display a modal dialog
+        if (assertsOpenDialog) {
+          const dialogString = "Asserton failed!\n" + formatedMessage + "\n\n" + stackFunctionArray[0];
+          window.alert(dialogString);
+        }
+      }
+    }
+
+    // Always return the condition value (even if not enabled)
+    return condition;
+  }
+
+}(window.JJ.System = window.JJ.System || {}));
+}(window.JJ = window.JJ || {}));</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CommandManager.html">CommandManager</a></li><li><a href="JJ.BE.AI.AICharacterController.html">AICharacterController</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTree.html">BehaviorTree</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeActionNode.html">BehaviorTreeActionNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeCompositeNode.html">BehaviorTreeCompositeNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeDelayNode.html">BehaviorTreeDelayNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeNode.html">BehaviorTreeNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeSequenceNode.html">BehaviorTreeSequenceNode</a></li><li><a href="JJ.BE.AI.Pathfinding.NavNetwork.html">NavNetwork</a></li><li><a href="JJ.BE.AI.Pathfinding.NavNetworkNode.html">NavNetworkNode</a></li><li><a href="JJ.BE.Controllers.CharacterController.html">CharacterController</a></li><li><a href="JJ.BE.Controllers.Controller.html">Controller</a></li><li><a href="JJ.BE.Debug.DebugManager.html">DebugManager</a></li><li><a href="JJ.BE.Game.html">Game</a></li><li><a href="JJ.BE.Input.InputManager.html">InputManager</a></li><li><a href="JJ.BE.Interface.InterfaceManager.html">InterfaceManager</a></li><li><a href="JJ.BE.Interface.Panes.Console.html">Console</a></li><li><a href="JJ.BE.Interface.UIPane.html">UIPane</a></li><li><a href="JJ.BE.Objects.Actor.html">Actor</a></li><li><a href="JJ.BE.Objects.Character.html">Character</a></li><li><a href="JJ.BE.Objects.Component.html">Component</a></li><li><a href="JJ.BE.Objects.Entity.html">Entity</a></li><li><a href="JJ.BE.World.html">World</a></li><li><a href="JJ.Behavior.BehaviorTreeDecoratorNode.html">BehaviorTreeDecoratorNode</a></li><li><a href="JJ.Behavior.BehaviorTreeRepeaterNode.html">BehaviorTreeRepeaterNode</a></li><li><a href="JJ.Containers.List.html">List</a></li><li><a href="JJ.Containers.MeshNetwork.html">MeshNetwork</a></li><li><a href="JJ.Containers.MeshNetworkAddress.html">MeshNetworkAddress</a></li><li><a href="JJ.Containers.MeshNetworkLink.html">MeshNetworkLink</a></li><li><a href="JJ.Containers.MeshNetworkNode.html">MeshNetworkNode</a></li><li><a href="JJ.Containers.MeshNetworkNodeInfo.html">MeshNetworkNodeInfo</a></li><li><a href="JJ.Math.Vector2.html">Vector2</a></li><li><a href="JJ.Math.Vector3.html">Vector3</a></li><li><a href="JJ.MMC.Game.html">Game</a></li><li><a href="JJ.System.Serialization.Serializable.html">Serializable</a></li><li><a href="ResourceInfo.html">ResourceInfo</a></li><li><a href="ResourceManager.html">ResourceManager</a></li><li><a href="SerializableTypeManager.html">SerializableTypeManager</a></li></ul><h3>Namespaces</h3><ul><li><a href="JJ.html">JJ</a></li><li><a href="JJ.BE.html">BE</a></li><li><a href="JJ.BE.AI.html">AI</a></li><li><a href="JJ.BE.AI.Behavior.html">Behavior</a></li><li><a href="JJ.BE.AI.Pathfinding.html">Pathfinding</a></li><li><a href="JJ.BE.Controllers.html">Controllers</a></li><li><a href="JJ.BE.Debug.html">Debug</a></li><li><a href="JJ.BE.Input.html">Input</a></li><li><a href="JJ.BE.Interface.html">Interface</a></li><li><a href="JJ.BE.Interface.Panes.html">Panes</a></li><li><a href="JJ.BE.Objects.html">Objects</a></li><li><a href="JJ.BE.Resources.html">Resources</a></li><li><a href="JJ.Containers.html">Containers</a></li><li><a href="JJ.Math.html">Math</a></li><li><a href="JJ.System.html">System</a></li><li><a href="JJ.System.IO.html">IO</a></li><li><a href="JJ.System.IO.Keyboard.html">Keyboard</a></li><li><a href="JJ.System.Serialization.html">Serialization</a></li><li><a href="JJ.Utility.html">Utility</a></li><li><a href="JJ.Utility.DOM.html">DOM</a></li><li><a href="JJ.Utility.String.html">String</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sat Jun 17 2017 09:00:31 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

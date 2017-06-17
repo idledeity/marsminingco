@@ -3,9 +3,13 @@
 (function(Utility, undefined) { /* Utility submodule namespace */
 (function(DOM, undefined) { /* DOM submodule namespace */
 
-  // Search's a DOM element's children recursively for a child (or decendent) with matching id
-  //
-  DOM.findElementChildByID = function(element, id) {
+  /**
+   * Search's a DOM element's children recursively for a child (or decendent) with matching id
+   * @param {Object} element - The parent DOM element to search the children of
+   * @param {String} id - The string ID of the child element to locate
+   * @return {Object} The first child with matching ID, or (null) if no matchiing child was found
+   */
+  JJ.Utility.DOM.findElementChildByID = function(element, id) {
     // Check that the element is valid
     if (!JJ.System.assert((element != undefined), "Invalid element passed.")) {
       return null;
@@ -30,9 +34,13 @@
     return null;
   }
 
-  // Search's a DOM element's children recursively for a child (or decendent) with matching class
-  //
-  DOM.findElementChildByClass = function(element, className) {
+  /**
+   * Search's a DOM element's children recursively for a child (or decendent) with matching class
+   * @param {Object} element - The parent DOM element to search the children of
+   * @param {String} className - The className of the child element to locate
+   * @return {Object} The first child with matching ID, or (null) if no matchiing child was found
+   */
+  JJ.Utility.DOM.findElementChildByClass = function(element, className) {
     // Check that the element is valid
     if (!JJ.System.assert((element != undefined), "Invalid element passed.")) {
       return null;

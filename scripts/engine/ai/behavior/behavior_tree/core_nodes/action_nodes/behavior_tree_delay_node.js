@@ -4,10 +4,16 @@
 (function(AI, undefined) { /* AI submodule namespace */
 (function(Behavior, undefined) { /* Behavior submodule namespace */
 
-  // BehaviorTreeDelayNode is an action node that simply delays for a certain amount of time
-  //
-  Behavior.BehaviorTreeDelayNode = class BehaviorTreeDelayNode extends Behavior.BehaviorTreeActionNode {
-    // Constructor
+  /**
+   * BehaviorTreeDelayNode is an action node that simply delays for a certain amount of time
+   * @extends JJ.BE.AI.Behavior.BehaviorTreeActionNode
+   */
+  JJ.BE.AI.Behavior.BehaviorTreeDelayNode = class BehaviorTreeDelayNode extends Behavior.BehaviorTreeActionNode {
+    /**
+     * Constructor to create a new BehaviorTreeDelayNode
+     * @param {Number} [delayTimeMinMs=0.0] - The minimum delay time in milliseconds
+     * @param {Number} [delayTimeMaxMs=delayTimeMinMs] - The maximum delay time in milliseconds
+     */
     constructor(delayTimeMinMs, delayTimeMaxMs) {
       super();
 
@@ -38,13 +44,18 @@
       this.elapsedTimeMS = _elapsedTimeMS;  // Elapsed time since the node started processing (MS)
     }
 
-    // Returns a random delay time based on the min and max values
+    /**
+     * Returns a random delay time based on the min and max values
+     * @return {Number} A randomized delay time in milliseconds between the minimum and maximum value
+     */
     getRandomDelayTimeMs() {
       const delta = this.delayTimeMaxMs - this.delayTimeMinMs;
       return this.delayTimeMinMs + (JJ.Math.random() * delta);
     }
 
-    // Enter function called when this node begins running
+    /**
+     * Enter function called when this node begins running
+     */
     enter() {
       // Call enter on the super class
       super.enter()
@@ -54,13 +65,20 @@
       this.elapsedTimeMS = 0.0;
     }
 
-    // Exit funcitno called when this node end running
+    /**
+     * Exit function called when this node end running
+     * @param {Boolean} fromAbort - True if this behavior is exiting as a result of being aborted, False otherwise
+     */
     exit(fromAbort) {
       // Call exit on the super class
       super.exit(fromAbort);
     }
 
-    // Per-frame update function called on this node while it is running.
+    /**
+     * Per-frame update function called on this node while it is running.
+     * @param {Number} deltaMs - The elapsed simulation time in milliseconds since the last process was called
+     * @return {JJ.BE.AI.Behavior.BehaviorTreeNodeResult} The current status of this BehaviorTreeNode after processing
+     */
     process(deltaMs) {
       // Call process on the super class
       const baseResult = super.process(deltaMs);

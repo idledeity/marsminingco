@@ -4,9 +4,14 @@
 (function(Interface, undefined) { /* Interface submodule namespace */
 (function(Panes, undefined) { /* Interface submodule namespace */
 
-  // Console pane for debug commands and output
-  //
-  Panes.Console = class Console extends Interface.UIPane {
+  /**
+   * Console pane for debug commands and output
+   */
+  JJ.BE.Interface.Panes.Console = class Console extends Interface.UIPane {
+    /**
+     * Constructor
+     * @param {Element} parentElement - The parent DOM element this pane is a child of
+     */
     constructor(parentElement) {
       super(parentElement, "data/engine/interface/console/console.html", "data/engine/interface/console/console.css");
 
@@ -17,8 +22,9 @@
       this.historyIndex = -1;
     }
 
-    // Called when the pane is created
-    //
+    /**
+     * Called when the pane is created
+     */
     createPane() {
       // Call the super
       super.createPane();
@@ -33,8 +39,9 @@
       this.inputTextElement.addEventListener('keydown', this.inputTextKeydownHandler.bind(this));
     }
 
-    // Called when the pane is destroyed
-    //
+    /**
+     * Called when the pane is destroyed
+     */
     destroyPane() {
       // Call the super
       super.destroyPane();
@@ -43,8 +50,9 @@
       this.inputTextElement = null;
     }
 
-    // Show the console
-    //
+    /**
+     * Called to show the console (make it visible)
+     */
     show() {
       // Call the super
       super.show();
@@ -52,8 +60,9 @@
       this.inputTextElement.focus();
     }
 
-    // Refreshes the output text
-    //
+    /**
+     * Helper function that refreshes the console output text area
+     */
     refreshOutput() {
       // Check that the output text element is valid
       if (this.outputTextElement == null) {
@@ -73,8 +82,10 @@
       }
     }
 
-    // Process a command entered from the console
-    //
+    /**
+     * Process a command entered from the console
+     * @param {String} command - A command string to be exectured in the console
+     */
     processCommand(command) {
       // Try and execute the command
       BE.Debug.commandMgr.executeCommand(command);
@@ -87,8 +98,10 @@
       this.historyIndex = -1;
     }
 
-    // Handles moving selection "up" in the console history
-    //
+    /**
+     * Handles moving selection "up" in the console history
+     * @param {Boolean} up - True if the history selection should be moved upward, False if it should be moved downward
+     */
     moveHistorySelection(up) {
       const history = BE.Debug.commandMgr.getHistory();
 
@@ -123,7 +136,9 @@
       }
     }
 
-    // Attempt to auto-complete the input text
+    /**
+     * Attempt to auto-complete the input text
+     */
     autoComplete() {
       // Generate a regular expression to find command that are prefixed with the input text value
       const regExpString = JJ.Utility.String.format("^{0}", this.inputTextElement.value);
@@ -174,8 +189,10 @@
       }
     }
 
-    // Hanlder for user key presses in the input text box
-    //
+    /**
+     * Hanlder for user key presses in the input text box
+     * @param {Event} event - Key press event from the Input Manager
+     */
     inputTextKeydownHandler(event) {
       // Process the evet
       switch(event.keyCode) {

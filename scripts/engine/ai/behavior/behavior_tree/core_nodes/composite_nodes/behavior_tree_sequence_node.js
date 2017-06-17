@@ -4,21 +4,27 @@
 (function(AI, undefined) { /* AI submodule namespace */
 (function(Behavior, undefined) { /* Behavior submodule namespace */
 
-  // The BehaviorTreeSequenceNode iterates through each of it's children, processing them in sequence.
-  //
-  // Starting with the first child node, the node is processed until it returns success or failure. If a child returns
-  // success, the next child in the sequence is processed. However, if a child returns failure, the sequence will
-  // immediately stop processing, returning failure to it's parent. If all child nodes in the sequence process
-  // successfuly, this sequence node will return success to it's parent.
-  //
-  Behavior.BehaviorTreeSequenceNode = class BehaviorTreeSequenceNode extends Behavior.BehaviorTreeCompositeNode {
-    // Constructor
+  /**
+   * The BehaviorTreeSequenceNode iterates through each of it's children, processing them in sequence.
+   *
+   * Starting with the first child node, the node is processed until it returns success or failure. If a child returns
+   * success, the next child in the sequence is processed. However, if a child returns failure, the sequence will
+   * immediately stop processing, returning failure to it's parent. If all child nodes in the sequence process
+   * successfuly, this sequence node will return success to it's parent.
+   * @extends JJ.BE.AI.Behavior.BehaviorTreeCompositeNode
+   */
+  JJ.BE.AI.Behavior.BehaviorTreeSequenceNode = class BehaviorTreeSequenceNode extends Behavior.BehaviorTreeCompositeNode {
+    /**
+     * Constructor
+     */
     constructor() {
       super();
       // Nothing to do
     }
 
-    // Enter function called when this node begins running
+    /**
+     * Enter function called when this node begins running
+     */
     enter() {
       // Call enter on the super class
       super.enter();
@@ -27,13 +33,20 @@
       this.setActiveChild(0);
     }
 
-    // Exit funcitno called when this node end running
+      /**
+       * Exit function called when this node end running
+       * @param {Boolean} fromAbort - True if this behavior is exiting as a result of being aborted, False otherwise
+       */
     exit(fromAbort) {
       // Call exit on the super class
       super.exit(fromAbort);
     }
 
-    // Per-frame update function called on this node while it is running.
+    /**
+     * Per-frame update function called on this node while it is running.
+     * @param {Number} deltaMs - The elapsed simulation time in milliseconds since the last process was called
+     * @return {JJ.BE.AI.Behavior.BehaviorTreeNodeResult} The current status of this BehaviorTreeNode after processing
+     */
     process(deltaMs) {
       // Call process on the super class
       const baseResult = super.process(deltaMs);

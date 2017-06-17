@@ -4,18 +4,24 @@
 (function(AI, undefined) { /* AI submodule namespace */
 (function(Behavior, undefined) { /* Behavior submodule namespace */
 
-  // Enumeration of possible results of a BehaviorTreeNode process function, returned to the calling parent node
-  const BehaviorTreeNodeResult = {
+  /**
+   * Enumeration of possible results of a BehaviorTreeNode process function, returned to the calling parent node
+   * @enum {Number}
+   * @readonly
+   */
+  JJ.BE.AI.Behavior.BehaviorTreeNodeResult = {
     RUNNING: 0,
     SUCCESS: 1,
     FAILURE: 2,
   }
-  Behavior.BehaviorTreeNodeResult = BehaviorTreeNodeResult;
 
-  // Base class representing an individual node in the Behavior Tree model
-  //
-  Behavior.BehaviorTreeNode = class BehaviorTreeNode {
-    // Constructor for the base BehaviorTreeNode
+  /**
+   * Base class representing an individual node in the Behavior Tree model
+   */
+  JJ.BE.AI.Behavior.BehaviorTreeNode = class BehaviorTreeNode {
+    /**
+     * Constructor for the base BehaviorTreeNode
+     */
     constructor() {
       this.childNodes = [];         // array of all of this node's children nodes
 
@@ -23,27 +29,45 @@
       this.activeChildIndex = -1;   // index of the active running child node (if any is active)
     }
 
-    // Returns whether or not this behavior tree node is actively running
+    /**
+     * Returns whether or not this behavior tree node is actively running
+     * @return {Boolean} Returns whether the behavior node is actively running
+     */
     isRunning() {
       return this.running;
     }
 
-    // Returns the current number of children
+    /**
+     * Returns the current number of children
+     * @return {Number} The number of children behavior tree nodes
+     */
     getChildNodeCount() {
       return this.childNodes.length;
     }
 
-    // Returns the index of the active child node
+    /**
+     * Returns the index of the active child node
+     * @return {Number} The index of the active child node
+     */
     getActiveChildIndex() {
       return this.activeChildIndex;
     }
 
-    // Returns true if the child index is valid, false if it lies outside of bounds and is invalid
+    /**
+     * Returns true if the child index is valid, false if it lies outside of bounds and is invalid
+     * @param {Number} childIndex - The index of the child node to check for validity
+     * @return {Boolean} Whether the passed index is a valid child index for this BehaviorTreeNode
+     */
     childIndexIsValid(childIndex) {
       return (childIndex >= 0 && childIndex < this.childNodes.length);
     }
 
-    // Appends a new child node to this node's children
+    /**
+     * Appends a new child node to this node's children
+     * @param {JJ.BE.AI.Behavior.BehaviorTreeNode} newChildNode - The new child node to append to this BehaviorTreeNode
+     * @return {Boolean} True if the child node was successfully appended to this node's child list, False if there was
+     *   an error
+     */
     appendChildNode(newChildNode) {
       if (newChildNode == null) {
         return false;
@@ -60,7 +84,13 @@
       return true;
     }
 
-    // Inserts a new child node to this node's children, at the specified index
+    /**
+     * Inserts a new child node to this node's children, at the specified index
+     * @param {JJ.BE.AI.Behavior.BehaviorTreeNode} newChildNode - The new child node to append to this BehaviorTreeNode
+     * @param {Number} insertAtIndex - The index where the new child should be insterted into this node's child list
+     * @return {Boolean} True if the child node was successfully inserted into the node's child list, False if there was
+     *   an error
+     */
     insertChildNode(newChildNode, insertAtIndex) {
       if (newChildNode == null) {
         return false;
@@ -88,7 +118,10 @@
       return true;
     }
 
-    // Returns the actively running child node if one is active, or null if no child nodes are actively running
+    /**
+     * Returns the actively running child node if one is active, or (null) if no child nodes are actively running
+     * @return {JJ.BE.AI.Behavior.BehaviorTreeNode} The actively running child node if one is active, otherwise (null)
+     */
     getActiveChild() {
       // Cannot have an active child if the node isn't currently running
       if (!this.isRunning()) {
@@ -104,30 +137,36 @@
       return this.childNodes[this.activeChildIndex];
     }
 
-    // Set the actively running child node by index, handling exiting any currently running nodes
+    /**
+     * Set the actively running child node by index, handling exiting any currently running nodes
+     * @param {Number} childIndex - The index of the child index to set as the active child
+     * @return {Boolean} True if the child behavior at the specified index was set active, False if there was an error
+     */
     setActiveChild(childIndex) {
       if (!this.childIndexIsValid(childIndex)) {
         console.assert(this.childIndexIsValid(childIndex), "childIndex outside of array bounds.");
-        return;
+        return false;
       }
 
       // If the new child index matches the current active child index, then nothing to do
-      if (childIndex == this.activeChildIndex) {
-        return;
+      if (childIndex != this.activeChildIndex) {
+        // First, tell any active child to exit
+        let activeChild = this.getActiveChild();
+        if (activeChild != null) {
+          activeChild.exit();
+        }
+
+        // Tell the newly active child to "enter" and record the it's index as the active once
+        this.childNodes[childIndex].enter();
+        this.activeChildIndex = childIndex;
       }
 
-      // First, tell any active child to exit
-      let activeChild = this.getActiveChild();
-      if (activeChild != null) {
-        activeChild.exit();
-      }
-
-      // Tell the newly active child to "enter" and record the it's index as the active once
-      this.childNodes[childIndex].enter();
-      this.activeChildIndex = childIndex;
+      return true;
     }
 
-    // Enter function called when this node begins running
+    /**
+     * Enter function called when this node begins running
+     */
     enter() {
       JJ.System.assert(!this.isRunning(), "BehaviorTreeNode enter function called while already running.");
 
@@ -135,7 +174,10 @@
       this.running = true;
     }
 
-    // Exit funcitno called when this node end running
+    /**
+     * Exit function called when this node end running
+     * @param {Boolean} fromAbort - True if this behavior is exiting as a result of being aborted, False otherwise
+     */
     exit(fromAbort) {
       JJ.System.assert(this.isRunning(), "BehaviorTreeNode exit function called on a node that isn't running.");
 
@@ -149,13 +191,11 @@
       this.running = false;
     }
 
-    // Per-frame update function called on this node while it is running.
-    //
-    // This function can return 1 of values:
-    //   BehaviorTreeNodeResult.RUNNING - The node is not complete, and should continue processing next frame
-    //   BehaviorTreeNodeResult.SUCCESS - The node completed successfully, and can be exited
-    //   BehaviorTreeNodeResult.FAILURE - The node completed unsuccessfully, and can be exited
-    //
+    /**
+     * Per-frame update function called on this node while it is running.
+     * @param {Number} deltaMs - The elapsed simulation time in milliseconds since the last process was called
+     * @return {JJ.BE.AI.Behavior.BehaviorTreeNodeResult} The current status of this BehaviorTreeNode after processing
+     */
     process(deltaMs) {
       // Handle the case of process being called on a node that isn't running
       if (!JJ.System.assert(this.isRunning(),

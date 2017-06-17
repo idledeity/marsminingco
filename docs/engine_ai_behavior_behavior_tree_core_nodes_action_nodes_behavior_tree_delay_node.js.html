@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: engine/ai/behavior/behavior_tree/core_nodes/action_nodes/behavior_tree_delay_node.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: engine/ai/behavior/behavior_tree/core_nodes/action_nodes/behavior_tree_delay_node.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>(function (JJ, undefined) { /* JJ module namespace */
+  "use strict";
+(function (BE, undefined) { /* BE (Brood Engine) namespace */
+(function(AI, undefined) { /* AI submodule namespace */
+(function(Behavior, undefined) { /* Behavior submodule namespace */
+
+  /**
+   * BehaviorTreeDelayNode is an action node that simply delays for a certain amount of time
+   * @extends JJ.BE.AI.Behavior.BehaviorTreeActionNode
+   */
+  JJ.BE.AI.Behavior.BehaviorTreeDelayNode = class BehaviorTreeDelayNode extends Behavior.BehaviorTreeActionNode {
+    /**
+     * Constructor to create a new BehaviorTreeDelayNode
+     * @param {Number} [delayTimeMinMs=0.0] - The minimum delay time in milliseconds
+     * @param {Number} [delayTimeMaxMs=delayTimeMinMs] - The maximum delay time in milliseconds
+     */
+    constructor(delayTimeMinMs, delayTimeMaxMs) {
+      super();
+
+      // Handle missing arguments
+      if (delayTimeMinMs == undefined) {
+        delayTimeMinMs = 0.0;
+      }
+      if (delayTimeMaxMs == undefined) {
+        delayTimeMaxMs = delayTimeMinMs;
+      }
+
+      // Ensure the min/max values are numbers
+      JJ.System.assert(!delayTimeMinMs.isNaN, "delayTimeMinMs must be a number.");
+      JJ.System.assert(!delayTimeMaxMs.isNaN, "delayTimeMaxMs must be a number.");
+
+      // Ensure the max value is greater or equal to the min value
+      JJ.System.assert((delayTimeMaxMs >= delayTimeMinMs), "delayTimeMaxMs must be greater than delayTimeMinMs.");
+
+      // Store the min and max delay values
+      var _delayTimeMinMs = delayTimeMinMs;
+      var _delayTimeMaxMs = delayTimeMaxMs;
+      var _delayTimeMs = delayTimeMinMs;
+      var _elapsedTimeMS = 0.0;
+
+      this.delayTimeMinMs = _delayTimeMinMs;      // Minimum delay time (MS)
+      this.delayTimeMaxMs = _delayTimeMaxMs;      // Maximum delay time (MS)
+      this.delayTimeMs = _delayTimeMinMs;         // Current random delay time between [min, max) (MS)
+      this.elapsedTimeMS = _elapsedTimeMS;  // Elapsed time since the node started processing (MS)
+    }
+
+    /**
+     * Returns a random delay time based on the min and max values
+     * @return {Number} A randomized delay time in milliseconds between the minimum and maximum value
+     */
+    getRandomDelayTimeMs() {
+      const delta = this.delayTimeMaxMs - this.delayTimeMinMs;
+      return this.delayTimeMinMs + (JJ.Math.random() * delta);
+    }
+
+    /**
+     * Enter function called when this node begins running
+     */
+    enter() {
+      // Call enter on the super class
+      super.enter()
+
+      // Calculate how long this node will delay
+      this.delayTimeMs = this.getRandomDelayTimeMs();
+      this.elapsedTimeMS = 0.0;
+    }
+
+    /**
+     * Exit function called when this node end running
+     * @param {Boolean} fromAbort - True if this behavior is exiting as a result of being aborted, False otherwise
+     */
+    exit(fromAbort) {
+      // Call exit on the super class
+      super.exit(fromAbort);
+    }
+
+    /**
+     * Per-frame update function called on this node while it is running.
+     * @param {Number} deltaMs - The elapsed simulation time in milliseconds since the last process was called
+     * @return {JJ.BE.AI.Behavior.BehaviorTreeNodeResult} The current status of this BehaviorTreeNode after processing
+     */
+    process(deltaMs) {
+      // Call process on the super class
+      const baseResult = super.process(deltaMs);
+      if (baseResult == Behavior.BehaviorTreeNodeResult.FAILURE) {
+        return Behavior.BehaviorTreeNodeResult.FAILURE;
+      }
+
+      // If the active duration is greater or equal to the delay time, return success
+      if (this.elapsedTimeMS >= this.delayTimeMs) {
+        return Behavior.BehaviorTreeNodeResult.SUCCESS;
+      }
+
+      // Update the duration this node has been active
+      this.elapsedTimeMS += deltaMs;
+      return Behavior.BehaviorTreeNodeResult.RUNNING;
+    }
+  }
+
+}(window.JJ.BE.AI.Behavior = window.JJ.BE.AI.Behavior || {}));
+}(window.JJ.BE.AI = window.JJ.BE.AI || {}));
+}(window.JJ.BE = window.JJ.BE || {}));
+}(window.JJ = window.JJ || {}));</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CommandManager.html">CommandManager</a></li><li><a href="JJ.BE.AI.AICharacterController.html">AICharacterController</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTree.html">BehaviorTree</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeActionNode.html">BehaviorTreeActionNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeCompositeNode.html">BehaviorTreeCompositeNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeDelayNode.html">BehaviorTreeDelayNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeNode.html">BehaviorTreeNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeSequenceNode.html">BehaviorTreeSequenceNode</a></li><li><a href="JJ.BE.AI.Pathfinding.NavNetwork.html">NavNetwork</a></li><li><a href="JJ.BE.AI.Pathfinding.NavNetworkNode.html">NavNetworkNode</a></li><li><a href="JJ.BE.Controllers.CharacterController.html">CharacterController</a></li><li><a href="JJ.BE.Controllers.Controller.html">Controller</a></li><li><a href="JJ.BE.Debug.DebugManager.html">DebugManager</a></li><li><a href="JJ.BE.Game.html">Game</a></li><li><a href="JJ.BE.Input.InputManager.html">InputManager</a></li><li><a href="JJ.BE.Interface.InterfaceManager.html">InterfaceManager</a></li><li><a href="JJ.BE.Interface.Panes.Console.html">Console</a></li><li><a href="JJ.BE.Interface.UIPane.html">UIPane</a></li><li><a href="JJ.BE.Objects.Actor.html">Actor</a></li><li><a href="JJ.BE.Objects.Character.html">Character</a></li><li><a href="JJ.BE.Objects.Component.html">Component</a></li><li><a href="JJ.BE.Objects.Entity.html">Entity</a></li><li><a href="JJ.BE.World.html">World</a></li><li><a href="JJ.Behavior.BehaviorTreeDecoratorNode.html">BehaviorTreeDecoratorNode</a></li><li><a href="JJ.Behavior.BehaviorTreeRepeaterNode.html">BehaviorTreeRepeaterNode</a></li><li><a href="JJ.Containers.List.html">List</a></li><li><a href="JJ.Containers.MeshNetwork.html">MeshNetwork</a></li><li><a href="JJ.Containers.MeshNetworkAddress.html">MeshNetworkAddress</a></li><li><a href="JJ.Containers.MeshNetworkLink.html">MeshNetworkLink</a></li><li><a href="JJ.Containers.MeshNetworkNode.html">MeshNetworkNode</a></li><li><a href="JJ.Containers.MeshNetworkNodeInfo.html">MeshNetworkNodeInfo</a></li><li><a href="JJ.Math.Vector2.html">Vector2</a></li><li><a href="JJ.Math.Vector3.html">Vector3</a></li><li><a href="JJ.MMC.Game.html">Game</a></li><li><a href="JJ.System.Serialization.Serializable.html">Serializable</a></li><li><a href="ResourceInfo.html">ResourceInfo</a></li><li><a href="ResourceManager.html">ResourceManager</a></li><li><a href="SerializableTypeManager.html">SerializableTypeManager</a></li></ul><h3>Namespaces</h3><ul><li><a href="JJ.html">JJ</a></li><li><a href="JJ.BE.html">BE</a></li><li><a href="JJ.BE.AI.html">AI</a></li><li><a href="JJ.BE.AI.Behavior.html">Behavior</a></li><li><a href="JJ.BE.AI.Pathfinding.html">Pathfinding</a></li><li><a href="JJ.BE.Controllers.html">Controllers</a></li><li><a href="JJ.BE.Debug.html">Debug</a></li><li><a href="JJ.BE.Input.html">Input</a></li><li><a href="JJ.BE.Interface.html">Interface</a></li><li><a href="JJ.BE.Interface.Panes.html">Panes</a></li><li><a href="JJ.BE.Objects.html">Objects</a></li><li><a href="JJ.BE.Resources.html">Resources</a></li><li><a href="JJ.Containers.html">Containers</a></li><li><a href="JJ.Math.html">Math</a></li><li><a href="JJ.System.html">System</a></li><li><a href="JJ.System.IO.html">IO</a></li><li><a href="JJ.System.IO.Keyboard.html">Keyboard</a></li><li><a href="JJ.System.Serialization.html">Serialization</a></li><li><a href="JJ.Utility.html">Utility</a></li><li><a href="JJ.Utility.DOM.html">DOM</a></li><li><a href="JJ.Utility.String.html">String</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sat Jun 17 2017 09:00:31 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,71 +1,6 @@
-(function (JJ, undefined) { /* JJ module namespace */
+ (function (JJ, undefined) { /* JJ module namespace */
   "use strict";
 (function (Test, undefined) { /* Test module */
-
-
-  class Test1 extends JJ.System.Serialization.Serializable{
-    constructor() {
-      super();
-
-      this.x = 10;
-    }
-
-    static getSerializationId() {
-      return "Test1";
-    }
-
-    serialize(serializeContext) {
-      super.serialize(serializeContext);
-
-      this.x = JJ.System.Serialization.serialize(serializeContext, this.x, "x");
-    }
-  }
-
-  class Test2 extends JJ.System.Serialization.Serializable {
-    constructor() {
-      super();
-
-      this.test1 = new Test1();
-    }
-
-    setTest(test) {
-      this.test1 = test;
-    }
-
-    static getSerializationId() {
-      return "Test2";
-    }
-
-    serialize(serializeContext) {
-      super.serialize(serializeContext);
-
-      this.test1 = JJ.System.Serialization.serialize(serializeContext, this.test1, "test1");
-    }
-  }
-
-  class Test3 extends Test2 {
-    constructor() {
-      super();
-
-      this.sub1 = 10;
-      this.sub2 = 20;
-      this.sub3 = { x: 15, y: 20, z: 25 };
-    }
-
-    static getSerializationId() {
-      return "Test3";
-    }
-
-    serialize(serializeContext) {
-      super.serialize(serializeContext);
-
-      this.sub1 = JJ.System.Serialization.serialize(serializeContext, this.sub1, "sub1");
-      this.sub2 = JJ.System.Serialization.serialize(serializeContext, this.sub2, "sub2");
-      this.sub3 = JJ.System.Serialization.serialize(serializeContext, this.sub3, "differentString");
-    }
-  }
-
-
 
 /*
   let navNode = new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(20.0, 0.0, 10.0));
@@ -76,9 +11,11 @@
   console.log(recreatedNode);
 */
 
+/*
   JJ.System.Serialization.serializableTypeMgr.registerType(Test1);
   JJ.System.Serialization.serializableTypeMgr.registerType(Test2);
   JJ.System.Serialization.serializableTypeMgr.registerType(Test3);
+
 
   let testVar = new Test3();
   testVar.sub1 = 80085;
@@ -90,6 +27,7 @@
 
   let newTestObjBuffer = JJ.System.Serialization.writeObject(newTestObj);
   console.log(JSON.stringify(newTestObjBuffer, undefined, 2));
+ */
 
   console.log(JJ.Utility.String.format("Whoa {1} this works {0}", "thing1", "thing2"));
 

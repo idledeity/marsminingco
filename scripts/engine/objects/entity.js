@@ -3,12 +3,15 @@
 (function (BE, undefined) { /* BE (Brood Engine) namespace */
 (function(Objects, undefined) { /* Objects submodule namespace */
 
-  //
-  // Game entities are the common base class for all game "objects" that exist in the world, allthough they
-  // may be entirely abstract. Each entity maintains a list of components, which provide modular funcitonality
-  // to the entities.
-  //
-  Objects.Entity = class Entity {
+  /**
+   * Game entities are the common base class for all game "objects" that exist in the world, allthough they
+   * may be entirely abstract. Each entity maintains a list of components, which provide modular funcitonality
+   * to the entities.
+   */
+  JJ.BE.Objects.Entity = class Entity {
+    /**
+     * Constructor
+     */
     constructor() {
       var _world = null;
       var _components = [];
@@ -19,7 +22,10 @@
       this.controller = null;
     }
 
-    // Per frame update
+    /**
+     * Per frame update
+     * @param {Number} deltaMs - The elapsed time since the last update, in milliseconds
+     */
     update(deltaMs) {
       // Update each of the components
       for (let currentComponent in this.components) {
@@ -27,17 +33,28 @@
       }
     }
 
-    // Returns the current number of components attached to this entity
+    /**
+     * Returns the current number of components attached to this entity
+     * @return {Number} The number of components attached to this entity
+     */
     getComponentCount() {
       return this.components.length;
     }
 
-    // Returns the component at the specified index
+    /**
+     * Returns the component at the specified index
+     * @param {Number} index - The index of the component attached to this entity to retrieve
+     * @return {JJ.BE.Objects.Component} The component at the specified inde
+     */
     getComponentByIndex(index) {
       return this.components[index];
     }
 
-    // Returns whether the passed component is part of this entity's component list
+    /**
+     * Checks if the passed component is owned by this entity
+     * @param {JJ.BE.Objects.Component} component - The component to check if is owned by this entity
+     * @return {Boolean} True if the passed component is owned by this entity, False if it is not
+     */
     ownsComponent(component) {
       // Loop over components looking for any matches
       for (let currentComponent in this.components) {
@@ -49,8 +66,11 @@
       return false;
     }
 
-    // Attaches the passed component to this entity
-    addComponent(component) {
+    /**
+     * Attaches the passed component to this entity
+     * @param {JJ.BE.Objects.Component} component - The component to attach to this entity
+     */
+    attachComponent(component) {
       // Set the component's parent to this entity
       component.setParentEntity(this);
 
@@ -58,8 +78,11 @@
       this.components.push(component);
     }
 
-    // Removes the component at the specified index
-    removeComponentByIndex(index) {
+    /**
+     * Removes the component at the specified index
+     * @param {Number} index - The index of the component to detach from this entity
+     */
+    detachComponentByIndex(index) {
       // First get the component at the specified index
       let component = getComponentByIndex(index);
       if (component != null) {
@@ -71,12 +94,19 @@
       this.components.splice(index, 1);
     }
 
-    // Returns the controller attached to this entity (if any)
+    /**
+     * Returns the controller attached to this entity (if any)
+     * @return {JJ.BE.Controllers.Controller} The controller that is attached to this entity (if any)
+     */
     getController() {
       return this.controller;
     }
 
-    // Set the controller attached to this entity
+    /**
+     * Set the controller attached to this entity
+     * @param {JJ.BE.Controllers.Controller} controller - The new controller that controls this entity
+     * @return {Boolean} True if the controller gained control over this entity, False if there was an error
+     */
     setController(controller) {
       // Check the controller type
       if (!JJ.System.assert(((controller == null) || (controller instanceof JJ.BE.Controllers.Controller)),
@@ -85,6 +115,7 @@
       }
 
       this.controller = controller;
+      return true;
     }
   }
 

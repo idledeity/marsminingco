@@ -3,9 +3,10 @@
 (function (BE, undefined) { /* BE (Brood Engine) namespace */
 (function(Debug, undefined) { /* Debug submodule namespace */
 
-  // Developer command to search all developer commands
-  //
-  Debug.commandMgr.registerCommand("find", "Search command names and descriptions to find commands",
+  /**
+   * Developer command to search all developer commands
+   */
+  JJ.Debug.commandMgr.registerCommand("find", "Search command names and descriptions to find commands",
     function(searchString) {
 
     // Check that the search string argument is valid
@@ -62,14 +63,23 @@
     }
   });
 
-  // Developer command that prints a function's signature
-  //
+  /**
+   * Developer command that prints a function's signature
+   */
   Debug.commandMgr.registerCommand("help", "Show a command's function signature for proper usage.",
     function(commandName) {
 
     // Check that the commandName argument is valid
     if ((commandName == undefined) || (commandName == "")) {
-      Debug.commandMgr.logWarning("Missing commandName argument. Expected usage: {0}", this.signature);
+      Debug.commandMgr.logInfo("This is the debug console, where you can enter developer commands.");
+      Debug.commandMgr.logInfo("");
+      Debug.commandMgr.logInfo("List of base commands:");
+      Debug.commandMgr.logInfo(" * find <search string> - Search command name and description for the search string.");
+      Debug.commandMgr.logInfo(" * help <command name> - Display additional information about the given command.");
+      Debug.commandMgr.logInfo("");
+      Debug.commandMgr.logInfo("Additional Tips:");
+      Debug.commandMgr.logInfo(" * [Tab] auto-completion is supported to complete partial commands.");
+      Debug.commandMgr.logInfo(" * [Up] and [Down] arrows will cycle through the history of recent commands.");
       return;
     }
 
@@ -81,6 +91,7 @@
     }
 
     // Print the function's signature to the log info
+    Debug.commandMgr.logInfo("Description: {0}", commandInfo.description);
     Debug.commandMgr.logInfo("Usage: {0}", commandInfo.signature);
   });
 

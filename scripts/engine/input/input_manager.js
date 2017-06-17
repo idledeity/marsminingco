@@ -3,9 +3,13 @@
 (function (BE, undefined) { /* BE (Brood Engine) namespace */
 (function(Input, undefined) { /* Controllers submodule namespace */
 
-  // InputManager to manage user input
-  //
-  Input.InputManager = class InputManager {
+  /**
+   * InputManager to manage user input
+   */
+  JJ.BE.Input.InputManager = class InputManager {
+    /**
+     * Constructor
+     */
     constructor() {
       // Initialize the event buffers
       this.events = [];
@@ -26,14 +30,19 @@
       }.bind(this));
     }
 
-    // Returns the active event for the current frame
-    //
+    /**
+     * Returns the active events for the current frame
+     * @return {KeyEvent[]} An array of KeyEvents received since the last update was called
+     */
     getEvents() {
       return this.events;
     }
 
-    // Returns whether a specific key is depressed on the current frame
-    //
+    /**
+     * Returns whether a specific key is depressed on the current frame
+     * @param {JJ.System.IO.Keyboard.KeyCodesEnum} keyCode - The key code for the key to check
+     * @return {Boolean} True if the key is currently depressed, False if it is not
+     */
     getKeyDepressed(keyCode) {
       // Check for invalid keycodes
       if (!JJ.System.assert(((keyCode >= 0) && (keyCode < JJ.System.IO.Keyboard.KeyCodesEnum.KEY_COUNT)),
@@ -45,8 +54,11 @@
       return this.keyDepressed[keyCode];
     }
 
-    // Returns whether a specific key was depressed on the previous frame
-    //
+    /**
+     * Returns whether a specific key was depressed on the previous frame
+     * @param {JJ.System.IO.Keyboard.KeyCodesEnum} keyCode - The key code for the key to check
+     * @return {Boolean} True if the key was depressed on the previous frame, False if it was not
+     */
     getKeyDepressedPrev(keyCode) {
       // Check for invalid keycodes
       if (!JJ.System.assert(((keyCode >= 0) && (keyCode < JJ.System.IO.Keyboard.KeyCodesEnum.KEY_COUNT)),
@@ -58,8 +70,11 @@
       return this.keyDepressedPrev[keyCode];
     }
 
-    // Returns whether a key was pressed "down" this frame (switch from not depressed to depressed)
-    //
+    /**
+     * Returns whether a key was pressed "down" this frame (switch from not depressed to depressed)
+     * @param {JJ.System.IO.Keyboard.KeyCodesEnum} keyCode - The key code for the key to check
+     * @return {Boolean} True if the key changed from not depressed to depressed during this frame, False if not
+     */
     getKeyDown(keyCode) {
       const keyWasDepressed = this.getKeyDepressedPrev(keyCode);
       const keyIsDepressed = this.getKeyDepressed(keyCode);
@@ -67,8 +82,11 @@
       return (keyIsDepressed && !keyWasDepressed);
     }
 
-    // Returns whether a key was released "up" this frame (switch from depressed to not depressed)
-    //
+    /**
+     * Returns whether a key was released "up" this frame (switch from depressed to not depressed)
+     * @param {JJ.System.IO.Keyboard.KeyCodesEnum} keyCode - The key code for the key to check
+     * @return {Boolean} True if the key changed from depressed to not depressed during this frame, False if not
+     */
     getKeyUp(keyCode) {
       const keyWasDepressed = this.getKeyDepressedPrev(keyCode);
       const keyIsDepressed = this.getKeyDepressed(keyCode);
@@ -76,8 +94,9 @@
       return (!keyIsDepressed && keyWasDepressed);
     }
 
-    // Per-frame update function
-    //
+    /**
+     * Per-frame update function
+     */
     update() {
       // Swap the event buffer into the active events, and clear the event buffer
       this.events = this.eventBuffer;

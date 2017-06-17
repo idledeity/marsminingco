@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: BehaviorTree</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: BehaviorTree</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2>
+            <span class="ancestors"><a href="JJ.html">JJ</a><a href="JJ.BE.html">.BE</a><a href="JJ.BE.AI.html">.AI</a><a href="JJ.BE.AI.Behavior.html">.Behavior</a>.</span>BehaviorTree</h2>
+        
+            <div class="class-description">The BehaviorTree class represents various "behaviors" in a hierarchical form.Processing the tree begins each frame with the root node in the tree, which evaluates which child node (if any)should be processed. Processing continues "down" the tree, with each node processing and then returning to itsparent wether it "succeeded", "failed", or "is not yet complete". Each parent node can handle the returned valuesas necessary for it's defined behavior, and in turn returns a result to it's parent, until the root node isreached again.</div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+    
+    <h2>Constructor</h2>
+    
+
+    <h4 class="name" id="BehaviorTree"><span class="type-signature"></span>new BehaviorTree<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Constructor
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="engine_ai_behavior_behavior_tree_behavior_tree.js.html">engine/ai/behavior/behavior_tree/behavior_tree.js</a>, <a href="engine_ai_behavior_behavior_tree_behavior_tree.js.html#line28">line 28</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+     
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    <h4 class="name" id="activate"><span class="type-signature"></span>activate<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Activates the behavior tree to begin processing it's BehaviorTreeNodes starting at the root node
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="engine_ai_behavior_behavior_tree_behavior_tree.js.html">engine/ai/behavior/behavior_tree/behavior_tree.js</a>, <a href="engine_ai_behavior_behavior_tree_behavior_tree.js.html#line76">line 76</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    True if the behavior tree succesfully activated, False if there was an error
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="deactivate"><span class="type-signature"></span>deactivate<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Called to deactivate the behavior tree, aborting any BehaviorTreeNodes that may be actively processing
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="engine_ai_behavior_behavior_tree_behavior_tree.js.html">engine/ai/behavior/behavior_tree/behavior_tree.js</a>, <a href="engine_ai_behavior_behavior_tree_behavior_tree.js.html#line97">line 97</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="getRootNode"><span class="type-signature"></span>getRootNode<span class="signature">()</span><span class="type-signature"> &rarr; {<a href="JJ.BE.AI.Behavior.BehaviorTreeNode.html">JJ.BE.AI.Behavior.BehaviorTreeNode</a>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns the root BehaviorTreeNode of this tree
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="engine_ai_behavior_behavior_tree_behavior_tree.js.html">engine/ai/behavior/behavior_tree/behavior_tree.js</a>, <a href="engine_ai_behavior_behavior_tree_behavior_tree.js.html#line153">line 153</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    The root node of the behavior tree
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type"><a href="JJ.BE.AI.Behavior.BehaviorTreeNode.html">JJ.BE.AI.Behavior.BehaviorTreeNode</a></span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="isActive"><span class="type-signature"></span>isActive<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns whether or not the behavior tree is active
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="engine_ai_behavior_behavior_tree_behavior_tree.js.html">engine/ai/behavior/behavior_tree/behavior_tree.js</a>, <a href="engine_ai_behavior_behavior_tree_behavior_tree.js.html#line44">line 44</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    True if the behavior tree is "active", False if it is either "idle" or has completed
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="isComplete"><span class="type-signature"></span>isComplete<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns whether or not the behavior tree is complete
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="engine_ai_behavior_behavior_tree_behavior_tree.js.html">engine/ai/behavior/behavior_tree/behavior_tree.js</a>, <a href="engine_ai_behavior_behavior_tree_behavior_tree.js.html#line52">line 52</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    True if the behavior tree has completed (either "success" or "failure"), False otherwise
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="setRootNode"><span class="type-signature"></span>setRootNode<span class="signature">(newRootNode)</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Sets the root BehaviorTreeNode of this tree
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>newRootNode</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type"><a href="JJ.BE.AI.Behavior.BehaviorTreeNode.html">JJ.BE.AI.Behavior.BehaviorTreeNode</a></span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The new root node of the behavior tree</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="engine_ai_behavior_behavior_tree_behavior_tree.js.html">engine/ai/behavior/behavior_tree/behavior_tree.js</a>, <a href="engine_ai_behavior_behavior_tree_behavior_tree.js.html#line162">line 162</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    True if the behavior tree root node was set successfully, False otherwise
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="update"><span class="type-signature"></span>update<span class="signature">(deltaMs)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Per-frame update on the behavior tree, which handles processing the BehaviorTreeNodes while the tree is active
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>deltaMs</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">The elapsed simulation time since the last time the tree was updated in milliseconds</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="engine_ai_behavior_behavior_tree_behavior_tree.js.html">engine/ai/behavior/behavior_tree/behavior_tree.js</a>, <a href="engine_ai_behavior_behavior_tree_behavior_tree.js.html#line115">line 115</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="wasFailure"><span class="type-signature"></span>wasFailure<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns whether or not the behavior tree completed due to a failure
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="engine_ai_behavior_behavior_tree_behavior_tree.js.html">engine/ai/behavior/behavior_tree/behavior_tree.js</a>, <a href="engine_ai_behavior_behavior_tree_behavior_tree.js.html#line68">line 68</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    True if the behavior tree has completed with failure, False otherwise
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="wasSuccess"><span class="type-signature"></span>wasSuccess<span class="signature">()</span><span class="type-signature"> &rarr; {Boolean}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns whether or not the behavior tree completed successfully
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="engine_ai_behavior_behavior_tree_behavior_tree.js.html">engine/ai/behavior/behavior_tree/behavior_tree.js</a>, <a href="engine_ai_behavior_behavior_tree_behavior_tree.js.html#line60">line 60</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    True if the behavior tree has completed with success, False otherwise
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Boolean</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CommandManager.html">CommandManager</a></li><li><a href="JJ.BE.AI.AICharacterController.html">AICharacterController</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTree.html">BehaviorTree</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeActionNode.html">BehaviorTreeActionNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeCompositeNode.html">BehaviorTreeCompositeNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeDelayNode.html">BehaviorTreeDelayNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeNode.html">BehaviorTreeNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeSequenceNode.html">BehaviorTreeSequenceNode</a></li><li><a href="JJ.BE.AI.Pathfinding.NavNetwork.html">NavNetwork</a></li><li><a href="JJ.BE.AI.Pathfinding.NavNetworkNode.html">NavNetworkNode</a></li><li><a href="JJ.BE.Controllers.CharacterController.html">CharacterController</a></li><li><a href="JJ.BE.Controllers.Controller.html">Controller</a></li><li><a href="JJ.BE.Debug.DebugManager.html">DebugManager</a></li><li><a href="JJ.BE.Game.html">Game</a></li><li><a href="JJ.BE.Input.InputManager.html">InputManager</a></li><li><a href="JJ.BE.Interface.InterfaceManager.html">InterfaceManager</a></li><li><a href="JJ.BE.Interface.Panes.Console.html">Console</a></li><li><a href="JJ.BE.Interface.UIPane.html">UIPane</a></li><li><a href="JJ.BE.Objects.Actor.html">Actor</a></li><li><a href="JJ.BE.Objects.Character.html">Character</a></li><li><a href="JJ.BE.Objects.Component.html">Component</a></li><li><a href="JJ.BE.Objects.Entity.html">Entity</a></li><li><a href="JJ.BE.World.html">World</a></li><li><a href="JJ.Behavior.BehaviorTreeDecoratorNode.html">BehaviorTreeDecoratorNode</a></li><li><a href="JJ.Behavior.BehaviorTreeRepeaterNode.html">BehaviorTreeRepeaterNode</a></li><li><a href="JJ.Containers.List.html">List</a></li><li><a href="JJ.Containers.MeshNetwork.html">MeshNetwork</a></li><li><a href="JJ.Containers.MeshNetworkAddress.html">MeshNetworkAddress</a></li><li><a href="JJ.Containers.MeshNetworkLink.html">MeshNetworkLink</a></li><li><a href="JJ.Containers.MeshNetworkNode.html">MeshNetworkNode</a></li><li><a href="JJ.Containers.MeshNetworkNodeInfo.html">MeshNetworkNodeInfo</a></li><li><a href="JJ.Math.Vector2.html">Vector2</a></li><li><a href="JJ.Math.Vector3.html">Vector3</a></li><li><a href="JJ.MMC.Game.html">Game</a></li><li><a href="JJ.System.Serialization.Serializable.html">Serializable</a></li><li><a href="ResourceInfo.html">ResourceInfo</a></li><li><a href="ResourceManager.html">ResourceManager</a></li><li><a href="SerializableTypeManager.html">SerializableTypeManager</a></li></ul><h3>Namespaces</h3><ul><li><a href="JJ.html">JJ</a></li><li><a href="JJ.BE.html">BE</a></li><li><a href="JJ.BE.AI.html">AI</a></li><li><a href="JJ.BE.AI.Behavior.html">Behavior</a></li><li><a href="JJ.BE.AI.Pathfinding.html">Pathfinding</a></li><li><a href="JJ.BE.Controllers.html">Controllers</a></li><li><a href="JJ.BE.Debug.html">Debug</a></li><li><a href="JJ.BE.Input.html">Input</a></li><li><a href="JJ.BE.Interface.html">Interface</a></li><li><a href="JJ.BE.Interface.Panes.html">Panes</a></li><li><a href="JJ.BE.Objects.html">Objects</a></li><li><a href="JJ.BE.Resources.html">Resources</a></li><li><a href="JJ.Containers.html">Containers</a></li><li><a href="JJ.Math.html">Math</a></li><li><a href="JJ.System.html">System</a></li><li><a href="JJ.System.IO.html">IO</a></li><li><a href="JJ.System.IO.Keyboard.html">Keyboard</a></li><li><a href="JJ.System.Serialization.html">Serialization</a></li><li><a href="JJ.Utility.html">Utility</a></li><li><a href="JJ.Utility.DOM.html">DOM</a></li><li><a href="JJ.Utility.String.html">String</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sat Jun 17 2017 09:00:31 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -2,8 +2,13 @@
   "use strict";
 (function (BE, undefined) { /* BE (Brood Engine) namespace */
 
-  // The game object encompasses the entire game logic and state
-  BE.Game = class Game {
+  /**
+   * The game class encompasses the entire game logic and state
+   */
+  JJ.BE.Game = class Game {
+    /**
+     * Constructor
+     */
     constructor() {
       this.gameTimePrevMs = 0.0;
       this.gameTimeMs = 0.0;
@@ -15,23 +20,42 @@
 
     }
 
+    /**
+     * Returns the game's input manager
+     * @return {JJ.BE.Input.InputManager} The game's input manager
+     */
     getInputMgr() {
       return this.inputMgr;
     }
 
+    /**
+     * Returns the game's interface manager
+     * @return {JJ.BE.Interface.InterfaceManager} The game's interface manager
+     */
     getInterfaceMgr() {
       return this.interfaceMgr;
     }
 
+    /**
+     * Returns the game's debug manager
+     * @return {JJ.BE.Debug.DebugManager} The game's debug manager
+     */
     getDebugMgr() {
       return this.debugMgr;
     }
 
+    /**
+     * Returns the game world
+     * @return {JJ.BE.World} The game world
+     */
     getWorld() {
       return this.gameWorld;
     }
 
-    // This is the primary game loop for the game
+    /**
+     * This is the primary game loop for the game
+     * @param {Number} timestamp - The current system timestamp for the elapsed number of milliseconds
+     */
     mainLoop(timestamp) {
       // Update the game's time with the new timestamp
       this.gameTimePrevMs = this.gameTimeMs;
@@ -62,7 +86,9 @@
       requestAnimationFrame(this.mainLoop.bind(this));
     }
 
-    // This is the primary entry point for the game, initiating the main game loop
+    /**
+     * This is the primary entry point for the game, initiating the main game loop
+     */
     runGame() {
       requestAnimationFrame(this.mainLoop.bind(this));
     }

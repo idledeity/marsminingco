@@ -1,16 +1,21 @@
 (function (JJ, undefined) { /* JJ module namespace */
   "use strict";
-
 (function(System, undefined) { /* System submodule namespace */
 (function(Serialization, undefined) { /* Serialization submodule namespace */
 
-  // Function called to serialize a JS object to (write) and from (read) an intermediary serialization JS buffer object.
-  //
-  // This function is used to serialize complex JS objects to (and from) a simplified "serialized" buffer object,
-  // that can be used with with JSON.stringify() and JSON.parse() or for other cases where a 'minimized' representation
-  // of an object's state is required.
-  //
-  Serialization.serialize = function(serializeContext, value, propertyKey) {
+  /**
+   * Function called to serialize a JS object to (write) and from (read) an intermediary serialization JS buffer object.
+   *
+   * This function is used to serialize complex JS objects to (and from) a simplified "serialized" buffer object,
+   * that can be used with with JSON.stringify() and JSON.parse() or for other cases where a 'minimized' representation
+   * of an object's state is required.
+   *
+   * @param {Object} serializeContext - The current serialization context
+   * @param {Object} value - The value to be serialized
+   * @param {String} propertyKey - Property key of the value be serialized
+   * @return {Object} The value that was serialized
+   */
+  JJ.System.Serialization.serialize = function(serializeContext, value, propertyKey) {
     let returnValue = value;
 
     // Check if serialization is reading or writing to the buffer object
@@ -143,9 +148,11 @@
     return returnValue;
   }
 
-  // Recursive function that traverses an object and all it's children calling, the postSerializeRead function on any
-  // serializable children
-  //
+  /**
+   * Recursive function that traverses an object and all it's children calling, the postSerializeRead function on any
+   * serializable children
+   * @param {Object} object - The object that was just serialized
+   */
   function postSerializeRead(object) {
     // Create a set to store visited objects (the object is not a serialized buffer, so circular references are allowed)
     let visitedObjects = new Set();
@@ -196,9 +203,12 @@
     postSerializeReadInternal(object);
   }
 
-  // Writes the passed object into a serialized buffer that is returned
-  //
-  Serialization.writeObject = function(object) {
+  /**
+   * Writes the passed object into a serialized buffer that is returned
+   * @param {Object} object - The object to be serialized
+   * @return {Object} The serialized version of the passed object
+   */
+  JJ.System.Serialization.writeObject = function(object) {
     // Setup the serialization context
     let serializationContext = {};
     serializationContext.isRead = false;
@@ -209,9 +219,12 @@
     return serializationContext.bufferObj;
   }
 
-  // Reads a serialization buffer to generate an object that is returned
-  //
-  Serialization.readObject = function(buffer) {
+  /**
+   * Reads a serialization buffer to generate an object that is returned
+   * @param {Object} buffer - The buffer to store the serialized object
+   * @return {Object} The serialized object
+   */
+  JJ.System.Serialization.readObject = function(buffer) {
     // Setup the serialization context
     let serializationContext = {};
     serializationContext.isRead = true;

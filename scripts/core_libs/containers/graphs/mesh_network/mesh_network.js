@@ -1,23 +1,42 @@
+
 (function (JJ, undefined) { /* JJ module namespace */
   "use strict";
 (function(Containers, undefined) { /* Containers submodule namespace */
 
-  // Simple class used to store some meta data for each mesh network node in the network
-  //
-  class MeshNetworkNodeInfo {
+  /**
+   * Class used to store some meta data for each mesh network node in the network
+   */
+  JJ.Containers.MeshNetworkNodeInfo = class MeshNetworkNodeInfo {
+    /**
+     * Create a MeshNetworkNodeInfo
+     * @param {Number} nodeIndex - the node's index within the MeshNetwork
+     */
     constructor(nodeIndex) {
       this.nodeIndex = nodeIndex;
       this.nodeLinks = [];
     }
 
+    /**
+     * Gets the node's index
+     * @return {Number} Returns the node's index within the MeshNetwork
+     */
     getNodeIndex() {
       return this.nodeIndex;
     }
 
+    /**
+     * Gets the node's links
+     * @return {Number} Returns the node's link to other nodes
+     */
     getNodeLinks() {
       return this.nodeLinks;
     }
 
+    /**
+     * Adds a link to another node
+     * @param {JJ.Containers.MeshNetworkLink} newLink - Link object (MeshNetworkLink)
+     * @return {Number} Returns the node's index within the MeshNetwork
+     */
     addNodeLink(newLink) {
       // Ensure the connection type is valid
       if (!JJ.System.assert((newLink instanceof Containers.MeshNetworkLink),
@@ -29,21 +48,27 @@
     }
   }
 
-  // A MeshNetwork is a graph that consists of a collections of 'nodes' and the directed 'links' from node to node.
-  //
-  // Each node in the MeshNetwork can be connected to any number of of other nodes via a link, although multiple
-  // connections from a source to the same destination are not allowed. Links are all unidirectional, to create a
-  // bidirectional link between two nodes A & B, two unidirectional links must be created.
-  //
-  Containers.MeshNetwork = class MeshNetwork extends JJ.System.Serialization.Serializable {
-    // Constructor
+  /**
+   * Class to represent a graph that consists of a collections of 'nodes' and the directed 'links' from node to node.
+   *
+   * Each node in the MeshNetwork can be connected to any number of of other nodes via a link, although multiple
+   * connections from a source to the same destination are not allowed. Links are all unidirectional, to create a
+   * bidirectional link between two nodes A & B, two unidirectional links must be created.
+   * @extends JJ.System.Serialization.Serializable
+   */
+  JJ.Containers.MeshNetwork = class MeshNetwork extends JJ.System.Serialization.Serializable {
+    /**
+     * Create a MeshNetwork
+     */
     constructor() {
       super();
 
       this.clear();
     }
 
-    // Removes all nodes from the network
+    /**
+     * Removes all nodes from the network
+     */
     clear() {
       this.networkNodes = [];    // array of network nodes
       this.networkLinks = [];    // array of network links
@@ -51,15 +76,19 @@
       this.networkNodeInfoMap = {}; // map of network node info, keyed by the node ID
     }
 
-    // Returns the number of nodes in the mesh network
-    //
+    /**
+     * Get the number of nodes in the mesh network
+     * @return {Number} Returns the number of nodes in the mesh network
+     */
     getNodeCount() {
       return this.networkNodes.length;
     }
 
-    // Returns the mesh network node at the specified index
-    // NOTE: the index is into the internal array, not the node ID
-    //
+    /**
+     * Returns the mesh network node at the specified index
+     * NOTE: the index is into the internal array, not the node ID
+     * @return {JJ.Containers.MeshNetworkNode} The node at the specified index
+     */
     getNodeByIndex(index) {
       // Make sure the index is valid
       if (!JJ.System.assert(((index >= 0) && (index < this.networkNodes.length)),
@@ -71,8 +100,10 @@
       return this.networkNodes[index];
     }
 
-    // Returns the node info for the node with the passed node ID
-    //
+    /**
+     * Returns the node info for the node with the passed node ID
+     * @return {JJ.Containers.MeshNetworkNodeInfo} Info for the specified node ID
+     */
     getNodeInfo(nodeId) {
       // Check for an invalid node id
       if (nodeId == Containers.MeshNetworkNodeInvalidId) {
@@ -88,8 +119,10 @@
       return nodeInfo;
     }
 
-    // Returns the index of a node with the specified ID, or -1 if the node does not exist
-    //
+    /**
+     * Get a node's index from it's ID
+     * @return {Number} Returns the index of a node with the specified ID, or -1 if the node does not exist
+     */
     getNodeIndexFromId(nodeId) {
       // Retrieve the node info for the passed ID
       const nodeInfo = this.getNodeInfo(nodeId);
@@ -101,12 +134,12 @@
       return nodeInfo.getNodeIndex();
     }
 
-    // Searches for a node in the MeshNetwork with the given ID, and returns a references
-    //
-    // nodeId:  Node ID of the node to retrieve
-    //
-    // returns: Reference to the node with the specified ID, or undefined if no node with the ID was found in the Mesh
-    //
+    /**
+     * Searches for a node in the MeshNetwork with the given ID, and returns a references
+     * @param {Number} nodeId - Node ID of the node to retrieve
+     * @return {JJ.Containers.MeshNetworkNode} Node with the specified ID,
+          or undefined if no node with the ID was found in the Mesh
+     */
     getNodeById(nodeId) {
       // Look up the node index from the ID and then retrieve the node
       const nodeIndex = this.getNodeIndexFromId(nodeId);
@@ -117,8 +150,10 @@
       return this.getNodeByIndex(nodeIndex);
     }
 
-    // Returns an array of links starting with the passed node as the source
-    //
+    /**
+     * Returns an array of links starting with the passed node as the source
+     * @return {JJ.Containers.MeshNetworkLink[]} Array of MeshNetworkLinks of outbound links from this node
+     */
     getNodeLinks(nodeId) {
       // Look up the node's info
       let nodeInfo = this.getNodeInfo(nodeId);
@@ -129,12 +164,11 @@
       return nodeInfo.getNodeLinks();
     }
 
-    // Adds a node to the MeshNetwork
-    //
-    // node:    Must be an instance of JJ.Containers.MeshNetworkNode,
-    //
-    // returns: The node ID of the inserted node, or Containers.MeshNetworkNodeInvalidId if the insertion failed
-    //
+    /**
+     * Adds a node to the MeshNetwork
+     * @param {JJ.Containers.MeshNetworkNode} node - Must be an instance of
+     * @return {Number} The node ID of the inserted node, or JJ.Containers.MeshNetworkNodeInvalidId if insertion failed
+     */
     addNode(node) {
       // Check the node type
       if (!JJ.System.assert((node instanceof Containers.MeshNetworkNode), "Invalid node type.")) {
@@ -156,7 +190,7 @@
       const nodeArrayIndex = this.networkNodes.push(node) - 1;
 
       // Create a new node info and store it in the map
-      let nodeInfo = new MeshNetworkNodeInfo(nodeArrayIndex);
+      let nodeInfo = new JJ.Containers.MeshNetworkNodeInfo(nodeArrayIndex);
       this.networkNodeInfoMap[node.getId()] = nodeInfo;
 
       // Set the node's parent mesh netwrk
@@ -166,12 +200,11 @@
       return node.getId();
     }
 
-    // Adds a link to the MeshNetwork
-    //
-    // link:      The link to be added to the MeshNetwork (must be an instance of JJ.Containers.MeshNetworkLink)
-    //
-    // returns:   True if the link was successfully added to the network, false otherwise
-    //
+    /**
+     * Adds a link to the MeshNetwork
+     * @param {JJ.Containers.MeshNetworkLink} link - The link to add to the MeshNetwork
+     * @return {Boolean} True if the link was successfully added to the network, false otherwise
+     */
     addLink(link) {
       // Ensure the link is a valid type
       if (!JJ.System.assert((link instanceof Containers.MeshNetworkLink),
@@ -209,14 +242,13 @@
       return true;
     }
 
-    // Links the source node to the destination node (creating a new MeshNetworkLink as necessary)
-    //
-    // source:  The node ID of the source node
-    // dest:    The node ID of the destination node
-    // weight:  Weight of the link from the source node to the destination node
-    //
-    // returns: True if the link was created successfully, false if there was an error creating the link
-    //
+    /**
+     * Links the source node to the destination node (creating a new MeshNetworkLink as necessary)
+     * @param {Number} sourceId - The node ID of the source node
+     * @param {Number} destId - The node ID of the destination node
+     * @param {undefined} weight - Weight of the link from the source node to the destination node
+     * @return {Boolean} - True if the link was created successfully, false if there was an error creating the link
+     */
     linkNode(sourceId, destId, weight) {
       // Create a new link object
       let newLink = new Containers.MeshNetworkLink();
@@ -228,16 +260,15 @@
       return this.addLink(newLink);
     }
 
-    // Links the source node to the destination node (creating a new MeshNetworkLink as necessary)
-    //
-    // source:        Can either be the node ID of the source node, or a reference to the source node
-    // dest:          Can either be the ndoe ID of the destination node, or a reference to the destinatino node
-    // bidirectional: If true, 2 links are created (source->dest & dest->source), to link the nodes in both directions
-    // weight:        Weight of the link from the source node to the destination node
-    // reverseWeight: Weight of the link from the destination node to the source node (for bidirectional links only)
-    //
-    // returns:       True if the link was created successfully, false if there was an error creating the link
-    //
+    /**
+     * Links the source node to the destination node (creating a new MeshNetworkLink as necessary)
+     * @param {Number} sourceId - The node ID of the source node
+     * @param {Number} destId - The node ID of the destination node
+     * @param {Boolean} bidirectional - If true, 2 links are created (source->dest & dest->source)
+     * @param {undefined} weight - Weight of the link from the source node to the destination node
+     * @param {undefined} reverseWeight - Weight of the link from the destination node to the source node (only bidirectional links)
+     * @return {Boolean} True if the link was created successfully, false if there was an error creating the link
+     */
     linkNodes(sourceId, destId, biDirectional, weight, reverseWeight) {
       // Link the source node to the destination node
       let success = this.linkNode(sourceId, destId, weight);
@@ -257,14 +288,15 @@
       return success;
     }
 
-    // Performs an A* search through the Mesh Network to find an optimized (but not necessarily the shortest) path
-    // from the source mesh network node to the destination.
-    //
-    // sourceId:  ID of the source node in the Mesh Network
-    // destId:    ID of the destination ndde in the Mesh Network
-    // heuristic: Function which returns the expected cost between any two arbitrary nodes in the mesh network
-    //              heuristicFunc(sourceNode, destNode) { return estimatedCost; }
-    //
+    /**
+     * Performs an A* search through the Mesh Network to find an optimized (but not necessarily the shortest) path
+     * from the source mesh network node to the destination.
+     * @param {Number} sourceId - ID of the source node in the Mesh Network
+     * @param {Number} destId - ID of the destination ndde in the Mesh Network
+     * @param {Function} heuristic - Function that calculates expected cost between any two nodes in the mesh network
+     * heuristicFunc(sourceNode, destNode) { return estimatedCost; }
+     * @return {Number[]} Returns an array of nodeId's the consitute the solved path
+     */
     findPath(sourceId, destId, heuristic) {
       // Get the source node, and check that it's valid
       let sourceNode = this.getNodeById(sourceId);
@@ -440,10 +472,18 @@
     // Serializable methods
     //
 
+    /**
+     * Returns the serialization ID for the object
+     * @return {String} Unique serialization ID for this class
+     */
     static getSerializationId() {
       return "MeshNetwork";
     }
 
+    /**
+     * Serializes this object to and from a buffer =
+     * @param {Object} serializeContext - The serialization context for the current operations (ex. read or write)
+     */
     serialize(serializeContext) {
       super.serialize(serializeContext);
 
@@ -455,6 +495,9 @@
       }
     }
 
+    /**
+     * Function called after the entire object hierarchy has been read during a serialization for any post processing
+     */
     postSerializeRead() {
       const serializedNodes = this.networkNodes;
       const serializedLinks = this.networkLinks

@@ -4,21 +4,29 @@
 (function(AI, undefined) { /* AI submodule namespace */
 (function(Behavior, undefined) { /* Behavior submodule namespace */
 
-  // BehaviorTreeRepeaterNode repeats a single child node forever
-  //
-  Behavior.BehaviorTreeRepeaterNode = class BehaviorTreeRepeaterNode extends Behavior.BehaviorTreeDecoratorNode {
-    // Constructor
+  /**
+   * BehaviorTreeRepeaterNode repeats a single child node forever
+   * @extends JJ.BE.AI.Behavior.BehaviorTreeDecoratorNode
+   */
+  JJ.Behavior.BehaviorTreeRepeaterNode = class BehaviorTreeRepeaterNode extends Behavior.BehaviorTreeDecoratorNode {
+    /**
+     * Constructor
+     */
     constructor() {
       super();
       // Nothing to do
     }
 
-    // Returns true if the node should repeat
+    /**
+     * Returns true if the node should repeat
+     */
     shouldRepeat(childProcessResult) {
       return true;
     }
 
-    // Enter function called when this node begins running
+    /**
+     * Enter function called when this node begins running
+     */
     enter() {
       // Call enter on the super class
       super.enter();
@@ -27,13 +35,20 @@
       this.setActiveChild(0);
     }
 
-    // Exit funcitno called when this node end running
+    /**
+     * Exit function called when this node end running
+     * @param {Boolean} fromAbort - True if this behavior is exiting as a result of being aborted, False otherwise
+     */
     exit(fromAbort) {
       // Call exit on the super class
       super.exit(fromAbort);
     }
 
-    // Per-frame update function called on this node while it is running.
+    /**
+     * Per-frame update function called on this node while it is running.
+     * @param {Number} deltaMs - The elapsed simulation time in milliseconds since the last process was called
+     * @return {JJ.BE.AI.Behavior.BehaviorTreeNodeResult} The current status of this BehaviorTreeNode after processing
+     */
     process(deltaMs) {
       // Call process on the super class
       const baseResult = super.process(deltaMs);

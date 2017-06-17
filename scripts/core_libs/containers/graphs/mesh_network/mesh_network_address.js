@@ -2,36 +2,42 @@
   "use strict";
 (function(Containers, undefined) { /* Containers submodule namespace */
 
-  // Constant for the size of the address to use for mesh network nodes
-  const MeshNetworkAddressSize = 4;
-  Containers.MeshNetworkAddressSize = MeshNetworkAddressSize;
+  /**
+   * Constant for the size of the address to use for mesh network nodes
+   * @const
+   */
+  JJ.Containers.MeshNetworkAddressSize = 4;
 
-  // Stores an address of a MeshNetworkNode
-  //
-  Containers.MeshNetworkAddress = class MeshNetworkAddress {
+  /**
+   * Stores an address of a MeshNetworkNode
+   */
+  JJ.Containers.MeshNetworkAddress = class MeshNetworkAddress {
 
-    // Constructor for MeshNetworkAddress, accepts the following argument lists
-    //
-    // MeshNetworkAddress(addressString):
-    // MeshNetworkAddress(meshNetworkAddress);
-    //
+    /**
+     * Constructor for MeshNetworkAddress, accepts the following argument lists
+     * MeshNetworkAddress(addressString):
+     * MeshNetworkAddress(meshNetworkAddress);
+     */
     constructor() {
       this.setAddress.apply(this, arguments);
     }
 
-    // Returns the address as an Uint8 array of sub-values
-    //
+    /**
+     * Returns the address as an Uint8 array of sub-values
+     * @return {Number} Returns the address
+     */
     getAddress() {
       return this.address;
     }
 
-    // Sets the stored address
-    //
-    // Accepts the following argument patterns:
-    //  MeshNetworkAddress(addressString);      // string
-    //  MeshNetworkAddress(meshNetworkAddress); // MeshNetworkAddress reference
-    //  MeshNetworkAddress(byteValue, ...);     // Argument list of byte values
-    //
+    /**
+     * Sets the stored address
+     * Accepts the following argument patterns:
+     *  MeshNetworkAddress(addressString);      // string
+     *  MeshNetworkAddress(meshNetworkAddress); // MeshNetworkAddress reference
+     *  MeshNetworkAddress(byteValue, ...);     // Argument list of byte values
+     * @return {Boolean} True if the operation succedded, False if there was an error
+     */
     setAddress() {
       if (arguments.length == 1) {
         // If the argument is another MeshNetworkAddress, copy it's address data
@@ -93,10 +99,11 @@
       return true;
     }
 
-    // Returns a single sub value of the address as the index specified
-    //
-    // index: Sub-value index
-    //
+    /**
+     * Returns a single sub value of the address as the index specified
+     * @param {Number} index - Index of the address sub-value to return
+     * @return {Number} The value of the address at the index
+     */
     getAddressSubValue(index) {
       JJ.System.assert(((index >= 0) && (index < this.address.length)), "Index out of bounds.");
       return this.address[index];

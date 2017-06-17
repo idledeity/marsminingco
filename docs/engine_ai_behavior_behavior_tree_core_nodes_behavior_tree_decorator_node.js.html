@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: engine/ai/behavior/behavior_tree/core_nodes/behavior_tree_decorator_node.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: engine/ai/behavior/behavior_tree/core_nodes/behavior_tree_decorator_node.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>(function (JJ, undefined) { /* JJ module namespace */
+  "use strict";
+(function (BE, undefined) { /* BE (Brood Engine) namespace */
+(function(AI, undefined) { /* AI submodule namespace */
+(function(Behavior, undefined) { /* Behavior submodule namespace */
+
+  /**
+   * BehaviorTreeDecoratorNode is the base for all of the "decorator" nodes in the behavior tree.
+   *
+   * Decorator nodes are intended to processes a single child node, and modify the child node's process result sent
+   * to the parent node. Example decorator nodes include an invertor node that inverts the process result of its child
+   * from success to failure and vice-versa, or an succeeder node that always returns success regardless of the child
+   * process return value.
+   * @extends JJ.BE.AI.Behavior.BehaviorTreeNode
+   */
+  JJ.Behavior.BehaviorTreeDecoratorNode = class BehaviorTreeDecoratorNode extends Behavior.BehaviorTreeNode {
+    /**
+     * Constructor
+     */
+    constructor() {
+      super();
+      // Nothing to do
+    }
+
+    /**
+     * Appends a new child node to this node's children
+     * @param {JJ.BE.AI.Behavior.BehaviorTreeNode} newChildNode - The new child node to append to this BehaviorTreeNode
+     * @return {Boolean} True if the child node was successfully appended to this node's child list, False if there was
+     *   an error
+     */
+    appendChildNode(newChildNode) {
+      // Decorator nodes may only have a single child
+      if (JJ.System.assert((this.getChildNodeCount() == 0), "Decorator nodes may only have one child node.")) {
+        return false;
+      }
+
+      // Call the super function
+      return super.appendChildNode(newChildNode);
+    }
+
+    /**
+     * Inserts a new child node to this node's children, at the specified index
+     * @param {JJ.BE.AI.Behavior.BehaviorTreeNode} newChildNode - The new child node to append to this BehaviorTreeNode
+     * @param {Number} insertAtIndex - The index where the new child should be insterted into this node's child list
+     * @return {Boolean} True if the child node was successfully inserted into the node's child list, False if there was
+     *   an error
+     */
+    insertChildNode(newChildNode, insertAtIndex) {
+      // Decorator nodes may only have a single child
+      if (JJ.System.assert((this.getChildNodeCount() == 0), "Decorator nodes may only have one child node.")){
+        return false;
+      }
+
+      // Call the super function
+      return super.insertChildNode(newChildNode, insertAtIndex);
+    }
+  }
+
+}(window.JJ.BE.AI.Behavior = window.JJ.BE.AI.Behavior || {}));
+}(window.JJ.BE.AI = window.JJ.BE.AI || {}));
+}(window.JJ.BE = window.JJ.BE || {}));
+}(window.JJ = window.JJ || {}));</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CommandManager.html">CommandManager</a></li><li><a href="JJ.BE.AI.AICharacterController.html">AICharacterController</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTree.html">BehaviorTree</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeActionNode.html">BehaviorTreeActionNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeCompositeNode.html">BehaviorTreeCompositeNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeDelayNode.html">BehaviorTreeDelayNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeNode.html">BehaviorTreeNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeSequenceNode.html">BehaviorTreeSequenceNode</a></li><li><a href="JJ.BE.AI.Pathfinding.NavNetwork.html">NavNetwork</a></li><li><a href="JJ.BE.AI.Pathfinding.NavNetworkNode.html">NavNetworkNode</a></li><li><a href="JJ.BE.Controllers.CharacterController.html">CharacterController</a></li><li><a href="JJ.BE.Controllers.Controller.html">Controller</a></li><li><a href="JJ.BE.Debug.DebugManager.html">DebugManager</a></li><li><a href="JJ.BE.Game.html">Game</a></li><li><a href="JJ.BE.Input.InputManager.html">InputManager</a></li><li><a href="JJ.BE.Interface.InterfaceManager.html">InterfaceManager</a></li><li><a href="JJ.BE.Interface.Panes.Console.html">Console</a></li><li><a href="JJ.BE.Interface.UIPane.html">UIPane</a></li><li><a href="JJ.BE.Objects.Actor.html">Actor</a></li><li><a href="JJ.BE.Objects.Character.html">Character</a></li><li><a href="JJ.BE.Objects.Component.html">Component</a></li><li><a href="JJ.BE.Objects.Entity.html">Entity</a></li><li><a href="JJ.BE.World.html">World</a></li><li><a href="JJ.Behavior.BehaviorTreeDecoratorNode.html">BehaviorTreeDecoratorNode</a></li><li><a href="JJ.Behavior.BehaviorTreeRepeaterNode.html">BehaviorTreeRepeaterNode</a></li><li><a href="JJ.Containers.List.html">List</a></li><li><a href="JJ.Containers.MeshNetwork.html">MeshNetwork</a></li><li><a href="JJ.Containers.MeshNetworkAddress.html">MeshNetworkAddress</a></li><li><a href="JJ.Containers.MeshNetworkLink.html">MeshNetworkLink</a></li><li><a href="JJ.Containers.MeshNetworkNode.html">MeshNetworkNode</a></li><li><a href="JJ.Containers.MeshNetworkNodeInfo.html">MeshNetworkNodeInfo</a></li><li><a href="JJ.Math.Vector2.html">Vector2</a></li><li><a href="JJ.Math.Vector3.html">Vector3</a></li><li><a href="JJ.MMC.Game.html">Game</a></li><li><a href="JJ.System.Serialization.Serializable.html">Serializable</a></li><li><a href="ResourceInfo.html">ResourceInfo</a></li><li><a href="ResourceManager.html">ResourceManager</a></li><li><a href="SerializableTypeManager.html">SerializableTypeManager</a></li></ul><h3>Namespaces</h3><ul><li><a href="JJ.html">JJ</a></li><li><a href="JJ.BE.html">BE</a></li><li><a href="JJ.BE.AI.html">AI</a></li><li><a href="JJ.BE.AI.Behavior.html">Behavior</a></li><li><a href="JJ.BE.AI.Pathfinding.html">Pathfinding</a></li><li><a href="JJ.BE.Controllers.html">Controllers</a></li><li><a href="JJ.BE.Debug.html">Debug</a></li><li><a href="JJ.BE.Input.html">Input</a></li><li><a href="JJ.BE.Interface.html">Interface</a></li><li><a href="JJ.BE.Interface.Panes.html">Panes</a></li><li><a href="JJ.BE.Objects.html">Objects</a></li><li><a href="JJ.BE.Resources.html">Resources</a></li><li><a href="JJ.Containers.html">Containers</a></li><li><a href="JJ.Math.html">Math</a></li><li><a href="JJ.System.html">System</a></li><li><a href="JJ.System.IO.html">IO</a></li><li><a href="JJ.System.IO.Keyboard.html">Keyboard</a></li><li><a href="JJ.System.Serialization.html">Serialization</a></li><li><a href="JJ.Utility.html">Utility</a></li><li><a href="JJ.Utility.DOM.html">DOM</a></li><li><a href="JJ.Utility.String.html">String</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sat Jun 17 2017 09:00:31 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

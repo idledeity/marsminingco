@@ -1,3 +1,4 @@
+l/** @namespace JJ */
 (function (JJ, undefined) {
   "use strict";
 

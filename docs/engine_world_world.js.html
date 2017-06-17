@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: engine/world/world.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: engine/world/world.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>(function (JJ, undefined) { /* JJ module namespace */
+  "use strict";
+(function (BE, undefined) { /* BE (Brood Engine) namespace */
+
+  /**
+   * The JJ world object manages the game's world and all the entities contained within it.
+   */
+  JJ.BE.World = class World {
+    /**
+     * Constructor
+     */
+    constructor() {
+      this.worldTimePrev = 0.0;   // Previous world time (MS)
+      this.worldTime = 0.0;       // Current world time (MS)
+
+      this.entities = [];         // Array of entites that exist in the world
+      this.controllers = [];      // Array of controllers that exist in the world
+
+      this.navNetwork = null;     // World navigation network for pathfinding
+    }
+
+    /**
+     * Returns the current elapsed time of the world, in milliseconds
+     * @return {Number} The currenty elapsed time since the start of the world, in milliseconds
+     */
+    getWorldTime() {
+      return this.worldTime;
+    }
+
+    /**
+     * Returns the previous elapsed time of the world from the last frame, in milliseconds
+     * @return {Number} The elapsed world time from the previous frame, in milliseconds
+     */
+    getWorldTimePrev() {
+      return this.worldTimePrev;
+    }
+
+    /**
+     * Per frame processing for the game world
+     * @param {Number} deltaMs - The amount of time to step the world simulation, in milliseconds
+     */
+    update(deltaMs) {
+      // Update the world time
+      this.worldTimePrev = this.worldTime;
+      this.worldTime += deltaMs;
+
+      // First, update all of the controllers
+      for (let controllerIndex = 0; controllerIndex &lt; this.controllers.length; controllerIndex++) {
+        this.controllers[controllerIndex].update(deltaMs);
+      }
+
+      // Update all of entities in the world
+      for (let entityIndex = 0; entityIndex &lt; this.entities.length; entityIndex++) {
+        this.entities[entityIndex].update(deltaMs);
+      }
+    }
+
+    /**
+     * Returns the number of entities in the world
+     * @return {Number} The number of entities currently managed by the world
+     */
+    getEntityCount() {
+      return this.entities.length;
+    }
+
+    /**
+     * Returns the entity at the specified index
+     * @param {Number} - The index of the entity to retrieve
+     * @return {JJ.BE.Objects.Entity} The entity at the specified index, or (null) if no entity is at the given index
+     */
+    getEntityByIndex(index) {
+      return this.entities[index];
+    }
+
+    /**
+     * Adds an entity to the world
+     * @param {JJ.BE.Objects.Entity} entity - The entity to add to the world
+     * @return {Boolean} True if the entity was successfully added to the world, False if there was an error
+     */
+    addEntity(entity) {
+      // Check the entity type
+      if (!JJ.System.assert((entity instanceof JJ.BE.Objects.Entity), "Entity must be instance of JJ.BE.Objects.Entity.")) {
+        return false;
+      }
+
+      // Push the new entity onto the end of the entities array
+      this.entities.push(entity);
+    }
+
+    /**
+     * Returns the number of controllers in the world
+     * @return {Number} The number of controllers currently manaed by the world
+     */
+    getControllerCount() {
+      return this.controllers.length;
+    }
+
+    /**
+     * Returns the controller at the specified index
+     * @param {Number} index - The index of the controller to retrieve
+     * @return {JJ.BE.Controllers.Controller} The controller at the specified index, or (null) if no controller exists
+     *    at the requested index
+     */
+    getControllerByIndex(index) {
+      return this.controllers[index];
+    }
+
+    /**
+     * Adds a controller to the world
+     * @param {JJ.BE.Controllers.Controller} controller - The controller to add to the world
+     * @return {Boolean} True if the controller was successfully added to the world, False if there was an error
+     */
+    addController(controller) {
+      // Check the controller type
+      if (!JJ.System.assert((controller instanceof JJ.BE.Controllers.Controller), "Controller must be instance of JJ.BE.Controllers.Controller.")) {
+        return false;
+      }
+
+      // Push the new controller onto the end of the controllers array
+      this.controllers.push(controller);
+    }
+
+    /**
+     * Returns the navigation network for the world
+     * @return {JJ.BE.AI.Pathfinding.NavNetwork} The root navigation network for the world
+     */
+    getNavNetwork() {
+      return this.navNetwork;
+    }
+
+    /**
+     * Set the world's navigation network
+     * @param {JJ.BE.AI.Pathfinding.NavNetwork} navNetwork - The new root navigation network for the world
+     */
+    setNavNetwork(navNetwork) {
+      this.navNetwork = navNetwork;
+    }
+  }
+
+}(window.JJ.BE = window.JJ.BE || {}));
+}(window.JJ = window.JJ || {}));</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CommandManager.html">CommandManager</a></li><li><a href="JJ.BE.AI.AICharacterController.html">AICharacterController</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTree.html">BehaviorTree</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeActionNode.html">BehaviorTreeActionNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeCompositeNode.html">BehaviorTreeCompositeNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeDelayNode.html">BehaviorTreeDelayNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeNode.html">BehaviorTreeNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeSequenceNode.html">BehaviorTreeSequenceNode</a></li><li><a href="JJ.BE.AI.Pathfinding.NavNetwork.html">NavNetwork</a></li><li><a href="JJ.BE.AI.Pathfinding.NavNetworkNode.html">NavNetworkNode</a></li><li><a href="JJ.BE.Controllers.CharacterController.html">CharacterController</a></li><li><a href="JJ.BE.Controllers.Controller.html">Controller</a></li><li><a href="JJ.BE.Debug.DebugManager.html">DebugManager</a></li><li><a href="JJ.BE.Game.html">Game</a></li><li><a href="JJ.BE.Input.InputManager.html">InputManager</a></li><li><a href="JJ.BE.Interface.InterfaceManager.html">InterfaceManager</a></li><li><a href="JJ.BE.Interface.Panes.Console.html">Console</a></li><li><a href="JJ.BE.Interface.UIPane.html">UIPane</a></li><li><a href="JJ.BE.Objects.Actor.html">Actor</a></li><li><a href="JJ.BE.Objects.Character.html">Character</a></li><li><a href="JJ.BE.Objects.Component.html">Component</a></li><li><a href="JJ.BE.Objects.Entity.html">Entity</a></li><li><a href="JJ.BE.World.html">World</a></li><li><a href="JJ.Behavior.BehaviorTreeDecoratorNode.html">BehaviorTreeDecoratorNode</a></li><li><a href="JJ.Behavior.BehaviorTreeRepeaterNode.html">BehaviorTreeRepeaterNode</a></li><li><a href="JJ.Containers.List.html">List</a></li><li><a href="JJ.Containers.MeshNetwork.html">MeshNetwork</a></li><li><a href="JJ.Containers.MeshNetworkAddress.html">MeshNetworkAddress</a></li><li><a href="JJ.Containers.MeshNetworkLink.html">MeshNetworkLink</a></li><li><a href="JJ.Containers.MeshNetworkNode.html">MeshNetworkNode</a></li><li><a href="JJ.Containers.MeshNetworkNodeInfo.html">MeshNetworkNodeInfo</a></li><li><a href="JJ.Math.Vector2.html">Vector2</a></li><li><a href="JJ.Math.Vector3.html">Vector3</a></li><li><a href="JJ.MMC.Game.html">Game</a></li><li><a href="JJ.System.Serialization.Serializable.html">Serializable</a></li><li><a href="ResourceInfo.html">ResourceInfo</a></li><li><a href="ResourceManager.html">ResourceManager</a></li><li><a href="SerializableTypeManager.html">SerializableTypeManager</a></li></ul><h3>Namespaces</h3><ul><li><a href="JJ.html">JJ</a></li><li><a href="JJ.BE.html">BE</a></li><li><a href="JJ.BE.AI.html">AI</a></li><li><a href="JJ.BE.AI.Behavior.html">Behavior</a></li><li><a href="JJ.BE.AI.Pathfinding.html">Pathfinding</a></li><li><a href="JJ.BE.Controllers.html">Controllers</a></li><li><a href="JJ.BE.Debug.html">Debug</a></li><li><a href="JJ.BE.Input.html">Input</a></li><li><a href="JJ.BE.Interface.html">Interface</a></li><li><a href="JJ.BE.Interface.Panes.html">Panes</a></li><li><a href="JJ.BE.Objects.html">Objects</a></li><li><a href="JJ.BE.Resources.html">Resources</a></li><li><a href="JJ.Containers.html">Containers</a></li><li><a href="JJ.Math.html">Math</a></li><li><a href="JJ.System.html">System</a></li><li><a href="JJ.System.IO.html">IO</a></li><li><a href="JJ.System.IO.Keyboard.html">Keyboard</a></li><li><a href="JJ.System.Serialization.html">Serialization</a></li><li><a href="JJ.Utility.html">Utility</a></li><li><a href="JJ.Utility.DOM.html">DOM</a></li><li><a href="JJ.Utility.String.html">String</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sat Jun 17 2017 09:00:31 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

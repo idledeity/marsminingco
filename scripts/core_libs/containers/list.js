@@ -2,8 +2,10 @@
   "use strict";
 (function(Containers, undefined) { /* Containers submodule namespace */
 
-  // Container for storing an element in a list with next and previous references
-  //
+  /**
+   * Container for storing an element in a list with next and previous references
+   * @private
+   */
   class ListElement {
     constructor(target, nextElement, prevElement) {
       this.target = target;           // reference to object in the list
@@ -12,15 +14,21 @@
     }
   }
 
-  // A simple container wrapping an unsorted doubly linked list of objects
-  //
-  Containers.List = class List {
+  /**
+   * A simple container wrapping an unsorted doubly linked list of objects
+   */
+  JJ.Containers.List = class List {
+    /**
+     * Create a new list
+     */
     constructor(linkNode, linkWeight) {
       this.head = null;
     }
 
-    // Prepends the object at the front of the list
-    //
+    /**
+     * Prepends the object at the front of the list
+     * @param {Object} object - The object to prepend at the beginning of the list
+     */
     prepend(object) {
       // Create a new element
       let listElement = new ListElement(object, this.head, null);
@@ -34,8 +42,10 @@
       this.head = listElement;
     }
 
-    // Removes an object from the list
-    //
+    /**
+     * Removes an object from the list
+     * @param {Object} object - The object to be removed from the list
+     */
     remove(object) {
       // Search the the link element targeting the object
       let linkElement = this.findLinkElement(object);
@@ -59,20 +69,31 @@
       }
     }
 
-    // Returns true if the list is empty, false if there is at least one element in the list
-    //
+    /**
+     * Returns true if the list is empty, false if there is at least one element in the list
+     * @return {Boolean} Whether or not the list is empty
+     */
     isEmpty() {
       return (this.head == null);
     }
 
-    // Returns true if the list contains the object
-    //
+    /**
+     * Returns true if the list contains the object
+     * @return {Boolean} True if the list contains the object, False if it does not
+     */
     containsObject(object) {
       return (this.findLinkElement(object) != null);
     }
 
-    // Iterates over all the elements in the list, calling the passed functino on each object
-    //
+    /**
+     * Iterates over all the elements in the list, calling the passed functino on each object
+     * @param {JJ.Containers.List~forEachCBFunc} func - The function to be run on each element in the list.
+     */
+    /**
+     * @callback JJ.Containers.List~forEachCBFunc
+     * @param {Object} object - current element in the list being processed
+     * @return {Boolean} True to stop processing, False (or nothing) to continue processing the list of elements
+     */
     forEach(func) {
       // Search the list for the specified object
       let currentElement = this.head;
@@ -89,8 +110,12 @@
       }
     }
 
-    // Searches the list for the link objects targeting the passed object and returns it, null otherwise
-    //
+    /**
+     * Searches the list for the link object that is targeting the passed object and returns it, null otherwise
+     * @param {Object} object - the object to search for
+     * @return {ListElement} The list element that references the passed object, or null if no match was found
+     * @private
+     */
     findLinkElement(object) {
       // Search the list for the specified object
       let currentElement = this.head;

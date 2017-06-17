@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: engine/interface/panes/ui_pane.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: engine/interface/panes/ui_pane.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>(function (JJ, undefined) { /* JJ module namespace */
+  "use strict";
+(function (BE, undefined) { /* BE (Brood Engine) namespace */
+(function(Interface, undefined) { /* Interface submodule namespace */
+
+  /**
+   * UIPane is the base class for UI modules built from html &amp; css files.
+   */
+  JJ.BE.Interface.UIPane = class UIPane {
+    /**
+     * Constructor
+     * @param {Element} parentElement - The parent DOM element this pane is a child of
+     * @param {String} htmlPath - Path to the HTML document for this pane
+     * @param {String} cssPath - Path to the CSS document for this pane
+     */
+    constructor(parentElement, htmlPath, cssPath) {
+      // File path and handles for resources
+      this.htmlPath = htmlPath;
+      this.htmlHandle = BE.Resources.InvalidResourceHandle;
+      this.cssPath = cssPath;
+      this.cssHandle = BE.Resources.InvalidResourceHandle;
+
+      // DOM elements
+      this.parentElement = parentElement;
+      this.rootElement = null;
+
+      // Flags
+      this.visible = true;
+      this.resourcesRequested = false;
+      this.paneCreated = false;
+      this.createHidden = false;
+
+      // Request the panes resources
+      this.requestResources();
+    }
+
+    /**
+     * Returns whether the pane is visible
+     * @return {Boolean} True if the pane is currently visible, False if it is not
+     */
+    isVisible() {
+      return this.visible;
+    }
+
+    /**
+     * Show the pane, making it's elements visible
+     */
+    show() {
+      // Nothing to do if it's already visible
+      if (this.isVisible()) {
+        return;
+      }
+
+      // Make the root element visible
+      if (this.rootElement != null) {
+        this.rootElement.style.display = "block";
+      }
+      this.visible = true;
+    }
+
+    /**
+     * Hide the pane, making it's elements invisible
+     */
+    hide() {
+      // Nothing to do if it's already hidden
+      if (!this.isVisible()) {
+        return;
+      }
+
+      // Make the root element invisible
+      if (this.rootElement != null) {
+        this.rootElement.style.display = "none";
+      }
+      this.visible = false;
+    }
+
+    /**
+     * Toggle the visibliity of the pane
+     */
+    toggleVisiblity() {
+      if (this.isVisible()) {
+        this.hide();
+      } else {
+        this.show();
+      }
+    }
+
+    /**
+     * Main update for per frame processing
+     * @param {Number} deltaMs - Elapsed time since the last time update was called, in milliseconds
+     */
+    update(deltaMs) {
+      // Check if the pane hasn't been created
+      if (!this.paneCreated) {
+        // Check if the resources have been requested
+        if (this.resourcesRequested) {
+          // Check if the resources are loaded
+          if (this.checkResourcesLoaded()) {
+            // Create the pane
+            this.createPane();
+          }
+        }
+      }
+    }
+
+    /**
+     * Requests all of the resources needed by the pane
+     */
+    requestResources() {
+      // Check if the resoures have already been requested
+      if (this.resourcesRequested) {
+        return;
+      }
+
+      // If there is a valid HTML document path, request it's resource
+      if (this.htmlPath != undefined) {
+        this.htmlHandle = BE.Resources.resourceMgr.requestResource(this.htmlPath, "text/plain");
+      }
+
+      // If there is a valid CSS document path, request it's resource
+      if (this.cssPath != undefined) {
+        this.cssHandle = BE.Resources.resourceMgr.requestResource(this.cssPath, "text/plain");
+      }
+
+      // Mark that the resources have been requested
+      this.resourcesRequested = true;
+    }
+
+    /**
+     * Releases all of the resources requested by the pane
+     */
+    releaseResources() {
+      if (!this.resourcesRequested) {
+        return;
+      }
+
+      // If there is a resource handle for the html document, release it
+      if (this.htmlHandle != BE.Resources.InvalidResourceHandle) {
+        BE.Resources.resourceMgr.releaseResource(this.htmlHandle);
+        this.htmlHandle = BE.Resources.InvalidResourceHandle;
+      }
+
+      // If there is a resource handle for the css document, release it
+      if (this.cssHandle != BE.Resources.InvalidResourceHandle) {
+        BE.Resources.resourceMgr.releaseResource(this.cssHandle);
+        this.cssHandle = BE.Resources.InvalidResourceHandle;
+      }
+
+      // Mark that the resources have been released
+      this.resourcesRequested = false;
+    }
+
+    /**
+     * Checks if the resources required by the pane are loaded, returning true if they are
+     */
+    checkResourcesLoaded() {
+      // Assume resources are loaded
+      let resourcesLoaded = true;
+
+      // If there is a valid html document, check if it is loaded
+      if (this.htmlPath != undefined) {
+        resourcesLoaded = resourcesLoaded &amp;&amp; BE.Resources.resourceMgr.isLoaded(this.htmlHandle);
+      }
+
+      // If there is a valid css document, check if it is loaded
+      if (this.cssPath != undefined) {
+        resourcesLoaded = resourcesLoaded &amp;&amp; BE.Resources.resourceMgr.isLoaded(this.cssHandle);
+      }
+
+      // Return whether the resources are loaded
+      return resourcesLoaded;
+    }
+
+    /**
+     * Creates the pane
+     */
+    createPane() {
+      // Check if the pane has already been created
+      if (this.paneCreated) {
+        return;
+      }
+
+      // Create the root element for the pane
+      JJ.System.assert((this.rootElement == null), "Creating a pane that already has a root element.");
+      this.rootElement = document.createElement("div");
+
+      // Create the CSS element
+      if (this.cssHandle != BE.Resources.InvalidResourceHandle) {
+        let cssData = BE.Resources.resourceMgr.getData(this.cssHandle);
+        if (JJ.System.assert((cssData != null), "Unable to retrieve CSS data for interface pane.")) {
+          let newElement = document.createElement("style");
+          newElement.innerHTML = cssData;
+          this.rootElement.appendChild(newElement);
+        }
+      }
+
+      // Create the HTML elements
+      if (this.htmlHandle != BE.Resources.InvalidResourceHandle) {
+        let htmlData = BE.Resources.resourceMgr.getData(this.htmlHandle);
+        if (JJ.System.assert((htmlData != null), "Unable to retrieve HTML data for interface pane.")) {
+          let newElement = document.createElement("div");
+          newElement.innerHTML = htmlData;
+
+          for (let childIndex = 0; childIndex &lt; newElement.childNodes.length; childIndex++) {
+            this.rootElement.appendChild(newElement.childNodes[childIndex]);
+          }
+        }
+      }
+
+      // If the pane should be created hidden, then hide it now
+      if (this.createHidden) {
+        this.hide();
+      }
+
+      // Add this pane's root element to it's parent element
+      if (this.rootElement != null) {
+        this.parentElement.appendChild(this.rootElement);
+      }
+
+      // Set the created flag
+      this.paneCreated = true;
+    }
+
+    /**
+     * Destroys the pane
+     */
+    destroyPane() {
+      // Nothing to do if the pane hasn't been created
+      if (!this.paneCreated) {
+        return;
+      }
+
+      // Remove this pane's root element from it's parent element
+      if (this.parentElement != null) {
+        this.parentElement.removeChild(this.rootElement);
+      }
+      this.rootElement = null;
+
+      // Clear the created flag
+      this.paneCreated = false;
+    }
+  }
+
+
+}(window.JJ.BE.Interface = window.JJ.BE.Interface || {}));
+}(window.JJ.BE = window.JJ.BE || {}));
+}(window.JJ = window.JJ || {}));</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CommandManager.html">CommandManager</a></li><li><a href="JJ.BE.AI.AICharacterController.html">AICharacterController</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTree.html">BehaviorTree</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeActionNode.html">BehaviorTreeActionNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeCompositeNode.html">BehaviorTreeCompositeNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeDelayNode.html">BehaviorTreeDelayNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeNode.html">BehaviorTreeNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeSequenceNode.html">BehaviorTreeSequenceNode</a></li><li><a href="JJ.BE.AI.Pathfinding.NavNetwork.html">NavNetwork</a></li><li><a href="JJ.BE.AI.Pathfinding.NavNetworkNode.html">NavNetworkNode</a></li><li><a href="JJ.BE.Controllers.CharacterController.html">CharacterController</a></li><li><a href="JJ.BE.Controllers.Controller.html">Controller</a></li><li><a href="JJ.BE.Debug.DebugManager.html">DebugManager</a></li><li><a href="JJ.BE.Game.html">Game</a></li><li><a href="JJ.BE.Input.InputManager.html">InputManager</a></li><li><a href="JJ.BE.Interface.InterfaceManager.html">InterfaceManager</a></li><li><a href="JJ.BE.Interface.Panes.Console.html">Console</a></li><li><a href="JJ.BE.Interface.UIPane.html">UIPane</a></li><li><a href="JJ.BE.Objects.Actor.html">Actor</a></li><li><a href="JJ.BE.Objects.Character.html">Character</a></li><li><a href="JJ.BE.Objects.Component.html">Component</a></li><li><a href="JJ.BE.Objects.Entity.html">Entity</a></li><li><a href="JJ.BE.World.html">World</a></li><li><a href="JJ.Behavior.BehaviorTreeDecoratorNode.html">BehaviorTreeDecoratorNode</a></li><li><a href="JJ.Behavior.BehaviorTreeRepeaterNode.html">BehaviorTreeRepeaterNode</a></li><li><a href="JJ.Containers.List.html">List</a></li><li><a href="JJ.Containers.MeshNetwork.html">MeshNetwork</a></li><li><a href="JJ.Containers.MeshNetworkAddress.html">MeshNetworkAddress</a></li><li><a href="JJ.Containers.MeshNetworkLink.html">MeshNetworkLink</a></li><li><a href="JJ.Containers.MeshNetworkNode.html">MeshNetworkNode</a></li><li><a href="JJ.Containers.MeshNetworkNodeInfo.html">MeshNetworkNodeInfo</a></li><li><a href="JJ.Math.Vector2.html">Vector2</a></li><li><a href="JJ.Math.Vector3.html">Vector3</a></li><li><a href="JJ.MMC.Game.html">Game</a></li><li><a href="JJ.System.Serialization.Serializable.html">Serializable</a></li><li><a href="ResourceInfo.html">ResourceInfo</a></li><li><a href="ResourceManager.html">ResourceManager</a></li><li><a href="SerializableTypeManager.html">SerializableTypeManager</a></li></ul><h3>Namespaces</h3><ul><li><a href="JJ.html">JJ</a></li><li><a href="JJ.BE.html">BE</a></li><li><a href="JJ.BE.AI.html">AI</a></li><li><a href="JJ.BE.AI.Behavior.html">Behavior</a></li><li><a href="JJ.BE.AI.Pathfinding.html">Pathfinding</a></li><li><a href="JJ.BE.Controllers.html">Controllers</a></li><li><a href="JJ.BE.Debug.html">Debug</a></li><li><a href="JJ.BE.Input.html">Input</a></li><li><a href="JJ.BE.Interface.html">Interface</a></li><li><a href="JJ.BE.Interface.Panes.html">Panes</a></li><li><a href="JJ.BE.Objects.html">Objects</a></li><li><a href="JJ.BE.Resources.html">Resources</a></li><li><a href="JJ.Containers.html">Containers</a></li><li><a href="JJ.Math.html">Math</a></li><li><a href="JJ.System.html">System</a></li><li><a href="JJ.System.IO.html">IO</a></li><li><a href="JJ.System.IO.Keyboard.html">Keyboard</a></li><li><a href="JJ.System.Serialization.html">Serialization</a></li><li><a href="JJ.Utility.html">Utility</a></li><li><a href="JJ.Utility.DOM.html">DOM</a></li><li><a href="JJ.Utility.String.html">String</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sat Jun 17 2017 09:00:31 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

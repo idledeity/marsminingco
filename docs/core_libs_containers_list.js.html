@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: core_libs/containers/list.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: core_libs/containers/list.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>(function (JJ, undefined) { /* JJ module namespace */
+  "use strict";
+(function(Containers, undefined) { /* Containers submodule namespace */
+
+  /**
+   * Container for storing an element in a list with next and previous references
+   * @private
+   */
+  class ListElement {
+    constructor(target, nextElement, prevElement) {
+      this.target = target;           // reference to object in the list
+      this.nextElement = nextElement; // reference to the next element in the list
+      this.prevElement = prevElement; // reference to the previous element in the list
+    }
+  }
+
+  /**
+   * A simple container wrapping an unsorted doubly linked list of objects
+   */
+  JJ.Containers.List = class List {
+    /**
+     * Create a new list
+     */
+    constructor(linkNode, linkWeight) {
+      this.head = null;
+    }
+
+    /**
+     * Prepends the object at the front of the list
+     * @param {Object} object - The object to prepend at the beginning of the list
+     */
+    prepend(object) {
+      // Create a new element
+      let listElement = new ListElement(object, this.head, null);
+
+      // Update the previous element on the head node
+      if (this.head != null) {
+        this.head.prevElement = listElement;
+      }
+
+      // Insert the element at the head
+      this.head = listElement;
+    }
+
+    /**
+     * Removes an object from the list
+     * @param {Object} object - The object to be removed from the list
+     */
+    remove(object) {
+      // Search the the link element targeting the object
+      let linkElement = this.findLinkElement(object);
+
+      // If a valid link element was found, remove it from the linked list
+      if (linkElement != null) {
+        // If the removed link element has a valid previous element, then update the next element it points to
+        if (linkElement.prevElement != null) {
+          linkElement.prevElement.nextElement = linkElement.nextElement;
+        }
+
+        // If the removed link element has a valid next element, then update the previous element it points to
+        if (linkElement.nextElement != null) {
+          linkElement.nextElement.prevElement = linkElement.prevElement;
+        }
+
+        // And finally, check if the removed link element is the current head
+        if (this.head === linkElement) {
+          this.head = null;
+        }
+      }
+    }
+
+    /**
+     * Returns true if the list is empty, false if there is at least one element in the list
+     * @return {Boolean} Whether or not the list is empty
+     */
+    isEmpty() {
+      return (this.head == null);
+    }
+
+    /**
+     * Returns true if the list contains the object
+     * @return {Boolean} True if the list contains the object, False if it does not
+     */
+    containsObject(object) {
+      return (this.findLinkElement(object) != null);
+    }
+
+    /**
+     * Iterates over all the elements in the list, calling the passed functino on each object
+     * @param {JJ.Containers.List~forEachCBFunc} func - The function to be run on each element in the list.
+     */
+    /**
+     * @callback JJ.Containers.List~forEachCBFunc
+     * @param {Object} object - current element in the list being processed
+     * @return {Boolean} True to stop processing, False (or nothing) to continue processing the list of elements
+     */
+    forEach(func) {
+      // Search the list for the specified object
+      let currentElement = this.head;
+      while(currentElement != null) {
+        // Call the function
+        const stopLooping = func(currentElement.target);
+
+        // Decide whether to continue the search with the next element
+        if (stopLooping) {
+          currentElement = null;
+        } else {
+          currentElement = currentElement.nextElement;
+        }
+      }
+    }
+
+    /**
+     * Searches the list for the link object that is targeting the passed object and returns it, null otherwise
+     * @param {Object} object - the object to search for
+     * @return {ListElement} The list element that references the passed object, or null if no match was found
+     * @private
+     */
+    findLinkElement(object) {
+      // Search the list for the specified object
+      let currentElement = this.head;
+      while(currentElement != null) {
+        // Check if there is a match
+        if (currentElement.target === object) {
+          return currentElement;
+        }
+
+        // Continue the search with the next element
+        currentElement = currentElement.nextElement;
+      }
+
+      // Searched the whole list without a match, return null
+      return null;
+    }
+
+  }
+
+
+}(window.JJ.Containers = window.JJ.Containers || {}));
+}(window.JJ = window.JJ || {}));</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CommandManager.html">CommandManager</a></li><li><a href="JJ.BE.AI.AICharacterController.html">AICharacterController</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTree.html">BehaviorTree</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeActionNode.html">BehaviorTreeActionNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeCompositeNode.html">BehaviorTreeCompositeNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeDelayNode.html">BehaviorTreeDelayNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeNode.html">BehaviorTreeNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeSequenceNode.html">BehaviorTreeSequenceNode</a></li><li><a href="JJ.BE.AI.Pathfinding.NavNetwork.html">NavNetwork</a></li><li><a href="JJ.BE.AI.Pathfinding.NavNetworkNode.html">NavNetworkNode</a></li><li><a href="JJ.BE.Controllers.CharacterController.html">CharacterController</a></li><li><a href="JJ.BE.Controllers.Controller.html">Controller</a></li><li><a href="JJ.BE.Debug.DebugManager.html">DebugManager</a></li><li><a href="JJ.BE.Game.html">Game</a></li><li><a href="JJ.BE.Input.InputManager.html">InputManager</a></li><li><a href="JJ.BE.Interface.InterfaceManager.html">InterfaceManager</a></li><li><a href="JJ.BE.Interface.Panes.Console.html">Console</a></li><li><a href="JJ.BE.Interface.UIPane.html">UIPane</a></li><li><a href="JJ.BE.Objects.Actor.html">Actor</a></li><li><a href="JJ.BE.Objects.Character.html">Character</a></li><li><a href="JJ.BE.Objects.Component.html">Component</a></li><li><a href="JJ.BE.Objects.Entity.html">Entity</a></li><li><a href="JJ.BE.World.html">World</a></li><li><a href="JJ.Behavior.BehaviorTreeDecoratorNode.html">BehaviorTreeDecoratorNode</a></li><li><a href="JJ.Behavior.BehaviorTreeRepeaterNode.html">BehaviorTreeRepeaterNode</a></li><li><a href="JJ.Containers.List.html">List</a></li><li><a href="JJ.Containers.MeshNetwork.html">MeshNetwork</a></li><li><a href="JJ.Containers.MeshNetworkAddress.html">MeshNetworkAddress</a></li><li><a href="JJ.Containers.MeshNetworkLink.html">MeshNetworkLink</a></li><li><a href="JJ.Containers.MeshNetworkNode.html">MeshNetworkNode</a></li><li><a href="JJ.Containers.MeshNetworkNodeInfo.html">MeshNetworkNodeInfo</a></li><li><a href="JJ.Math.Vector2.html">Vector2</a></li><li><a href="JJ.Math.Vector3.html">Vector3</a></li><li><a href="JJ.MMC.Game.html">Game</a></li><li><a href="JJ.System.Serialization.Serializable.html">Serializable</a></li><li><a href="ResourceInfo.html">ResourceInfo</a></li><li><a href="ResourceManager.html">ResourceManager</a></li><li><a href="SerializableTypeManager.html">SerializableTypeManager</a></li></ul><h3>Namespaces</h3><ul><li><a href="JJ.html">JJ</a></li><li><a href="JJ.BE.html">BE</a></li><li><a href="JJ.BE.AI.html">AI</a></li><li><a href="JJ.BE.AI.Behavior.html">Behavior</a></li><li><a href="JJ.BE.AI.Pathfinding.html">Pathfinding</a></li><li><a href="JJ.BE.Controllers.html">Controllers</a></li><li><a href="JJ.BE.Debug.html">Debug</a></li><li><a href="JJ.BE.Input.html">Input</a></li><li><a href="JJ.BE.Interface.html">Interface</a></li><li><a href="JJ.BE.Interface.Panes.html">Panes</a></li><li><a href="JJ.BE.Objects.html">Objects</a></li><li><a href="JJ.BE.Resources.html">Resources</a></li><li><a href="JJ.Containers.html">Containers</a></li><li><a href="JJ.Math.html">Math</a></li><li><a href="JJ.System.html">System</a></li><li><a href="JJ.System.IO.html">IO</a></li><li><a href="JJ.System.IO.Keyboard.html">Keyboard</a></li><li><a href="JJ.System.Serialization.html">Serialization</a></li><li><a href="JJ.Utility.html">Utility</a></li><li><a href="JJ.Utility.DOM.html">DOM</a></li><li><a href="JJ.Utility.String.html">String</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sat Jun 17 2017 09:00:31 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

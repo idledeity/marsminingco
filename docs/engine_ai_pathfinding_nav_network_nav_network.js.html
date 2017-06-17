@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: engine/ai/pathfinding/nav_network/nav_network.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: engine/ai/pathfinding/nav_network/nav_network.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>(function (JJ, undefined) { /* JJ module namespace */
+  "use strict";
+(function (BE, undefined) { /* BE (Brood Engine) namespace */
+(function(AI, undefined) { /* AI submodule namespace */
+(function(Pathfinding, undefined) { /* Behavior submodule namespace */
+
+
+  /**
+   * The NavNetwork is a network of interconnected nodes representing world locations accessible by navigation.
+   *
+   * Each accessible locations contains a list of links to other nodes in the network, which can be used to navigate
+   * through the entirety of the network.
+   * @extends JJ.Containers.MeshNetwork
+   */
+  JJ.BE.AI.Pathfinding.NavNetwork = class NavNetwork extends JJ.Containers.MeshNetwork {
+    /**
+     * Constructor
+     */
+    constructor() {
+      // Call the super
+      super();
+    }
+
+    /**
+     * Adds a node to the MeshNetwork
+     * @param {JJ.BE.AI.Pathfinding.NavNetworkNode} node - The new NavNetworkNode to add to the network
+     * @returns {Number} The node ID of teh inserted node, or Containers.MeshNetworkNodeInvalidId if the insert failed
+     */
+    addNode(node) {
+      // Check the node type
+      if (!JJ.System.assert((node instanceof Pathfinding.NavNetworkNode), "Invalid node type.")) {
+        return Pathfinding.MeshNetworkNodeInvalidId;
+      }
+
+      return super.addNode(node);
+    }
+
+    /**
+     * Link two nodes in the nav network
+     * @param {Number} sourceId - ID of the source node of the link
+     * @param {Number} destId - ID of the destination node of the link
+     * @param {Number} [weight=distance between source and dest] - Weight of traversing the link from the source to the
+     *    destination nodes
+     * @return {Boolean} True if the nodes were linked successfull, False if there was an error
+     */
+    linkNode(sourceId, destId, weight) {
+      // Get the source node, and check that it's valid
+      let sourceNode = this.getNodeById(sourceId);
+      if (!JJ.System.assert((sourceNode instanceof Pathfinding.NavNetworkNode),
+        "sourceNode is not valid.")) {
+        return false;
+      }
+
+      // Get the destination node, and check that it's valid
+      let destNode = this.getNodeById(destId);
+      if (!JJ.System.assert((destNode instanceof Pathfinding.NavNetworkNode),
+        "destNode is not valid.")) {
+        return false;
+      }
+
+      // If no weight was specified, calculate the weight between the nodes by using the distance between them
+      if (weight == undefined) {
+        weight = destNode.getWorldPos().copy().sub(sourceNode.getWorldPos()).length();
+      }
+
+      // Call the super to do the work of creating the nav mesh link
+      return super.linkNode(sourceId, destId, weight);
+    }
+
+    /** Link two nodes in the nav network
+     * @param {Number} sourceId - ID of the source node of the link
+     * @param {Number} destID - ID of the destination node of the link
+     * @param {Boolean} biDirectional - Set to true to make a link between the source and destination nodes in both directions
+     * @param {Number} [weight=distance between source and dest] - Weight of traversing the link from the source to the
+     *    destination nodes
+     * @param {Number} [reverseWeight=weight]: Weight of the reverse link (only used for biDirectional links)
+     * @return {Boolean} True if the nodes were linked successfully, False if there was an error
+     */
+    linkNodes(sourceId, destId, biDirectional, weight, reverseWeight) {
+      // Get the source node, and check that it's valid
+      let sourceNode = this.getNodeById(sourceId);
+      if (!JJ.System.assert((sourceNode instanceof Pathfinding.NavNetworkNode),
+        "sourceNode is not valid.")) {
+        return false;
+      }
+
+      // Get the destination node, and check that it's valid
+      let destNode = this.getNodeById(destId);
+      if (!JJ.System.assert((destNode instanceof Pathfinding.NavNetworkNode),
+        "destNode is not valid.")) {
+        return false;
+      }
+
+      // If no weight was specified, calculate the weight between the nodes by using the distance between them
+      if (weight == undefined) {
+        weight = destNode.getWorldPos().copy().sub(sourceNode.getWorldPos()).length();
+      }
+      // If no reverse weight was specified, use the forward weight
+      if (reverseWeight == undefined) {
+        reverseWeight = weight;
+      }
+
+      // Call the super to do the work of creating the nav mesh links
+      return super.linkNodes(sourceId, destId, biDirectional, weight, reverseWeight);
+    }
+
+    /**
+     * Performs an A* search through the Nav Network to find an optimized (but not necessarily the shortest) path
+     * from the source mesh network node to the destination.
+     * @param {Number} sourceId - ID of the source node in the Mesh Network
+     * @param {Number} destId - ID of the destination ndde in the Mesh Network
+     * @return {Number[]} Returns an array of nodeId's the consitute the solved path
+     */
+    findPath(sourceId, destId) {
+      let heuristic = function(sourceNode, destNode) {
+        // Verify the node types
+        if (!JJ.System.assert((sourceNode instanceof Pathfinding.NavNetworkNode),
+          "sourceNode is not valid.")) {
+          return Number.MAX_VALUE;
+        }
+        if (!JJ.System.assert((destNode instanceof Pathfinding.NavNetworkNode),
+          "destNode is not valid.")) {
+          return Number.MAX_VALUE;
+        }
+
+        const weight = destNode.getWorldPos().copy().sub(sourceNode.getWorldPos()).length();
+        return weight;
+      }
+
+      return super.findPath(sourceId, destId, heuristic);
+    }
+
+    //
+    // Serializable methods
+    //
+
+    /**
+     * Returns the serialization ID for the object
+     * @return {String} Unique serialization ID for this class
+     */
+    static getSerializationId() {
+      return "NavNetwork";
+    }
+
+    /**
+     * Serializes this object to and from a buffer
+     * @param {Object} serializeContext - The serialization context for the current operations (ex. read or write)
+     */
+    serialize(serializeContext) {
+      super.serialize(serializeContext);
+    }
+  }
+
+  // Register this serializable type with the serialization type manager
+  JJ.System.Serialization.serializableTypeMgr.registerType(Pathfinding.NavNetwork);
+
+
+}(window.JJ.BE.AI.Pathfinding = window.JJ.BE.AI.Pathfinding || {}));
+}(window.JJ.BE.AI = window.JJ.BE.AI || {}));
+}(window.JJ.BE = window.JJ.BE || {}));
+}(window.JJ = window.JJ || {}));</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="CommandManager.html">CommandManager</a></li><li><a href="JJ.BE.AI.AICharacterController.html">AICharacterController</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTree.html">BehaviorTree</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeActionNode.html">BehaviorTreeActionNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeCompositeNode.html">BehaviorTreeCompositeNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeDelayNode.html">BehaviorTreeDelayNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeNode.html">BehaviorTreeNode</a></li><li><a href="JJ.BE.AI.Behavior.BehaviorTreeSequenceNode.html">BehaviorTreeSequenceNode</a></li><li><a href="JJ.BE.AI.Pathfinding.NavNetwork.html">NavNetwork</a></li><li><a href="JJ.BE.AI.Pathfinding.NavNetworkNode.html">NavNetworkNode</a></li><li><a href="JJ.BE.Controllers.CharacterController.html">CharacterController</a></li><li><a href="JJ.BE.Controllers.Controller.html">Controller</a></li><li><a href="JJ.BE.Debug.DebugManager.html">DebugManager</a></li><li><a href="JJ.BE.Game.html">Game</a></li><li><a href="JJ.BE.Input.InputManager.html">InputManager</a></li><li><a href="JJ.BE.Interface.InterfaceManager.html">InterfaceManager</a></li><li><a href="JJ.BE.Interface.Panes.Console.html">Console</a></li><li><a href="JJ.BE.Interface.UIPane.html">UIPane</a></li><li><a href="JJ.BE.Objects.Actor.html">Actor</a></li><li><a href="JJ.BE.Objects.Character.html">Character</a></li><li><a href="JJ.BE.Objects.Component.html">Component</a></li><li><a href="JJ.BE.Objects.Entity.html">Entity</a></li><li><a href="JJ.BE.World.html">World</a></li><li><a href="JJ.Behavior.BehaviorTreeDecoratorNode.html">BehaviorTreeDecoratorNode</a></li><li><a href="JJ.Behavior.BehaviorTreeRepeaterNode.html">BehaviorTreeRepeaterNode</a></li><li><a href="JJ.Containers.List.html">List</a></li><li><a href="JJ.Containers.MeshNetwork.html">MeshNetwork</a></li><li><a href="JJ.Containers.MeshNetworkAddress.html">MeshNetworkAddress</a></li><li><a href="JJ.Containers.MeshNetworkLink.html">MeshNetworkLink</a></li><li><a href="JJ.Containers.MeshNetworkNode.html">MeshNetworkNode</a></li><li><a href="JJ.Containers.MeshNetworkNodeInfo.html">MeshNetworkNodeInfo</a></li><li><a href="JJ.Math.Vector2.html">Vector2</a></li><li><a href="JJ.Math.Vector3.html">Vector3</a></li><li><a href="JJ.MMC.Game.html">Game</a></li><li><a href="JJ.System.Serialization.Serializable.html">Serializable</a></li><li><a href="ResourceInfo.html">ResourceInfo</a></li><li><a href="ResourceManager.html">ResourceManager</a></li><li><a href="SerializableTypeManager.html">SerializableTypeManager</a></li></ul><h3>Namespaces</h3><ul><li><a href="JJ.html">JJ</a></li><li><a href="JJ.BE.html">BE</a></li><li><a href="JJ.BE.AI.html">AI</a></li><li><a href="JJ.BE.AI.Behavior.html">Behavior</a></li><li><a href="JJ.BE.AI.Pathfinding.html">Pathfinding</a></li><li><a href="JJ.BE.Controllers.html">Controllers</a></li><li><a href="JJ.BE.Debug.html">Debug</a></li><li><a href="JJ.BE.Input.html">Input</a></li><li><a href="JJ.BE.Interface.html">Interface</a></li><li><a href="JJ.BE.Interface.Panes.html">Panes</a></li><li><a href="JJ.BE.Objects.html">Objects</a></li><li><a href="JJ.BE.Resources.html">Resources</a></li><li><a href="JJ.Containers.html">Containers</a></li><li><a href="JJ.Math.html">Math</a></li><li><a href="JJ.System.html">System</a></li><li><a href="JJ.System.IO.html">IO</a></li><li><a href="JJ.System.IO.Keyboard.html">Keyboard</a></li><li><a href="JJ.System.Serialization.html">Serialization</a></li><li><a href="JJ.Utility.html">Utility</a></li><li><a href="JJ.Utility.DOM.html">DOM</a></li><li><a href="JJ.Utility.String.html">String</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sat Jun 17 2017 09:00:31 GMT-0500 (Central Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
