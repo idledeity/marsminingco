@@ -22,7 +22,7 @@
       // Update each of the panes
       for(let paneIndex = 0; paneIndex < this.panes.length; paneIndex++) {
         let currentPane = this.panes[paneIndex];
-        currentPane.update(deltaTime);
+        currentPane.update(deltaMs);
       }
     }
 

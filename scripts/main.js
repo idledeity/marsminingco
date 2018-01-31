@@ -1,4 +1,4 @@
-l/** @namespace JJ */
+/** @namespace JJ */
 (function (JJ, undefined) {
   "use strict";
 

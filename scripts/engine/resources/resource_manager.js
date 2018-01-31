@@ -37,7 +37,7 @@
       this.mimeType = mimeType;
       this.handle = ResourceHandleNext++;
       this.referenceCount = 0;
-      this.resourceState = ResourceState.UNLOADED;
+      this.resourceState = JJ.BE.Resources.ResourceState.UNLOADED;
       this.fileRequest = null;
       this.data = null;
     }
@@ -98,7 +98,7 @@
         return false;
       }
 
-      return (resourceInfo.resourceState === ResourceState.LOADED);
+      return (resourceInfo.resourceState === JJ.BE.Resources.ResourceState.LOADED);
     }
 
     /**
@@ -114,7 +114,7 @@
       }
 
       // If the resource is loading, we need to wait for it to finish
-      if (resourceInfo.resourceState === ResourceState.LOADING) {
+      if (resourceInfo.resourceState === JJ.BE.Resources.ResourceState.LOADING) {
         // Abort the active async request
         if (JJ.System.assert((resourceInfo.fileRequest != null), "Loading resource has no file request!")) {
           resourceInfo.fileRequest.abort();
@@ -123,11 +123,11 @@
 
         // Request the file synchronously
         resourceInfo.data = JJ.System.IO.requestFileBlocking(resourceInfo.filePath, resourceInfo.mimeType);
-        resourceInfo.resourceState = ResourceState.LOADED;
+        resourceInfo.resourceState = JJ.BE.Resources.ResourceState.ResourceState.LOADED;
       }
 
       // Check if the resource isloaded
-      if (!JJ.System.assert((resourceInfo.resourceState === ResourceState.LOADED),
+      if (!JJ.System.assert((resourceInfo.resourceState === JJ.BE.Resources.ResourceState.LOADED),
         "Cannot get resource data because it is not loaded")) {
         return null;
       }
@@ -155,7 +155,7 @@
       // If the resource hasn't been requested, then request it now
       if (resourceInfo.referenceCount == 0) {
         // Set the state as loading
-        resourceInfo.resourceState = ResourceState.LOADING;
+        resourceInfo.resourceState = JJ.BE.Resources.ResourceState.LOADING;
 
         // Request the resource
         resourceInfo.fileRequest = JJ.System.IO.requestFileAsync(filePath, function(success, filePath, responseText) {
@@ -174,7 +174,7 @@
 
           // Update the resource's state
           resourceInfo.data = responseText;
-          resourceInfo.resourceState = success ? ResourceState.LOADED : ResourceState.ERROR;
+          resourceInfo.resourceState = success ? JJ.BE.Resources.ResourceState.LOADED : JJ.BE.Resources.ResourceState.ERROR;
           resourceInfo.fileRequest = null;
         }, resourceInfo.mimeType);
       }
@@ -207,11 +207,11 @@
 
       // If the reference count is zero, release the resource
       if (resourceInfo.referenceCount == 0) {
-        JJ.System.assert((resourceInfo.resourceState !== ResourceState.UNLOADED),
+        JJ.System.assert((resourceInfo.resourceState !== JJ.BE.Resources.ResourceState.UNLOADED),
           "Attempting to unload resource that is already unloaded.")
 
         // If the resource was loading, cancel the request
-        if (resourceInfo.resourceState === ResourceState.LOADING) {
+        if (resourceInfo.resourceState === JJ.BE.Resources.ResourceState.LOADING) {
           // Attempt to abort the file request
           if (JJ.System.assert((resourceInfo.fileRequest != null),
             "Cannot cancel file request because it is invalid")) {
@@ -222,7 +222,7 @@
 
         // Clear the loaded data and update the resource info status
         resourceInfo.data = null;
-        resourceInfo.resourceState = ResourceState.UNLOADED;
+        resourceInfo.resourceState = JJ.BE.Resources.ResourceState.UNLOADED;
         resourceInfo.fileRequest = null;
       }
     }
