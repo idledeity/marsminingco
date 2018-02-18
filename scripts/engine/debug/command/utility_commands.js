@@ -6,7 +6,7 @@
   /**
    * Developer command to search all developer commands
    */
-  JJ.Debug.commandMgr.registerCommand("find", "Search command names and descriptions to find commands",
+  JJ.BE.Debug.commandMgr.registerCommand("find", "Search command names and descriptions to find commands",
     function(searchString) {
 
     // Check that the search string argument is valid
@@ -74,6 +74,7 @@
       Debug.commandMgr.logInfo("This is the debug console, where you can enter developer commands.");
       Debug.commandMgr.logInfo("");
       Debug.commandMgr.logInfo("List of base commands:");
+      Debug.commandMgr.logInfo(" * list - Display the list of all developer commands.");
       Debug.commandMgr.logInfo(" * find <search string> - Search command name and description for the search string.");
       Debug.commandMgr.logInfo(" * help <command name> - Display additional information about the given command.");
       Debug.commandMgr.logInfo("");
@@ -93,6 +94,24 @@
     // Print the function's signature to the log info
     Debug.commandMgr.logInfo("Description: {0}", commandInfo.description);
     Debug.commandMgr.logInfo("Usage: {0}", commandInfo.signature);
+  });
+
+  /**
+   * Developer command that displays all registered developer commands
+   */
+  Debug.commandMgr.registerCommand("list", "Lists all registered developer commands.",
+    function() {
+
+    // Get the command map of all registered commands
+    let commandMap = Debug.commandMgr.getCommandMap();
+
+    // Print command info for each command in the map
+    for (let key in commandMap) {
+      if (commandMap.hasOwnProperty(key)) {
+        // Log the command name and description
+        Debug.commandMgr.logInfo("{0}&emsp;&emsp;<span class='output_text_comment'>// {1}</span>", commandMap[key].name, commandMap[key].description);
+      }
+    }
   });
 
 }(window.JJ.BE.Debug = window.JJ.BE.Debug || {}));

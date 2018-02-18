@@ -8,7 +8,7 @@
    * BehaviorTreeRepeaterNode repeats a single child node forever
    * @extends JJ.BE.AI.Behavior.BehaviorTreeDecoratorNode
    */
-  JJ.Behavior.BehaviorTreeRepeaterNode = class BehaviorTreeRepeaterNode extends Behavior.BehaviorTreeDecoratorNode {
+  JJ.BE.AI.Behavior.BehaviorTreeRepeaterNode = class BehaviorTreeRepeaterNode extends Behavior.BehaviorTreeDecoratorNode {
     /**
      * Constructor
      */

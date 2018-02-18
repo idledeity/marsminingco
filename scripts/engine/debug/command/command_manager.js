@@ -155,7 +155,7 @@
       // Look-up the command
       const commandInfo = this.getCommandByName(subStrings[0]);
       if (commandInfo == null) {
-        this.logWarning("Command not recognized: {0}", subStrings[0]);
+        this.logError("Command not recognized: {0}", subStrings[0]);
         return;
       }
 
@@ -195,18 +195,26 @@
      * @param {Object[]} messageArgs - An array of arguement to be used by an formatting in the message string
      */
     logWarning(message, messageArgs) {
-      arguments[0] = JJ.Utility.String.format("<span class='output_text_warning'>Warning:<br>{0}</span>", message);
+      arguments[0] = JJ.Utility.String.format("<span class='output_text_warning'>[Warning] {0}</span>", message);
       this.printf.apply(this, arguments);
     }
 
     /**
      * Prints a formated message to the command log as an error message
      * @param {String} message - The format of the message to be printed to the command log
-     * @param {Object[]} messageArgs - An array of arguement to be used by an formatting in the message string
+     * @param {Object[]} messageArgs - An array of arguements to be used by an formatting in the message string
      */
     logError(message, messageArgs) {
-      arguments[0] = JJ.Utility.String.format("<span class='output_text_error'>Error:<br>{0}</span>", message);
+      arguments[0] = JJ.Utility.String.format("<span class='output_text_error'>[Error] {0}</span>", message);
       this.printf.apply(this, arguments);
+    }
+
+    /**
+     * Returns the map of all registered commands
+     * @returns {Object} An object containing the command info for each registered command
+     */
+    getCommandMap() {
+      return this.commandMap;
     }
 
     /**

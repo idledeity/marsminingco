@@ -71,7 +71,7 @@
 
       // Check if the scroll bar is currently at the bottom
       const scrollDelta = this.outputTextElement.scrollHeight - this.outputTextElement.offsetHeight;
-      const scrollAtBottom = (this.outputTextElement.scrollTop == scrollDelta);
+      const scrollAtBottom = JJ.Math.nearlyEqual(this.outputTextElement.scrollTop, scrollDelta, 0.5);
 
       // Update the output element with the current debug command log
       this.outputTextElement.innerHTML = BE.Debug.commandMgr.getLog();

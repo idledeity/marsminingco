@@ -1,2 +1,4 @@
 *.sublime-project
 *.sublime-workspace
+.vscode/launch.json
+.vscode/settings.json

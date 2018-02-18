@@ -13,7 +13,7 @@
    * process return value.
    * @extends JJ.BE.AI.Behavior.BehaviorTreeNode
    */
-  JJ.Behavior.BehaviorTreeDecoratorNode = class BehaviorTreeDecoratorNode extends Behavior.BehaviorTreeNode {
+  JJ.BE.AI.Behavior.BehaviorTreeDecoratorNode = class BehaviorTreeDecoratorNode extends Behavior.BehaviorTreeNode {
     /**
      * Constructor
      */
