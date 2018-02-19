@@ -1,0 +1,12 @@
+{
+    "compilerOptions": {
+        "outDir": "./scripts",
+        "target": "es6",
+        "module": "commonjs",
+        "sourceMap": true,
+        "allowJs": true
+    },
+    "include": [
+        "./src/**/*"
+    ]
+}
