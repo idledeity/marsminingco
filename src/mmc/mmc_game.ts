@@ -1,25 +1,20 @@
-(function (JJ, undefined) { /* JJ module namespace */
-  "use strict";
-(function (MMC, undefined) { /* MMC (Mars Minig CO.) namespace */
+import Game from"../engine/game.js";
 
+/**
+ * The game object encompasses the entire game logic and state
+ */
+export default class MMCGame extends Game {
   /**
-   * The game object encompasses the entire game logic and state
+   * Constructor
    */
-  JJ.MMC.Game = class Game extends JJ.BE.Game {
-    /**
-     * Constructor
-     */
-    constructor() {
-      super()
-    }
-
-    /**
-     * This is the primary game loop for the game
-     */
-    mainLoop(timestamp) {
-      super.mainLoop(timestamp);
-    }
+  constructor() {
+    super()
   }
 
-}(window.JJ.MMC = window.JJ.MMC || {}));
-}(window.JJ = window.JJ || {}));
+  /**
+   * This is the primary game loop for the game
+   */
+  mainLoop(timestamp) {
+    super.mainLoop(timestamp);
+  }
+}

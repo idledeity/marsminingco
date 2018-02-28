@@ -1,9 +1,5 @@
-/** @namespace JJ */
-(function (JJ, undefined) {
-  "use strict";
+import MMCGame from "./mmc/mmc_game.js";
 
-  // Create the game and start it!
-  JJ.theGame = new JJ.MMC.Game();
-  JJ.theGame.runGame();
-
-}(window.JJ = window.JJ || {}));
+// Create the game and start it!
+let theGame = new MMCGame();
+theGame.runGame();

@@ -1,38 +1,47 @@
- (function (JJ, undefined) { /* JJ module namespace */
-  "use strict";
-(function (Test, undefined) { /* Test module */
+import List from "../core_libs/containers/list.js";
+import Vector3 from "../core_libs/math/vectors/vector3.js";
+import { readObject, writeObject } from "../core_libs/system/serialization/serialization.js";
+import serializableTypeMgr from "../core_libs/system/serialization/serializable_type_manager.js";
+import * as FileIO from "../core_libs/system/io/file.js"
+import * as Strings from "../core_libs/utility/string.js";
+
+import Character from "../engine/objects/characters/character.js";
+import NavNetwork from "../engine/ai/pathfinding/nav_network/nav_network.js";
+import NavNetworkNode from "../engine/ai/pathfinding/nav_network/nav_network_node.js";
+
+(function() { /* Test module */
 
 /*
-  let navNode = new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(20.0, 0.0, 10.0));
-  let navBuffer = JJ.System.Serialization.writeObject("navNode", navNode);
+  let navNode = new NavNetworkNode(new Vector3(20.0, 0.0, 10.0));
+  let navBuffer = writeObject("navNode", navNode);
   console.log(JSON.stringify(navBuffer, undefined, 2));
 
-  let recreatedNode = JJ.System.Serialization.readObject("navNode", navBuffer);
+  let recreatedNode = readObject("navNode", navBuffer);
   console.log(recreatedNode);
 */
 
 /*
-  JJ.System.Serialization.serializableTypeMgr.registerType(Test1);
-  JJ.System.Serialization.serializableTypeMgr.registerType(Test2);
-  JJ.System.Serialization.serializableTypeMgr.registerType(Test3);
+  serializableTypeMgr.registerType(Test1);
+  serializableTypeMgr.registerType(Test2);
+  BserializableTypeMgr.registerType(Test3);
 
 
   let testVar = new Test3();
   testVar.sub1 = 80085;
-  let testVarBuffer = JJ.System.Serialization.writeObject(testVar);
+  let testVarBuffer = writeObject(testVar);
   console.log(JSON.stringify(testVarBuffer, undefined, 2));
 
-  let newTestObj = JJ.System.Serialization.readObject(testVarBuffer);
+  let newTestObj = readObject(testVarBuffer);
   console.log(newTestObj);
 
-  let newTestObjBuffer = JJ.System.Serialization.writeObject(newTestObj);
+  let newTestObjBuffer = writeObject(newTestObj);
   console.log(JSON.stringify(newTestObjBuffer, undefined, 2));
  */
 
-  console.log(JJ.Utility.String.format("Whoa {1} this works {0}", "thing1", "thing2"));
+  console.log(Strings.format("Whoa {1} this works {0}", "thing1", "thing2"));
 
 
-  let testList = new JJ.Containers.List();
+  let testList = new List();
   let obj1 = 15;
   let obj2 = 20;
   let obj3 = -5;
@@ -53,36 +62,38 @@
     console.log(element);
   });
 
-  let navNetwork = new JJ.BE.AI.Pathfinding.NavNetwork();
+  let navNetwork = new NavNetwork();
+
+  let asdfasdkfj = new Vector3();
 
   // Add some test data to the nav network
   let nodeArray = []
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(0.0, 0.0, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(2.0, 0.0, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(3.0, 0.0, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(7.0, 0.0, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(9.0, 0.0, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(13.0, 0.0, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(9.0, -1.5, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(9.0, -2.5, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(13.0, 2.5, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(7.0, -2.5, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(7.0, 2.0, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(5.0, 1.0, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(5.0, 3.0, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(3.0, 3.0, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(1.0, 3.0, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(1.0, 1.0, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(3.0, 1.0, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(2.0, -1.0, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(2.0, -2.0, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(2.0, -3.0, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(2.0, -4.0, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(3.0, -1.0, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(3.0, -2.0, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(3.0, -3.0, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(3.0, -4.0, 0.0))));
-  nodeArray.push(navNetwork.addNode(new JJ.BE.AI.Pathfinding.NavNetworkNode(new JJ.Math.Vector3(5.0, 0.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(0.0, 0.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(2.0, 0.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(3.0, 0.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(7.0, 0.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(9.0, 0.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(13.0, 0.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(9.0, -1.5, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(9.0, -2.5, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(13.0, 2.5, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(7.0, -2.5, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(7.0, 2.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(5.0, 1.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(5.0, 3.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(3.0, 3.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(1.0, 3.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(1.0, 1.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(3.0, 1.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(2.0, -1.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(2.0, -2.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(2.0, -3.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(2.0, -4.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(3.0, -1.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(3.0, -2.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(3.0, -3.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(3.0, -4.0, 0.0))));
+  nodeArray.push(navNetwork.addNode(new NavNetworkNode(new Vector3(5.0, 0.0, 0.0))));
 
   navNetwork.linkNodes(nodeArray[0], nodeArray[1], true);
   navNetwork.linkNodes(nodeArray[1], nodeArray[17], true);
@@ -102,7 +113,7 @@
   navNetwork.linkNodes(nodeArray[14], nodeArray[15], true);
   navNetwork.linkNodes(nodeArray[15], nodeArray[16], true);
   navNetwork.linkNodes(nodeArray[25], nodeArray[3], true);
-  navNetwork.linkNodes(nodeArray[3], nodeArray[10], true);
+  navNetwork.linkNodes(nodeArray[3], nodeArray[10], true); 
   navNetwork.linkNodes(nodeArray[3], nodeArray[4], true);
   navNetwork.linkNodes(nodeArray[4], nodeArray[6], true);
   navNetwork.linkNodes(nodeArray[6], nodeArray[7], true);
@@ -113,10 +124,10 @@
   let path = navNetwork.findPath(0, 14);
   console.log(path);
 
-  let navNetworkBuffer = JJ.System.Serialization.writeObject(navNetwork);
+  let navNetworkBuffer = writeObject(navNetwork);
   console.log(JSON.stringify(navNetworkBuffer, undefined, 2));
 
-  let readNavMesh = JJ.System.Serialization.readObject(navNetworkBuffer);
+  let readNavMesh = readObject(navNetworkBuffer);
   console.log(readNavMesh);
 
 // Resource Manager
@@ -124,7 +135,7 @@
   console.log("----------------------------------");
   const handle = JJ.BE.Resources.resourceMgr.requestResource("data/nav_network/test_office_building_01.json", "text/json");
   const data = JJ.BE.Resources.resourceMgr.getData(handle);
-  const myNavNetwork = JJ.System.Serialization.readObject(JSON.parse(data));
+  const myNavNetwork = readObject(JSON.parse(data));
 
   const handle2 = JJ.BE.Resources.resourceMgr.requestResource("data/nav_network/test_office_building_01.json", "text/json");
   JJ.BE.Resources.resourceMgr.releaseResource(handle);
@@ -151,10 +162,10 @@
   let parsedNavNetwork = parser.read();
 
   // Create a character for the world
-  let character = new JJ.BE.Objects.Character();
+  let character = new Character();
   let charController = new JJ.BE.Controllers.CharacterController();
   charController.attach(character);
-  charController.setMoveDir(JJ.Math.vector3Forward);
+  charController.setMoveDir(Vector3.FORWARD);
   charController.setMoveSpeed(5.0);
 
   let delayNode = new JJ.BE.AI.Behavior.BehaviorTreeDelayNode();
@@ -165,5 +176,4 @@
   */
 
 
-}(window.JJ.Test = window.JJ.Test || {}));
-}(window.JJ = window.JJ || {}));
+})();

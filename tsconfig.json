@@ -1,10 +1,10 @@
 {
     "compilerOptions": {
         "outDir": "./scripts",
+        "baseUrl": "./src",
         "target": "es6",
-        "module": "commonjs",
-        "sourceMap": true,
-        "allowJs": true
+        "module": "es6",
+        "sourceMap": true
     },
     "include": [
         "./src/**/*"
