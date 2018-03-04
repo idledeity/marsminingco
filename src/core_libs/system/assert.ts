@@ -2,6 +2,7 @@ import * as Strings from "../../core_libs/utility/string.js";
 
 let assertsEnabled = true;
 let assertsOpenDialog = true;
+let assertsBreakToDebugger = true;
 
 /**
  * Checks the passed condition and raises an assertion if the condition evaluates as false
@@ -40,10 +41,26 @@ export default function assert(condition, message, ...messageArgs) {
         console.log(stackFunction);
       });
 
+      let breakToDebugger = assertsBreakToDebugger;
+
       // Maybe display a modal dialog
       if (assertsOpenDialog) {
         const dialogString = "Asserton failed!\n" + formatedMessage + "\n\n" + stackFunctionArray[0];
-        window.alert(dialogString);
+
+        if (breakToDebugger) {
+          if (!window.confirm(dialogString)) {
+            breakToDebugger = false;
+          }
+        } else {  
+          window.alert(dialogString);
+        }
+      }
+
+      // Maybe force the debugger to break
+      if (breakToDebugger) {
+        try {
+          throw "assert hit";
+        } catch(e) { }        
       }
     }
   }
