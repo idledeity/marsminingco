@@ -9,7 +9,7 @@ import KeyboardKeyCodes from "../../core_libs/system/io/keyboard/keycodes.js";
  */
 export default class DebugManager {
   private engine: Engine;
-  private consolePane: UIPane;
+  private console: Console;
 
   /**
    * Constructor
@@ -18,8 +18,9 @@ export default class DebugManager {
     this.engine = engine;
 
     // Create the debug console and add it to the interface manager
-    this.consolePane = new Console(document.getElementById('appplication'));
-    this.engine.getInterfaceMgr().addPane(this.consolePane);
+    this.console = new Console(document.getElementById('appplication'));
+    this.engine.getInterfaceMgr().addPane(this.console);
+    this.console.load();
   }
 
   /**
@@ -30,7 +31,7 @@ export default class DebugManager {
     // If the tilda key was pressed, toggle the console visibility
     let inputMgr = this.engine.getInputMgr();
     if (inputMgr.getKeyDown(KeyboardKeyCodes.KEY_TILDA)) {
-      this.consolePane.toggleVisiblity();
+      this.console.toggleVisiblity();
     }
   }
 }

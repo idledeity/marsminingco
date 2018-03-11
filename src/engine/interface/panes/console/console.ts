@@ -22,7 +22,7 @@ export default class Console extends UIPane {
    * @param {HTMLElement} parentElement - The parent DOM element this pane is a child of
    */
   constructor(parentElement: HTMLElement) {
-    super(parentElement, "data/engine/interface/console/console.html", "data/engine/interface/console/console.css");
+    super("data/engine/interface/console/console.html", "data/engine/interface/console/console.css", parentElement);
 
     // this.createHidden = true;
     this.outputTextElement = null;
@@ -31,18 +31,20 @@ export default class Console extends UIPane {
   }
 
   /**
-   * Called when the pane is created
+   * Called when the pane is initialized after its resources have loaded
    */
-  createPane() {
+  compose() {
     // Call the super
-    super.createPane();
+    if (!super.compose()) {
+      return false;
+    }
 
     // Locate the output element
-    this.outputTextElement = DOMElements.findElementByID(this.rootElement, "output_text");
+    this.outputTextElement = DOMElements.findElementByID(this.getRootElement(), "output_text");
     assert((this.outputTextElement != null), "Failed to find 'output_text' element in console.html.");
     
     // Locate the input element
-    let inputTextElement = DOMElements.findElementByID(this.rootElement, "input_text");
+    let inputTextElement = DOMElements.findElementByID(this.getRootElement(), "input_text");
     if (assert((inputTextElement != null), "Failed to find 'input_text' element in console.html.")) {
       if (assert(inputTextElement.nodeName === "INPUT", "'input_text' HTML element must be a text input element.")) {
         this.inputTextElement = <HTMLInputElement>inputTextElement;
@@ -56,9 +58,9 @@ export default class Console extends UIPane {
   /**
    * Called when the pane is destroyed
    */
-  destroyPane() {
+  destroy() {
     // Call the super
-    super.destroyPane();
+    super.destroy();
 
     this.outputTextElement = null;
     this.inputTextElement = null;

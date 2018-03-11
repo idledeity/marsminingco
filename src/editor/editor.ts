@@ -19,6 +19,7 @@ export default class Editor extends App {
       // Create the debug console and add it to the interface manager
       this.editorWindow = new EditorWindow(document.getElementById('editor'));
       this.engine.getInterfaceMgr().addPane(this.editorWindow);
+      this.editorWindow.load();
     }
 
     /**
