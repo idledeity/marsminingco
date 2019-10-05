@@ -1,0 +1,98 @@
+/* Navbar container */
+._menu_bar {
+  overflow: hidden; 
+  background-color: var(--menu-bar-header-background-color);
+  color: var(--menu-bar-header-color);
+  font-family: var(--menu-bar-header-font-family);
+  font-size: var(--menu-bar-header-font-size);
+  padding: var(--menu-bar-header-padding);
+}
+
+/* The dropdown container */
+._menu_bar .menu_dropdown {
+  float: left;  
+  overflow: hidden;
+  padding: 0px;
+}
+
+/* Dropdown button */
+._menu_bar .menu_dropdown .dropdown_button {
+  border: none;
+  outline: none;
+  background-color: inherit;
+  color: inherit; 
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  font-size: inherit;
+  margin: 0; /* Important for vertical align on mobile phones */
+  padding: var(--menu-bar-header-button-padding);
+}
+
+/* Add a red background color to navbar links on hover */
+._menu_bar .menu_dropdown:hover .dropdown_button {
+  background-color: var(--menu-bar-header-selected-background-color);
+}
+
+/* Dropdown content (hidden by default) */
+._menu_bar .dropdown_content {
+  display: none; 
+  position: absolute;
+  color: var(--context-menu-color);
+  background-color: var(--context-menu-background-color);
+  padding: 0px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+._menu_bar .dropdown_content button {
+  float: none;
+  background-color: inherit;
+  color: inherit; 
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  font-size: inherit;
+  text-decoration: none;
+  display: block;
+  text-align: left;
+}
+
+/* Add a grey background color to dropdown links on hover */
+._menu_bar .item_content:hover > .item_button {
+  background-color: var(--context-menu-selected-background-color);
+}
+
+/* Show the dropdown menu on hover */
+._menu_bar .menu_dropdown:hover .dropdown_content {
+  display: block;
+} 
+
+/* Item button */
+._menu_bar .item_button {
+  border: none;
+  outline: none;
+  background-color: inherit;
+  font-family: inherit; /* Important for vertical align on mobile phones */
+  margin: 0; /* Important for vertical align on mobile phones */
+  padding: 5px;
+  width: 100%;
+}
+
+.sidebar_content {
+  display: none; 
+  position: absolute;
+  left: 100%;
+  min-width: auto;
+  background-color: var(--context-menu-background-color);
+  padding: 0px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  white-space: nowrap;
+}
+
+._menu_bar .item_content {
+  width: 100%;
+}
+
+/* Show the dropdown menu on hover */
+._menu_bar .item_content:hover > .sidebar_content {
+  display: block;
+} 

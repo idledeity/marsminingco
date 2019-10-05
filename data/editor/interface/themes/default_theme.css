@@ -1,0 +1,30 @@
+:root {
+  --default-color: #b8b7b7;
+  --default-font-family: Arial, Helvetica, sans-serif;
+  --default-font-size: 12px;
+
+  --header-background-color: #5e5959;
+  --header-color: var(--default-color);
+  --header-font-family: var(--default-font-family);
+  --header-font-size: var(--default-font-size);
+  --header-padding: 3px 4px;
+
+  --menu-header-color: var(--header-color);
+  --menu-header-background-color: var(--header-background-color);
+  --menu-header-font-family: var(--header-font-family);
+  --menu-header-font-size: var(--header-font-size);
+  --menu-header-selected-background-color: #554f4f;
+  --menu-header-padding: var(--header-padding);
+
+  --menu-bar-header-color: var(--menu-header-color);
+  --menu-bar-header-background-color: var(--menu-header-background-color);
+  --menu-bar-header-font-family: var(--menu-header-font-family);
+  --menu-bar-header-font-size: var(--menu-header-font-size);
+  --menu-bar-header-selected-background-color: var(--menu-header-selected-background-color);
+  --menu-bar-header-padding: 0px;
+  --menu-bar-header-button-padding: 4px 8px;
+
+  --context-menu-color: black;
+  --context-menu-background-color: #f7f5f5;
+  --context-menu-selected-background-color: #ddd9d9;
+}

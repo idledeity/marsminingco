@@ -19,6 +19,7 @@ export default class DebugManager {
 
     // Create the debug console and add it to the interface manager
     this.console = new Console(document.getElementById('appplication'));
+    this.console.hide();
     this.engine.getInterfaceMgr().addPane(this.console);
     this.console.load();
   }
